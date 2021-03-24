@@ -10,26 +10,26 @@ public class Tela_principal extends javax.swing.JFrame {
     private javax.swing.JMenu arquivo;
     private javax.swing.JMenu compilacao;
     private javax.swing.JMenu edicao;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton add_arquivo;
+    private javax.swing.JButton abrir_pasta;
+    private javax.swing.JButton salvar;
+    private javax.swing.JButton recortar;
+    private javax.swing.JButton copiar;
+    private javax.swing.JButton colar;
+    private javax.swing.JButton compilar;
+    private javax.swing.JButton executar;
+    private javax.swing.JButton boia;
+    private javax.swing.JMenuBar barra_menu;
+    private javax.swing.JPanel cont_linha;
+    private javax.swing.JPanel rodape;
+    private javax.swing.JScrollPane painel_area_texto;
+    private javax.swing.JScrollPane area_mensagem;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JTextArea area_texto;
+    private javax.swing.JToolBar barra_ferramentas;
     // End of variables declaration
 
     public Tela_principal() {
@@ -40,108 +40,108 @@ public class Tela_principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jToolBar1 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        painel_area_texto = new javax.swing.JScrollPane();
+        area_texto = new javax.swing.JTextArea();
+        area_mensagem = new javax.swing.JScrollPane();
+        barra_ferramentas = new javax.swing.JToolBar();
+        add_arquivo = new javax.swing.JButton();
+        abrir_pasta = new javax.swing.JButton();
+        salvar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        recortar = new javax.swing.JButton();
+        copiar = new javax.swing.JButton();
+        colar = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        compilar = new javax.swing.JButton();
+        executar = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JToolBar.Separator();
-        jButton9 = new javax.swing.JButton();
+        boia = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JSeparator();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jMenuBar1 = new javax.swing.JMenuBar();
+        cont_linha = new javax.swing.JPanel();
+        rodape = new javax.swing.JPanel();
+        barra_menu = new javax.swing.JMenuBar();
         arquivo = new javax.swing.JMenu();
         edicao = new javax.swing.JMenu();
         compilacao = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        area_texto.setColumns(20);
+        area_texto.setRows(5);
+        painel_area_texto.setViewportView(area_texto);
 
-        jToolBar1.setRollover(true);
+        barra_ferramentas.setRollover(true);
 
-        jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\joaoc\\OneDrive\\Documentos\\file-add_114479.png")); // NOI18N
-        jButton1.setBorderPainted(false);
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton1);
+        add_arquivo.setIcon(new javax.swing.ImageIcon("contentes/file-add_114479.png")); // NOI18N
+        add_arquivo.setBorderPainted(false);
+        add_arquivo.setFocusable(false);
+        add_arquivo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        add_arquivo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        barra_ferramentas.add(add_arquivo);
 
-        jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\joaoc\\OneDrive\\Documentos\\openpaste.png")); // NOI18N
-        jButton2.setBorderPainted(false);
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton2);
+        abrir_pasta.setIcon(new javax.swing.ImageIcon("contentes/openpaste.png")); // NOI18N
+        abrir_pasta.setBorderPainted(false);
+        abrir_pasta.setFocusable(false);
+        abrir_pasta.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        abrir_pasta.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        barra_ferramentas.add(abrir_pasta);
 
-        jButton3.setIcon(new javax.swing.ImageIcon("C:\\Users\\joaoc\\OneDrive\\Documentos\\savedisk.png")); // NOI18N
-        jButton3.setBorderPainted(false);
-        jButton3.setFocusable(false);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton3);
-        jToolBar1.add(jSeparator1);
+        salvar.setIcon(new javax.swing.ImageIcon("contentes/savedisk.png")); // NOI18N
+        salvar.setBorderPainted(false);
+        salvar.setFocusable(false);
+        salvar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        salvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        barra_ferramentas.add(salvar);
+        barra_ferramentas.add(jSeparator1);
 
-        jButton4.setIcon(new javax.swing.ImageIcon("C:\\Users\\joaoc\\OneDrive\\Documentos\\sizer.png")); // NOI18N
-        jButton4.setBorderPainted(false);
-        jButton4.setFocusable(false);
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton4);
+        recortar.setIcon(new javax.swing.ImageIcon("contentes/sizer.png")); // NOI18N
+        recortar.setBorderPainted(false);
+        recortar.setFocusable(false);
+        recortar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        recortar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        barra_ferramentas.add(recortar);
 
-        jButton5.setIcon(new javax.swing.ImageIcon("C:\\Users\\joaoc\\OneDrive\\Documentos\\copiar.png")); // NOI18N
-        jButton5.setBorderPainted(false);
-        jButton5.setFocusable(false);
-        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton5);
+        copiar.setIcon(new javax.swing.ImageIcon("contentes/copiar.png")); // NOI18N
+        copiar.setBorderPainted(false);
+        copiar.setFocusable(false);
+        copiar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        copiar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        barra_ferramentas.add(copiar);
 
-        jButton6.setIcon(new javax.swing.ImageIcon("C:\\Users\\joaoc\\OneDrive\\Documentos\\colar.png")); // NOI18N
-        jButton6.setBorderPainted(false);
-        jButton6.setFocusable(false);
-        jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton6);
-        jToolBar1.add(jSeparator2);
+        colar.setIcon(new javax.swing.ImageIcon("contentes/colar.png")); // NOI18N
+        colar.setBorderPainted(false);
+        colar.setFocusable(false);
+        colar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        colar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        barra_ferramentas.add(colar);
+        barra_ferramentas.add(jSeparator2);
 
-        jButton7.setIcon(new javax.swing.ImageIcon("C:\\Users\\joaoc\\OneDrive\\Documentos\\martelo.png")); // NOI18N
-        jButton7.setBorderPainted(false);
-        jButton7.setFocusable(false);
-        jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton7);
+        compilar.setIcon(new javax.swing.ImageIcon("contentes/martelo.png")); // NOI18N
+        compilar.setBorderPainted(false);
+        compilar.setFocusable(false);
+        compilar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        compilar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        barra_ferramentas.add(compilar);
 
-        jButton8.setIcon(new javax.swing.ImageIcon("C:\\Users\\joaoc\\OneDrive\\Documentos\\play.png")); // NOI18N
-        jButton8.setBorderPainted(false);
-        jButton8.setFocusable(false);
-        jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton8);
-        jToolBar1.add(jSeparator3);
+        executar.setIcon(new javax.swing.ImageIcon("contentes/play.png")); // NOI18N
+        executar.setBorderPainted(false);
+        executar.setFocusable(false);
+        executar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        executar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        barra_ferramentas.add(executar);
+        barra_ferramentas.add(jSeparator3);
 
-        jButton9.setIcon(new javax.swing.ImageIcon("C:\\Users\\joaoc\\OneDrive\\Documentos\\boia.png")); // NOI18N
-        jButton9.setBorderPainted(false);
-        jButton9.setFocusable(false);
-        jButton9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton9.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton9);
+        boia.setIcon(new javax.swing.ImageIcon("contentes/boia.png")); // NOI18N
+        boia.setBorderPainted(false);
+        boia.setFocusable(false);
+        boia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        boia.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        barra_ferramentas.add(boia);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        cont_linha.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(cont_linha);
+        cont_linha.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGap(0, 32, Short.MAX_VALUE)
@@ -151,8 +151,8 @@ public class Tela_principal extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(rodape);
+        rodape.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
                 jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -164,48 +164,48 @@ public class Tela_principal extends javax.swing.JFrame {
 
         arquivo.setText("Arquivo");
         arquivo.setToolTipText("");
-        jMenuBar1.add(arquivo);
+        barra_menu.add(arquivo);
 
         edicao.setText("Edição");
-        jMenuBar1.add(edicao);
+        barra_menu.add(edicao);
 
         compilacao.setText("Compilação");
-        jMenuBar1.add(compilacao);
+        barra_menu.add(compilacao);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(barra_menu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(barra_ferramentas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jSeparator4)
-                                        .addComponent(jScrollPane2)
+                                        .addComponent(area_mensagem)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                                 .addGap(0, 0, Short.MAX_VALUE)
-                                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(cont_linha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 589, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addComponent(painel_area_texto, javax.swing.GroupLayout.PREFERRED_SIZE, 589, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(rodape, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addContainerGap())
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(barra_ferramentas, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
-                                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(painel_area_texto, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                                        .addComponent(cont_linha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(area_mensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(rodape, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())
         );
 
