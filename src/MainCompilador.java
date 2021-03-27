@@ -1,15 +1,11 @@
-import Editor_de_Texto.Editor_texto;
+import Editor_de_Texto.Manipulador_arquivo;
 import Saida.Mensagem_saida;
 import interfacecompilador.Tela_principal;
 
-import javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-public class Compilador {
+public class MainCompilador {
     public static void main(String[] args) {
         Tela_principal tela = new Tela_principal();
-        Editor_texto editor = new Editor_texto();
+        Manipulador_arquivo editor = new Manipulador_arquivo();
         Mensagem_saida mensagem = new Mensagem_saida();
         Controler controlador = new Controler(tela,editor,mensagem);
         controlador.iniciar_compilador();
