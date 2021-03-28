@@ -37,7 +37,7 @@ public class Tela_principal extends javax.swing.JFrame {
     private javax.swing.JButton executar;
     private javax.swing.JButton boia;
     private javax.swing.JMenuBar barra_menu;
-    private javax.swing.JPanel area_cont_linha;
+    private javax.swing.JScrollPane area_cont_linha;
     private javax.swing.JPanel rodape;
     private javax.swing.JScrollPane painel_area_texto;
     private javax.swing.JScrollPane area_mensagem;
@@ -47,7 +47,7 @@ public class Tela_principal extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTextArea area_texto;
-    private javax.swing.JLabel  label_cont;
+    private javax.swing.JTextArea  label_cont;
     private javax.swing.JLabel label_rodape;
     private javax.swing.JToolBar barra_ferramentas;
     private javax.swing.JMenuItem item_arq_novo;
@@ -83,7 +83,7 @@ public class Tela_principal extends javax.swing.JFrame {
 
         painel_area_texto = new JScrollPane();
         area_texto = new JTextArea();
-        label_cont = new JLabel();
+        label_cont = new JTextArea();
         label_rodape = new JLabel();
         area_mensagem = new JScrollPane();
         barra_ferramentas = new JToolBar();
@@ -100,7 +100,7 @@ public class Tela_principal extends javax.swing.JFrame {
         jSeparator3 = new JToolBar.Separator();
         boia = new JButton();
         jSeparator4 = new JSeparator();
-        area_cont_linha = new JPanel();
+        area_cont_linha = new javax.swing.JScrollPane();
         rodape = new JPanel();
         barra_menu = new JMenuBar();
         arquivo = new JMenu();
@@ -126,9 +126,9 @@ public class Tela_principal extends javax.swing.JFrame {
 
         label_cont.setText(contlinha.toString());
         label_rodape.setText("Linha:1,  Coluna:1" );
-        label_cont.setVerticalAlignment(SwingConstants.TOP);
+        /*label_cont.setVerticalAlignment(SwingConstants.TOP);
         label_rodape.setVerticalAlignment(SwingConstants.TOP);
-        label_rodape.setHorizontalAlignment(SwingConstants.LEFT);
+        label_rodape.setHorizontalAlignment(SwingConstants.LEFT);*/
         //setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
 
@@ -181,6 +181,14 @@ public class Tela_principal extends javax.swing.JFrame {
         area_texto.addKeyListener(keyAction);
         area_texto.setRows(5);
         dentroTab.setViewportView(area_texto);
+
+        area_cont_linha.setViewportView(label_cont);
+
+        label_cont.setEnabled(false);
+        label_cont.setDisabledTextColor(Color.BLACK);
+        label_cont.setBackground(Color.LIGHT_GRAY);
+        label_cont.setLineWrap(true);
+
 
         area_text_mensagem.setColumns(20);
         area_text_mensagem.setRows(5);
@@ -321,19 +329,6 @@ public class Tela_principal extends javax.swing.JFrame {
 
         area_cont_linha.setBorder(BorderFactory.createEtchedBorder());
 
-        GroupLayout jPanel1Layout = new GroupLayout(area_cont_linha);
-        area_cont_linha.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(label_cont, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(label_cont, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
-        );
 
         GroupLayout jPanel2Layout = new GroupLayout(rodape);
         rodape.setLayout(jPanel2Layout);
@@ -474,38 +469,40 @@ public class Tela_principal extends javax.swing.JFrame {
 
         setJMenuBar(barra_menu);
 
-        GroupLayout layout = new GroupLayout(getContentPane());
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(barra_ferramentas, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(barra_ferramentas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jSeparator4)
                                         .addComponent(area_mensagem)
-                                        .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addGap(0, 0, Short.MAX_VALUE)
-                                            .addComponent(area_cont_linha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(painel_area_texto, GroupLayout.PREFERRED_SIZE, 597, GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(rodape, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(area_cont_linha, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(painel_area_texto))
+                                        .addComponent(rodape, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addContainerGap())
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addComponent(barra_ferramentas, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                        .addComponent(painel_area_texto, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(area_cont_linha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                                .addComponent(jSeparator4, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(area_mensagem, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(rodape, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(barra_ferramentas, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addComponent(painel_area_texto, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(46, 46, 46)
+                                                .addComponent(area_cont_linha, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)))
+                                .addGap(4, 4, 4)
+                                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(area_mensagem, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(rodape, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())
         );
 
@@ -669,7 +666,7 @@ public class Tela_principal extends javax.swing.JFrame {
         return this.salvou_arquivo;
     }
     public void incrementa_linha(){
-        String texto_atual = label_cont.getText().replace("<html>", "").replace("</html>", "") + "<br>";
+        String texto_atual = label_cont.getText() +  "\n";
 
         if (this.abriu_arquivo){
             int distancia = area_texto.getLineCount() - contlinha;
@@ -678,22 +675,22 @@ public class Tela_principal extends javax.swing.JFrame {
             }
             for( int i = 0; i < distancia-1; i ++){
                 contlinha ++;
-                texto_atual +=   contlinha.toString()  + "<br>" ;
+                texto_atual +=   contlinha.toString()  + "\n" ;
             }
             contlinha = area_texto.getLineCount();
         }else{
                 contlinha = area_texto.getLineCount() + 1;
         }
         texto_atual +=   contlinha.toString()  ;
-        label_cont.setText("<html>" + texto_atual + "</html>");
+        label_cont.setText(texto_atual );
         System.out.println(texto_atual);
     }
 
     public void decrementa_linha(){
-        String texto_atual = label_cont.getText().replace("<html>", "").replace("</html>", "");
-        String texto_replace = "<br>" + Integer.toString(area_texto.getLineCount());
+        String texto_atual = label_cont.getText();
+        String texto_replace = "\n" + Integer.toString(area_texto.getLineCount());
         texto_atual =  texto_atual.replace(texto_replace, "");
-        label_cont.setText("<html>" + texto_atual + "</html>");
+        label_cont.setText( texto_atual );
         System.out.println(texto_atual);
 
         contlinha--;
