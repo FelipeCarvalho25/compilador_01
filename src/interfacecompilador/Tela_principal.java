@@ -133,6 +133,7 @@ public class Tela_principal extends javax.swing.JFrame {
 
 
         area_texto.setColumns(20);
+        //adicionado listners para qualquer interação no editor de texto.
         KeyListener keyAction = new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -141,6 +142,7 @@ public class Tela_principal extends javax.swing.JFrame {
 
             @Override
             public void keyPressed(KeyEvent e) {
+                //incrementa no contador de linhas quando for dado enter
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
                     if(area_texto.getLineCount() + 1 > contlinha){
@@ -148,6 +150,8 @@ public class Tela_principal extends javax.swing.JFrame {
                     }
 
                 }
+                //quando é excluida algum caracter e volta uma linha, é decrementado no contador
+
                 if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 
                     if(area_texto.getText().split("\n").length < contlinha){
@@ -155,6 +159,7 @@ public class Tela_principal extends javax.swing.JFrame {
                     }
 
                 }
+                //parte que coloca o rodapé
                 String coluna = "1";
                 if (area_texto.getText().split("\n").length == contlinha){
                     coluna = Integer.toString(area_texto.getText().split("\n")[contlinha-1].length()+1);
@@ -197,12 +202,14 @@ public class Tela_principal extends javax.swing.JFrame {
         area_text_mensagem.setDisabledTextColor(Color.RED);
         area_text_mensagem.setText("Inicio do programa");
 
+        //inicia o titulo da Tab como Sem título
         area_tabs.addTab("Sem título", dentroTab);
 
         painel_area_texto.setViewportView(area_tabs);
 
         barra_ferramentas.setRollover(true);
 
+        //objetos da barra de ferramentas e suas listeners
         add_arquivo.setIcon(new ImageIcon("contentes/file-add_114479.png")); // NOI18N
         add_arquivo.setBorderPainted(false);
         add_arquivo.setFocusable(false);
@@ -380,6 +387,7 @@ public class Tela_principal extends javax.swing.JFrame {
                 }
             }
         });
+        //listner diferenciada para obotão de sair
         item_arq_sair.setText("Sair");
         item_arq_sair.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -508,7 +516,7 @@ public class Tela_principal extends javax.swing.JFrame {
 
         pack();
     }
-
+    //método de salvar arquivo, onde faz todas as validações e salva na máquina no local escolhido pelo usuário, bem como altera o nome da Tab em certos casos
     public boolean salvar_arquivo(){
             if (salvou_arquivo == true){
                 return true;
@@ -603,12 +611,15 @@ public class Tela_principal extends javax.swing.JFrame {
             }
             return  true;
     }
+    //retornar o que ta escrito no editor
     public String getTexto(){
         return this.area_texto.getText();
     }
+    //retorna o file que foi aberto
     public File getFile(){
         return  this.file;
     }
+    //interface para abrir arquivos, semelhante a do windows
     private void interface_abrir_arquivo() {
 
         seletor_aqruivos.setFileFilter(new javax.swing.filechooser.FileFilter(){
@@ -639,19 +650,19 @@ public class Tela_principal extends javax.swing.JFrame {
             System.out.println("File access cancelled by user.");
         }
     }
-
+    //metodo para quando estiver copiando alguma coisa do editor
     private void copiarActionPerformed(java.awt.event.ActionEvent evt) {
         Area_de_transferencia copiar_colar = new Area_de_transferencia();
         copiar_colar.setInTransfer(area_texto.getSelectedText());
     }
-
+    //metodo para colar algo no editor
     private void colarActionPerformed(java.awt.event.ActionEvent evt) {
         Area_de_transferencia copiar_colar = new Area_de_transferencia();
         String texto_atual = area_texto.getText();
         texto_atual += copiar_colar.getInTransfer();
         area_texto.setText(texto_atual);
     }
-
+    //metodo para recortar algo do editor
     private void recortarActionPerformed(java.awt.event.ActionEvent evt) {
         Area_de_transferencia copiar_colar = new Area_de_transferencia();
         copiar_colar.setInTransfer(area_texto.getSelectedText());
@@ -659,12 +670,15 @@ public class Tela_principal extends javax.swing.JFrame {
         String texto_inteiro = area_texto.getText();
         area_texto.replaceSelection("");
     }
+    //retorna variável que controla se o que está escrito no editor foi a partir de um arquivo
     public boolean getAbriuArquivo(){
         return this.abriu_arquivo;
     }
+    //retorna variável de controle se salvou o que foi editado no editor
     public boolean getSalvouArquivo(){
         return this.salvou_arquivo;
     }
+    //método que incrementa linha no contador de linhas
     public void incrementa_linha(){
         String texto_atual = label_cont.getText() +  "\n";
 
@@ -685,7 +699,7 @@ public class Tela_principal extends javax.swing.JFrame {
         label_cont.setText(texto_atual );
         System.out.println(texto_atual);
     }
-
+    //metodo que decrementa linha no editor
     public void decrementa_linha(){
         String texto_atual = label_cont.getText();
         String texto_replace = "\n" + Integer.toString(area_texto.getLineCount());
