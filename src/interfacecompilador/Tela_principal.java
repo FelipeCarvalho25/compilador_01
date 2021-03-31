@@ -121,7 +121,7 @@ public class Tela_principal extends javax.swing.JFrame {
         contlinha = new Integer(1);
         seletor_aqruivos =  new JFileChooser();
         area_text_mensagem = new javax.swing.JTextArea();
-        analisadorLexico = new AnalisadorLexico();
+
 
 
         label_cont.setText(contlinha.toString());
@@ -308,7 +308,18 @@ public class Tela_principal extends javax.swing.JFrame {
         compilar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 //chama compilador
-                area_text_mensagem.setText(analisadorLexico.compilar(area_texto.getText()));
+                if (abriu_arquivo == false && salvou_arquivo == false){
+                    JOptionPane tela_ao_sair = new JOptionPane();
+                    tela_ao_sair.showMessageDialog( area_text_mensagem, "Salve o arquivo antes de compilar!");
+                    return;
+                }
+                analisadorLexico = new AnalisadorLexico(file.getPath());
+                try {
+                    analisadorLexico.analisar();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                area_text_mensagem.setText(analisadorLexico.getMensagens());
             }
         });
         barra_ferramentas.add(compilar);
@@ -459,7 +470,20 @@ public class Tela_principal extends javax.swing.JFrame {
         item_comp_compilar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 //chama compilador
-                area_text_mensagem.setText(analisadorLexico.compilar(area_texto.getText()));
+
+                if (abriu_arquivo == false && salvou_arquivo == false){
+                    JOptionPane tela_ao_sair = new JOptionPane();
+                    tela_ao_sair.showMessageDialog( area_text_mensagem, "Salve o arquivo antes de compilar!");
+                    return;
+                }
+                analisadorLexico = new AnalisadorLexico(file.getPath());
+                try {
+                    analisadorLexico.analisar();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                area_text_mensagem.setText(analisadorLexico.getMensagens());
             }
         });
         item_comp_executar.setText("Executar");
