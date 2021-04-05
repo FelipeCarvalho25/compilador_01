@@ -2,6 +2,7 @@
 package interfacecompilador;
 
 import Analisadores.AnalisadorLexico;
+import Analisadores.ParseException;
 import Editor_de_Texto.Area_de_transferencia;
 import Editor_de_Texto.Manipulador_arquivo;
 
@@ -11,10 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -313,13 +311,20 @@ public class Tela_principal extends javax.swing.JFrame {
                     tela_ao_sair.showMessageDialog( area_text_mensagem, "Salve o arquivo antes de compilar!");
                     return;
                 }
-                analisadorLexico = new AnalisadorLexico(file.getPath());
-                try {
-                    analisadorLexico.analisar();
-                } catch (IOException e) {
+
+                try{
+                    java.io.InputStream targetStream = new ByteArrayInputStream(area_texto.getText().getBytes());
+
+                    analisadorLexico = new AnalisadorLexico(targetStream,area_texto.getText());
+                    analisadorLexico.Programa();
+
+                    //area_text_mensagem.setText(analisadorLexico.getMensagens());
+                }catch (ParseException e){
+                    System.out.println(e.getMessage());
                     e.printStackTrace();
+                    System.out.println("Analisador: foram encontrados erros no analisador");
                 }
-                area_text_mensagem.setText(analisadorLexico.getMensagens());
+
             }
         });
         barra_ferramentas.add(compilar);
@@ -476,14 +481,20 @@ public class Tela_principal extends javax.swing.JFrame {
                     tela_ao_sair.showMessageDialog( area_text_mensagem, "Salve o arquivo antes de compilar!");
                     return;
                 }
-                analisadorLexico = new AnalisadorLexico(file.getPath());
-                try {
-                    analisadorLexico.analisar();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                try{
 
-                area_text_mensagem.setText(analisadorLexico.getMensagens());
+                    //String initialString = "text";
+                    java.io.InputStream targetStream = new ByteArrayInputStream(area_texto.getText().getBytes());
+
+                    analisadorLexico = new AnalisadorLexico(targetStream,area_texto.getText());
+                    analisadorLexico.Programa();
+
+                    //area_text_mensagem.setText(analisadorLexico.getMensagens());
+                }catch (ParseException e){
+                    System.out.println(e.getMessage());
+                    e.printStackTrace();
+                    System.out.println("Analisador: foram encontrados erros no analisador");
+                }
             }
         });
         item_comp_executar.setText("Executar");

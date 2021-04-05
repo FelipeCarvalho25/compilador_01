@@ -1,0 +1,106 @@
+PARSER_BEGIN(AnalisadorLexico)
+
+public class AnalisadorLexico {
+
+}
+PARSER_END(AnalisadorLexico)
+
+TOKEN: // PALAVRAS RESERVADAS
+{
+	<PROGRAM: "program"> { System.out.println(image); }
+ | <DEFINE: "define">{ System.out.println(image); }
+ | <NOT: "not">{ System.out.println(image); }
+ | <VARIABLE: "variable">{ System.out.println(image); }
+ | <IS: "is">{ System.out.println(image); }
+ | <BOOLEAN: "boolean">{ System.out.println(image); }
+ | <CHAR: "char">{ System.out.println(image); }
+ | <REAL: "real">{ System.out.println(image); }
+ | <NATURAL: "natural">{ System.out.println(image); }
+ | <EXECUTE: "execute">{ System.out.println(image); }
+ | <SET: "set">{ System.out.println(image); }
+ | <GET: "get">{ System.out.println(image); }
+ | <PUT: "put">{ System.out.println( image); }
+ | <LOOP: "loop">{ System.out.println( image); }
+ | <WHILE: "while">{ System.out.println( image); }
+ | <TRUE: "true">{ System.out.println( image); }
+ | <FALSE: "false">{ System.out.println( image); }
+ | <DO: "do">{ System.out.println( image); }
+ | <TO: "to">{ System.out.println( image); }
+ 
+}
+
+TOKEN: // CARACTERES ESPECIAIS
+{
+	<APARENT: "(" > {  System.out.println("ABREPARENT -> "+image+"\r\n"); }
+	|<FPARENT: ")"> { System.out.println("FECHAPARENT -> "+image+"\r\n"); }
+	|<ACHAVE: "{"> { System.out.println("ABRECHAVE -> "+image+"\r\n"); }
+	|<FCHAVE: "}"> { System.out.println("FECHACHAVE -> "+image+"\r\n"); }
+	|<ACOLCH: "["> { System.out.println("ABRECOLCH -> "+image+"\r\n"); }
+	|<FCOLCH: "]"> { System.out.println("FECHACOLCH -> "+image+"\r\n"); }
+	|<VIRGULA: ","> { System.out.println("VIRGULA -> "+image+"\r\n"); }
+	|<PONTO: "."> { System.out.println("PONTO-> "+image+"\r\n"); }
+	
+	
+}
+
+TOKEN: //OPERADORES ARTMETICOS
+{
+	<ADICAO: "+"> { System.out.println("ADICAO -> "+image+"\r\n"); }
+	|<SUBTRACAO: "-"> { System.out.println("SUBTRACAO -> "+image+"\r\n"); }
+	|<MULTIPLICACAO: "*"> { System.out.println("MULTIPLICACAO -> "+image+"\r\n"); }
+	|<DIVISAO: "/"> { System.out.println("DIVISAO -> "+image+"\r\n"); }
+	|<POTENCIA: "**"> { System.out.println("POTENCIA -> "+image+"\r\n"); }
+	|<DIVISAOINTEIRA: "%"> { System.out.println("DIVISAOINTEIRA -> "+image+"\r\n"); }
+	|<RESTODIVISAO: "%%"> { System.out.println("RESTODIVISAOINTEIRA -> "+image+"\r\n"); }
+	|<IGUAL: "="> { System.out.println("IGUAL/RECEBE -> "+image+"\r\n"); }
+}
+TOKEN: //OPERADORES RELACIONAIS
+{
+	<EQUIVALENTE: "=="> { System.out.println("EQUIVALENTE -> "+image+"\r\n"); }
+	|<DIFERENTE: "!="> { System.out.println("DIFERENTE -> "+image+"\r\n"); }
+	|<MENOR: "<"> { System.out.println("MENOR -> "+image+"\r\n"); }
+	|<MENOROUIGUAL: "<="> { System.out.println("MENOROUIGUAL -> "+image+"\r\n"); }
+	|<MAIOR: ">"> { System.out.println("MAIOR -> "+image+"\r\n"); }
+	|<MAIOROUIGUAL: ">="> { System.out.println("MAIOROUIGUAL -> "+image+"\r\n"); }
+	
+}
+TOKEN: //OPERADORES LOGICOS
+{
+	<NAO: "!"> { System.out.println("NAO -> "+image+"\r\n"); }
+	|<OU: "|"> { System.out.println("OU -> "+image+"\r\n"); }
+	|<E: "&"> { System.out.println("E -> "+image+"\r\n"); }
+	
+}
+TOKEN: //TIPOS
+{
+	
+	<NATURAIS: ((["1"-"9"])+ (["0"-"9"])+) > { System.out.println("NUMERO NATURAIS -> "+image+"\r\n"); }
+	//|<REAIS: (["0"-"9"])+ | (["0"-"9"])+ "." (["0"-"9"])+ | (["0"-"9"])+ "." | "." (["0"-"9"])+  > { System.out.println("numREAL -> "+image+"\r\n"); }
+	|<CHARS: ([" "-"~"]) > { System.out.println("CHAR -> "+image+"\r\n"); }
+	|<BOOLEANS: "true" | "false" | "-1"> { System.out.println("BOOLEAN -> "+image+"\r\n"); }
+	
+
+}
+SKIP: // IGNORAR
+{
+	 " "
+	| <COMENTARIO: ":-"> { System.out.println("COMENTARIO -> "+image+"\r\n"); }
+	| "\r"
+	| "\t"
+	| "\n"
+	| "\f"
+	|"\r\n"
+	}
+
+void Programa():
+{}
+{
+	  
+	  ((
+	    <PROGRAM>|<DEFINE>|<NOT>|<VARIABLE>|<IS>|<BOOLEAN>|<CHAR>|<REAL>|<NATURAL>|<EXECUTE>|<SET>|<GET>|<PUT>|<LOOP>|<WHILE>|<TRUE>|<FALSE>|<DO>|<TO>|
+	<APARENT>|<FPARENT>|<ACHAVE>|<FCHAVE>|<ACOLCH>|<FCOLCH>|<VIRGULA>|<PONTO>|<ADICAO>|<SUBTRACAO>|<MULTIPLICACAO>|<DIVISAO>|
+	<POTENCIA>|<DIVISAOINTEIRA>|<RESTODIVISAO>|<IGUAL>|<EQUIVALENTE>| <DIFERENTE>|<MENOR>|<MENOROUIGUAL>|<MAIOR>|<MAIOROUIGUAL>|
+	<NAO>|<OU>|<E>|<NATURAIS>|<CHARS>|<BOOLEANS>
+	)*)
+
+}
