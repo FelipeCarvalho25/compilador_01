@@ -13,6 +13,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -313,12 +315,12 @@ public class Tela_principal extends javax.swing.JFrame {
                 }
 
                 try{
-                    java.io.InputStream targetStream = new ByteArrayInputStream(area_texto.getText().getBytes());
+                    java.io.InputStream targetStream = new ByteArrayInputStream(area_texto.getText().getBytes(StandardCharsets.UTF_8));
 
-                    analisadorLexico = new AnalisadorLexico(targetStream,area_texto.getText());
+                    analisadorLexico = new AnalisadorLexico(targetStream);
                     analisadorLexico.Programa();
 
-                    //area_text_mensagem.setText(analisadorLexico.getMensagens());
+                    area_text_mensagem.setText(analisadorLexico.getMessages());
                 }catch (ParseException e){
                     System.out.println(e.getMessage());
                     e.printStackTrace();
@@ -486,10 +488,10 @@ public class Tela_principal extends javax.swing.JFrame {
                     //String initialString = "text";
                     java.io.InputStream targetStream = new ByteArrayInputStream(area_texto.getText().getBytes());
 
-                    analisadorLexico = new AnalisadorLexico(targetStream,area_texto.getText());
+                    analisadorLexico = new AnalisadorLexico(targetStream);
                     analisadorLexico.Programa();
 
-                    //area_text_mensagem.setText(analisadorLexico.getMensagens());
+                    area_text_mensagem.setText(analisadorLexico.getMessages());
                 }catch (ParseException e){
                     System.out.println(e.getMessage());
                     e.printStackTrace();

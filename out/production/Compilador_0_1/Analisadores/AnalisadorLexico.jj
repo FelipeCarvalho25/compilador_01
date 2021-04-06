@@ -7,93 +7,103 @@ PARSER_END(AnalisadorLexico)
 
 TOKEN: // PALAVRAS RESERVADAS
 {
-	<PROGRAM: "program"> { System.out.println(image); }
- | <DEFINE: "define">{ System.out.println(image); }
- | <NOT: "not">{ System.out.println(image); }
- | <VARIABLE: "variable">{ System.out.println(image); }
- | <IS: "is">{ System.out.println(image); }
- | <BOOLEAN: "boolean">{ System.out.println(image); }
- | <CHAR: "char">{ System.out.println(image); }
- | <REAL: "real">{ System.out.println(image); }
- | <NATURAL: "natural">{ System.out.println(image); }
- | <EXECUTE: "execute">{ System.out.println(image); }
- | <SET: "set">{ System.out.println(image); }
- | <GET: "get">{ System.out.println(image); }
- | <PUT: "put">{ System.out.println( image); }
- | <LOOP: "loop">{ System.out.println( image); }
- | <WHILE: "while">{ System.out.println( image); }
- | <TRUE: "true">{ System.out.println( image); }
- | <FALSE: "false">{ System.out.println( image); }
- | <DO: "do">{ System.out.println( image); }
- | <TO: "to">{ System.out.println( image); }
+	<PROGRAM: "program"> { mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n"); }
+ | <DEFINE: "define">{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n");}
+ | <NOT: "not">{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n"); }
+ | <VARIABLE: "variable">{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n"); }
+ | <IS: "is">{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n"); }
+ | <BOOLEAN: "boolean">{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n"); }
+ | <CHAR: "char">{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n"); }
+ | <REAL: "real">{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n"); }
+ | <NATURAL: "natural">{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n"); }
+ | <EXECUTE: "execute">{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n"); }
+ | <SET: "set">{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n"); }
+ | <GET: "get">{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n"); }
+ | <PUT: "put">{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n"); }
+ | <LOOP: "loop">{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n"); }
+ | <WHILE: "while">{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n"); }
+ | <TRUE: "true">{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n"); }
+ | <FALSE: "false">{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n"); }
+ | <DO: "do">{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n"); }
+ | <TO: "to">{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n"); }
  
 }
 
 TOKEN: // CARACTERES ESPECIAIS
 {
-	<APARENT: "(" > {  System.out.println("ABREPARENT -> "+image+"\r\n"); }
-	|<FPARENT: ")"> { System.out.println("FECHAPARENT -> "+image+"\r\n"); }
-	|<ACHAVE: "{"> { System.out.println("ABRECHAVE -> "+image+"\r\n"); }
-	|<FCHAVE: "}"> { System.out.println("FECHACHAVE -> "+image+"\r\n"); }
-	|<ACOLCH: "["> { System.out.println("ABRECOLCH -> "+image+"\r\n"); }
-	|<FCOLCH: "]"> { System.out.println("FECHACOLCH -> "+image+"\r\n"); }
-	|<VIRGULA: ","> { System.out.println("VIRGULA -> "+image+"\r\n"); }
-	|<PONTO: "."> { System.out.println("PONTO-> "+image+"\r\n"); }
+	<APARENT: "(" > {  mensages_manhosas.append("SIMBOLOS -> "+image+"\r\n"); }
+	|<FPARENT: ")"> { mensages_manhosas.append("SIMBOLOS -> "+image+"\r\n"); }
+	|<ACHAVE: "{"> { mensages_manhosas.append("SIMBOLOS -> "+image+"\r\n"); }
+	|<FCHAVE: "}"> { mensages_manhosas.append("SIMBOLOS -> "+image+"\r\n"); }
+	|<ACOLCH: "["> { mensages_manhosas.append("SIMBOLOS -> "+image+"\r\n"); }
+	|<FCOLCH: "]"> { mensages_manhosas.append("SIMBOLOS -> "+image+"\r\n"); }
+	|<VIRGULA: ","> { mensages_manhosas.append("SIMBOLOS -> "+image+"\r\n"); }
+	|<PONTO: "."> { mensages_manhosas.append("SIMBOLOS-> "+image+"\r\n"); }
 	
 	
 }
 
 TOKEN: //OPERADORES ARTMETICOS
 {
-	<ADICAO: "+"> { System.out.println("ADICAO -> "+image+"\r\n"); }
-	|<SUBTRACAO: "-"> { System.out.println("SUBTRACAO -> "+image+"\r\n"); }
-	|<MULTIPLICACAO: "*"> { System.out.println("MULTIPLICACAO -> "+image+"\r\n"); }
-	|<DIVISAO: "/"> { System.out.println("DIVISAO -> "+image+"\r\n"); }
-	|<POTENCIA: "**"> { System.out.println("POTENCIA -> "+image+"\r\n"); }
-	|<DIVISAOINTEIRA: "%"> { System.out.println("DIVISAOINTEIRA -> "+image+"\r\n"); }
-	|<RESTODIVISAO: "%%"> { System.out.println("RESTODIVISAOINTEIRA -> "+image+"\r\n"); }
-	|<IGUAL: "="> { System.out.println("IGUAL/RECEBE -> "+image+"\r\n"); }
+	<ADICAO: "+"> { mensages_manhosas.append("OP ARITMETICO - ADICAO -> "+image+"\r\n"); }
+	|<SUBTRACAO: "-"> { mensages_manhosas.append("OP ARITMETICO - SUBTRACAO -> "+image+"\r\n"); }
+	|<MULTIPLICACAO: "*"> { mensages_manhosas.append("OP ARITMETICO - MULTIPLICACAO -> "+image+"\r\n"); }
+	|<DIVISAO: "/"> { mensages_manhosas.append("OP ARITMETICO - DIVISAO -> "+image+"\r\n"); }
+	|<POTENCIA: "**"> { mensages_manhosas.append("OP ARITMETICO - POTENCIA -> "+image+"\r\n"); }
+	|<DIVISAOINTEIRA: "%"> { mensages_manhosas.append("OP ARITMETICO - DIVISAOINTEIRA -> "+image+"\r\n"); }
+	|<RESTODIVISAO: "%%"> { mensages_manhosas.append("OP ARITMETICO - RESTODIVISAOINTEIRA -> "+image+"\r\n"); }
+	|<IGUAL: "="> { mensages_manhosas.append("OP ARITMETICO - IGUAL/RECEBE -> "+image+"\r\n"); }
 }
 TOKEN: //OPERADORES RELACIONAIS
 {
-	<EQUIVALENTE: "=="> { System.out.println("EQUIVALENTE -> "+image+"\r\n"); }
-	|<DIFERENTE: "!="> { System.out.println("DIFERENTE -> "+image+"\r\n"); }
-	|<MENOR: "<"> { System.out.println("MENOR -> "+image+"\r\n"); }
-	|<MENOROUIGUAL: "<="> { System.out.println("MENOROUIGUAL -> "+image+"\r\n"); }
-	|<MAIOR: ">"> { System.out.println("MAIOR -> "+image+"\r\n"); }
-	|<MAIOROUIGUAL: ">="> { System.out.println("MAIOROUIGUAL -> "+image+"\r\n"); }
+	<EQUIVALENTE: "=="> { mensages_manhosas.append("OP RELACIONAIS - EQUIVALENTE -> "+image+"\r\n"); }
+	|<DIFERENTE: "!="> { mensages_manhosas.append("OP RELACIONAIS - DIFERENTE -> "+image+"\r\n"); }
+	|<MENOR: "<"> { mensages_manhosas.append("OP RELACIONAIS - MENOR -> "+image+"\r\n"); }
+	|<MENOROUIGUAL: "<="> { mensages_manhosas.append("OP RELACIONAIS - MENOROUIGUAL -> "+image+"\r\n"); }
+	|<MAIOR: ">"> { mensages_manhosas.append("OP RELACIONAIS - MAIOR -> "+image+"\r\n"); }
+	|<MAIOROUIGUAL: ">="> { mensages_manhosas.append("OP RELACIONAIS - MAIOROUIGUAL -> "+image+"\r\n"); }
 	
 }
 TOKEN: //OPERADORES LOGICOS
 {
-	<NAO: "!"> { System.out.println("NAO -> "+image+"\r\n"); }
-	|<OU: "|"> { System.out.println("OU -> "+image+"\r\n"); }
-	|<E: "&"> { System.out.println("E -> "+image+"\r\n"); }
+	<NAO: "!"> { mensages_manhosas.append("OP LOGICOS - NAO -> "+image+"\r\n"); }
+	|<OU: "|"> { mensages_manhosas.append("OP LOGICOS - OU -> "+image+"\r\n"); }
+	|<E: "&"> { mensages_manhosas.append("OP LOGICOS - E -> "+image+"\r\n"); }
 	
 }
 TOKEN: //TIPOS
 {
 	
-	<NATURAIS: ((["1"-"9"])+ (["0"-"9"])+) > { System.out.println("NUMERO NATURAIS -> "+image+"\r\n"); }
-	//|<REAIS: (["0"-"9"])+ | (["0"-"9"])+ "." (["0"-"9"])+ | (["0"-"9"])+ "." | "." (["0"-"9"])+  > { System.out.println("numREAL -> "+image+"\r\n"); }
-	|<CHARS: ([" "-"~"]) > { System.out.println("CHAR -> "+image+"\r\n"); }
-	|<BOOLEANS: "true" | "false" | "-1"> { System.out.println("BOOLEAN -> "+image+"\r\n"); }
+	<NATURAIS: ((["1"-"9"])+ (["0"-"9"])+) > { mensages_manhosas.append("NUMERO NATURAIS -> "+image+"\r\n"); }
+	|<REAIS: ((["0"-"9"])+ | (["0"-"9"])+ "." (["0"-"9"])+ | (["0"-"9"])+ "." | "." (["0"-"9"])+ ) > { mensages_manhosas.append("NUMERO REAL -> "+image+"\r\n"); }
+	|<CHARS: ([" "-"~"]) > { mensages_manhosas.append( "CHAR -> "+image+"\r\n"); }
+	|<BOOLEANS: "true" | "false" | "-1"> { mensages_manhosas.append("BOOLEAN -> "+image+"\r\n"); }
 	
+
+}
+TOKEN: //IDENTIFICADOR
+{
+
+	<IDENTIFICADOR: ((["a"-"z"] | "_" )+ (["a"-"z"] | ((["a"-"z"]) + ("_") + (["0" - "9"]) | "") + (["a"-"z"] | "_" ) | (["0" - "9"]) + (["a"-"z"]) | (["a"-"z"]) + (["0" - "9"]) + "_"   )) > { mensages_manhosas.append("NUMERO NATURAIS -> "+image+"\r\n"); }
+	/*|<REAIS: ((["0"-"9"])+ | (["0"-"9"])+ "." (["0"-"9"])+ | (["0"-"9"])+ "." | "." (["0"-"9"])+ ) > { mensages_manhosas.append("NUMERO REAL -> "+image+"\r\n"); }
+	|<CHARS: ([" "-"~"]) > { mensages_manhosas.append( "CHAR -> "+image+"\r\n"); }
+	|<BOOLEANS: "true" | "false" | "-1"> { mensages_manhosas.append("BOOLEAN -> "+image+"\r\n"); }*/
+
 
 }
 SKIP: // IGNORAR
 {
-	 " "
-	| <COMENTARIO: ":-"> { System.out.println("COMENTARIO -> "+image+"\r\n"); }
+	<COMENTARIO: ":-"> { mensages_manhosas.append("COMENTARIO -> "+image+"\r\n"); }
 	| "\r"
 	| "\t"
 	| "\n"
 	| "\f"
 	|"\r\n"
+	|" "
 	}
 
 void Programa():
-{}
+{ }
 {
 	  
 	  ((
