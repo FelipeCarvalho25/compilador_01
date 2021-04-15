@@ -50,9 +50,9 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       case NAO:
       case OU:
       case E:
-      case NATURAIS:
-      case CHARS:
-      case BOOLEANS:
+      case IDENTIFICADOR:
+      case CONSTANTE_NUM:
+      case CONSTANTE_LIT:
         ;
         break;
       default:
@@ -192,14 +192,14 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       case E:
         jj_consume_token(E);
         break;
-      case NATURAIS:
-        jj_consume_token(NATURAIS);
+      case IDENTIFICADOR:
+        jj_consume_token(IDENTIFICADOR);
         break;
-      case CHARS:
-        jj_consume_token(CHARS);
+      case CONSTANTE_NUM:
+        jj_consume_token(CONSTANTE_NUM);
         break;
-      case BOOLEANS:
-        jj_consume_token(BOOLEANS);
+      case CONSTANTE_LIT:
+        jj_consume_token(CONSTANTE_LIT);
         break;
       default:
         jj_la1[1] = jj_gen;
@@ -230,7 +230,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       jj_la1_0 = new int[] {0xfffffffe,0xfffffffe,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x1bfff,0x1bfff,};
+      jj_la1_1 = new int[] {0xffff,0xffff,};
    }
 
   /** Constructor with InputStream. */
@@ -368,7 +368,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   /** Generate ParseException. */
   static public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[56];
+    boolean[] la1tokens = new boolean[57];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -385,7 +385,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         }
       }
     }
-    for (int i = 0; i < 56; i++) {
+    for (int i = 0; i < 57; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

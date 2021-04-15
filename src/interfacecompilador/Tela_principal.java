@@ -210,7 +210,7 @@ public class Tela_principal extends javax.swing.JFrame {
         barra_ferramentas.setRollover(true);
 
         //objetos da barra de ferramentas e suas listeners
-        add_arquivo.setIcon(new ImageIcon("contentes/file-add_114479.png")); // NOI18N
+        add_arquivo.setIcon(new ImageIcon(getClass().getResource("/contentes/file-add_114479.png"))); // NOI18N
         add_arquivo.setBorderPainted(false);
         add_arquivo.setFocusable(false);
         add_arquivo.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -229,7 +229,7 @@ public class Tela_principal extends javax.swing.JFrame {
         });
         barra_ferramentas.add(add_arquivo);
 
-        abrir_pasta.setIcon(new ImageIcon("contentes/openpaste.png")); // NOI18N
+        abrir_pasta.setIcon(new ImageIcon(getClass().getResource("/contentes/openpaste.png"))); // NOI18N
         abrir_pasta.setBorderPainted(false);
         abrir_pasta.setFocusable(false);
         abrir_pasta.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -243,7 +243,7 @@ public class Tela_principal extends javax.swing.JFrame {
         });
         barra_ferramentas.add(abrir_pasta);
 
-        salvar.setIcon(new ImageIcon("contentes/savedisk.png")); // NOI18N
+        salvar.setIcon(new ImageIcon(getClass().getResource("/contentes/savedisk.png"))); // NOI18N
         salvar.setBorderPainted(false);
         salvar.setFocusable(false);
         salvar.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -263,7 +263,7 @@ public class Tela_principal extends javax.swing.JFrame {
         barra_ferramentas.add(salvar);
         barra_ferramentas.add(jSeparator1);
 
-        recortar.setIcon(new ImageIcon("contentes/sizer.png")); // NOI18N
+        recortar.setIcon(new ImageIcon(getClass().getResource("/contentes/sizer.png"))); // NOI18N
         recortar.setBorderPainted(false);
         recortar.setFocusable(false);
         recortar.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -275,7 +275,7 @@ public class Tela_principal extends javax.swing.JFrame {
         });
         barra_ferramentas.add(recortar);
 
-        copiar.setIcon(new ImageIcon("contentes/copiar.png")); // NOI18N
+        copiar.setIcon(new ImageIcon(getClass().getResource("/contentes/copiar.png"))); // NOI18N
         copiar.setBorderPainted(false);
         copiar.setFocusable(false);
         copiar.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -287,7 +287,7 @@ public class Tela_principal extends javax.swing.JFrame {
         });
         barra_ferramentas.add(copiar);
 
-        colar.setIcon(new ImageIcon("contentes/colar.png")); // NOI18N
+        colar.setIcon(new ImageIcon(getClass().getResource("/contentes/colar.png"))); // NOI18N
         colar.setBorderPainted(false);
         colar.setFocusable(false);
         colar.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -300,7 +300,7 @@ public class Tela_principal extends javax.swing.JFrame {
         barra_ferramentas.add(colar);
         barra_ferramentas.add(jSeparator2);
 
-        compilar.setIcon(new ImageIcon("contentes/martelo.png")); // NOI18N
+        compilar.setIcon(new ImageIcon(getClass().getResource("/contentes/martelo.png"))); // NOI18N
         compilar.setBorderPainted(false);
         compilar.setFocusable(false);
         compilar.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -317,7 +317,7 @@ public class Tela_principal extends javax.swing.JFrame {
                 try{
                     java.io.InputStream targetStream = new ByteArrayInputStream(area_texto.getText().getBytes(StandardCharsets.UTF_8));
 
-                    analisadorLexico = new AnalisadorLexico(targetStream);
+                    if (analisadorLexico == null) analisadorLexico = new AnalisadorLexico(targetStream); else analisadorLexico.ReInit(targetStream);
                     analisadorLexico.Programa();
 
                     area_text_mensagem.setText(analisadorLexico.getMessages());
@@ -331,7 +331,7 @@ public class Tela_principal extends javax.swing.JFrame {
         });
         barra_ferramentas.add(compilar);
 
-        executar.setIcon(new ImageIcon("contentes/play.png")); // NOI18N
+        executar.setIcon(new ImageIcon(getClass().getResource("/contentes/play.png"))); // NOI18N
         executar.setBorderPainted(false);
         executar.setFocusable(false);
         executar.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -345,7 +345,7 @@ public class Tela_principal extends javax.swing.JFrame {
         barra_ferramentas.add(executar);
         barra_ferramentas.add(jSeparator3);
 
-        boia.setIcon(new ImageIcon("contentes/boia.png")); // NOI18N
+        boia.setIcon(new ImageIcon(getClass().getResource("/contentes/boia.png"))); // NOI18N
         boia.setBorderPainted(false);
         boia.setFocusable(false);
         boia.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -488,7 +488,7 @@ public class Tela_principal extends javax.swing.JFrame {
                     //String initialString = "text";
                     java.io.InputStream targetStream = new ByteArrayInputStream(area_texto.getText().getBytes());
 
-                    analisadorLexico = new AnalisadorLexico(targetStream);
+                    if (analisadorLexico == null) analisadorLexico = new AnalisadorLexico(targetStream); else analisadorLexico.ReInit(targetStream);
                     analisadorLexico.Programa();
 
                     area_text_mensagem.setText(analisadorLexico.getMessages());
