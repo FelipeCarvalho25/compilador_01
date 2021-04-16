@@ -490,7 +490,7 @@ public class Tela_principal extends javax.swing.JFrame {
 
                     if (analisadorLexico == null) analisadorLexico = new AnalisadorLexico(targetStream); else analisadorLexico.ReInit(targetStream);
                     analisadorLexico.Programa();
-
+                    area_text_mensagem.setText("");
                     area_text_mensagem.setText(analisadorLexico.getMessages());
                 }catch (ParseException e){
                     System.out.println(e.getMessage());

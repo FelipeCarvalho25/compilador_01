@@ -1,0 +1,9 @@
+123 abc
+
+true
+	kkk
+false	natural
+
+get    30.3
+
+506variable

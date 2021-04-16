@@ -820,6 +820,7 @@ static public void ReInit(SimpleCharStream stream)
    jjmatchedPos = jjnewStateCnt = 0;
    curLexState = defaultLexState;
    input_stream = stream;
+   mensages_manhosas = new StringBuffer();
    ReInitRounds();
 }
 static private void ReInitRounds()
@@ -946,7 +947,14 @@ public static Token getNextToken()
       input_stream.backup(1);
       error_after = curPos <= 1 ? "" : input_stream.GetImage();
    }
-   throw new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);
+
+      TokenMgrError erro_token =    new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);
+      String msgerrorrrr =   mensages_manhosas.toString().trim() + "\n" +   erro_token.getMessage().trim();
+      mensages_manhosas.delete(0, mensages_manhosas.length());
+      mensages_manhosas.append(msgerrorrrr);
+     jjmatchedKind = 0;
+     matchedToken = jjFillToken();
+     return matchedToken;
   }
 }
 
