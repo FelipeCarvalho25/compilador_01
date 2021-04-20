@@ -39,7 +39,7 @@ TOKEN: // CARACTERES ESPECIAIS
 	|<FCOLCH: "]"> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image+"\r\n"); }
 	|<VIRGULA: ","> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image+"\r\n"); }
 	|<PONTO: "."> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image+"\r\n"); }
-	|<COMENT: ":-" > { mensages_manhosas.append("COMENTÁRIO -> "+image+"\r\n"); }
+	|<COMENT: ":-" > { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image+"\r\n"); }
 	
 	
 }
@@ -75,7 +75,7 @@ TOKEN: //OPERADORES LOGICOS
 TOKEN: //OPERADORES LOGICOS
 {
 	<COMENTARIO_LINHA: "//"> { mensages_manhosas.append("COMENTARIO DE LINHA -> "+image+"\r\n"); }
-	|<COMENTARIO_BLOCO: "/*" "*/"> { mensages_manhosas.append("COMENTARIO DE BLOCO -> "+image+"\r\n"); }
+	|<COMENTARIO_BLOCO: "/*" <ASCII> "*/"> { mensages_manhosas.append("COMENTARIO DE BLOCO -> "+image+"\r\n"); }
 
 }
 /*TOKEN: //TIPOS
@@ -95,9 +95,8 @@ TOKEN: //IDENTIFICADOR
 	|<CONSTANTE_NUM_REAL: ((["0" - "9"])((["0" - "9"])?(["0" - "9"])?(["0" - "9"])?(["0" - "9"])?)?("." (["0" - "9"])((["0" - "9"]))?)) > { mensages_manhosas.append("CONSTANTE_NUM -> "+image+"\r\n"); }
 	|<CONSTANTE_NUM_INT: ((["0" - "9"])((["0" - "9"])?(["0" - "9"])?)?) > { mensages_manhosas.append("CONSTANTE_NUM -> "+image+"\r\n"); }
 	|<CONSTANTE_LIT: (("\"") (<ASCII>)* ("\"") | ("'")(<ASCII>)* ("'")) > { mensages_manhosas.append("CONSTANTE_LIT -> "+image+"\r\n"); }
-	|<#LETTER: (["a"-"z","A"-"Z"])>
 	|<#ASCII: ( (~["'"," ","\\","\n","\r"]) | <LETTER>  | ("\\" ( ["n","t","b","r","f","\\","'","\""]| ["u","U"]["+"]["0"-"9","a"-"f","A"-"F"]["0"-"9","a"-"f","A"-"F"]["0"-"9","a"-"f","A"-"F"]["0"-"9","a"-"f","A"-"F"] ) ) )>
-
+    |<#LETTER: (["a"-"z","A"-"Z"])>
 
 
 }
@@ -120,7 +119,7 @@ void Programa():
 	    <PROGRAM>|<DEFINE>|<NOT>|<VARIABLE>|<IS>|<BOOLEAN>|<CHAR>|<REAL>|<NATURAL>|<EXECUTE>|<SET>|<GET>|<PUT>|<LOOP>|<WHILE>|<TRUE>|<FALSE>|<DO>|<TO>|
 	<APARENT>|<FPARENT>|<ACHAVE>|<FCHAVE>|<ACOLCH>|<FCOLCH>|<VIRGULA>|<PONTO>|<ADICAO>|<SUBTRACAO>|<MULTIPLICACAO>|<DIVISAO>|
 	<POTENCIA>|<DIVISAOINTEIRA>|<RESTODIVISAO>|<IGUAL>|<EQUIVALENTE>| <DIFERENTE>|<MENOR>|<MENOROUIGUAL>|<MAIOR>|<MAIOROUIGUAL>|
-	<NAO>|<OU>|<E>|<IDENTIFICADOR>|<CONSTANTE_NUM>|<CONSTANTE_LIT>|<COMENTARIO_BLOCO> |<COMENTARIO_LINHA>
+	<NAO>|<OU>|<E>|<IDENTIFICADOR>|<CONSTANTE_NUM_REAL>|<CONSTANTE_NUM_INT>|<CONSTANTE_LIT>|<COMENTARIO_BLOCO> |<COMENTARIO_LINHA>
 	)*)
 
 }
