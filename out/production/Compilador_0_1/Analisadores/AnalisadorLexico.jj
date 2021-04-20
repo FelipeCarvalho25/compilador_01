@@ -84,7 +84,7 @@ TOKEN: //OPERADORES LOGICOS
 TOKEN: //IDENTIFICADOR
 {
 
-	<IDENTIFICADOR: ((<LETTER> | "_" ) ((<LETTER>)* | ((<LETTER>)  ("_")  (["0" - "9"]))+ (<LETTER> | "_" ) | ((["0" - "9"]) "_" (<LETTER>))* | ((<LETTER>) (["0" - "9"])  "_" )+ | ((<LETTER>) "_")+ | (["0"-"9"])(<LETTER>)* "_" )*) > { mensages_manhosas.append("IDENTIFICADOR -> "+image+"\r\n"); }
+	<IDENTIFICADOR: (<LETTER> | "_" ) ((<LETTER>)* | ((<LETTER>)  ("_")  (["0" - "9"]))* (<LETTER> | "_" ) | ((["0" - "9"]) "_" (<LETTER>))* | ((<LETTER>) (["0" - "9"])  "_" )* | ((<LETTER>) "_")* | (["0"-"9"])(<LETTER>)* "_" )* > { mensages_manhosas.append("IDENTIFICADOR -> "+image+"\r\n"); }
 	|<CONSTANTE_NUM: ((["0" - "9"])((["0" - "9"])|(["0" - "9"])(["0" - "9"]))?("." (["0" - "9"])((["0" - "9"]))?)?) > { mensages_manhosas.append("CONSTANTE_NUM -> "+image+"\r\n"); }
 	|<CONSTANTE_LIT: (("\"") (<ASCII>)* ("\"") | ("'")(<ASCII>)* ("'")) > { mensages_manhosas.append("CONSTANTE_LIT -> "+image+"\r\n"); }
 	|<#LETTER: (["a"-"z","A"-"Z"])>

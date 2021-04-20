@@ -250,13 +250,16 @@ public class Tela_principal extends javax.swing.JFrame {
         salvar.setVerticalTextPosition(SwingConstants.BOTTOM);
         salvar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                salvando = true;
-                if (salvar_arquivo()){
-                    salvando = false;
-                    area_tabs.setTitleAt(0,  file.getName());
-                    salvou_arquivo = true;
-                    abriu_arquivo = true;
+                if(!salvou_arquivo){
+                    salvando = true;
+                    if (salvar_arquivo()){
+                        salvando = false;
+                        area_tabs.setTitleAt(0,  file.getName());
+                        salvou_arquivo = true;
+                        abriu_arquivo = true;
+                    }
                 }
+
 
             }
         });
@@ -384,12 +387,14 @@ public class Tela_principal extends javax.swing.JFrame {
         item_arq_salvar.setText("Salvar");
         item_arq_salvar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                salvando = true;
-                if (salvar_arquivo()){
-                    salvando = false;
-                    area_tabs.setTitleAt(0,  file.getName());
-                    salvou_arquivo = true;
-                    abriu_arquivo = true;
+                if(!salvou_arquivo) {
+                    salvando = true;
+                    if (salvar_arquivo()) {
+                        salvando = false;
+                        area_tabs.setTitleAt(0, file.getName());
+                        salvou_arquivo = true;
+                        abriu_arquivo = true;
+                    }
                 }
             }
         });
