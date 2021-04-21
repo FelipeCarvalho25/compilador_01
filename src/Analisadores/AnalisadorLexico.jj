@@ -92,8 +92,8 @@ TOKEN: //IDENTIFICADOR
 {
 
 	<IDENTIFICADOR: (<LETTER> | "_" ) ((<LETTER>)* | ((<LETTER>)  ("_")  (["0" - "9"]))* (<LETTER> | "_" ) | ((["0" - "9"]) "_" (<LETTER>))* | ((<LETTER>) (["0" - "9"])  "_" )* | ((<LETTER>) "_")* | (["0"-"9"])(<LETTER>)* "_" )* > { mensages_manhosas.append("IDENTIFICADOR -> "+image+"\r\n"); }
-	|<CONSTANTE_NUM_REAL: ((["0" - "9"])((["0" - "9"])?(["0" - "9"])?(["0" - "9"])?(["0" - "9"])?)?("." (["0" - "9"])((["0" - "9"]))?)) > { mensages_manhosas.append("CONSTANTE_NUM -> "+image+"\r\n"); }
-	|<CONSTANTE_NUM_INT: ((["0" - "9"])((["0" - "9"])?(["0" - "9"])?)?) > { mensages_manhosas.append("CONSTANTE_NUM -> "+image+"\r\n"); }
+	|<CONSTANTE_NUM_REAL: ((["0" - "9"])((["0" - "9"])?(["0" - "9"])?(["0" - "9"])?(["0" - "9"])?)?("." (["0" - "9"])((["0" - "9"]))?)) > { mensages_manhosas.append("CONSTANTE_NUM REAL-> "+image+"\r\n"); }
+	|<CONSTANTE_NUM_INT: ((["0" - "9"])((["0" - "9"])?(["0" - "9"])?)?) > { mensages_manhosas.append("CONSTANTE_NUM INTEIRA -> "+image+"\r\n"); }
 	|<CONSTANTE_LIT: (("\"") (<ASCII>)* ("\"") | ("'")(<ASCII>)* ("'")) > { mensages_manhosas.append("CONSTANTE_LIT -> "+image+"\r\n"); }
 	|<#ASCII: ( (~["'"," ","\\","\n","\r"]) | <LETTER>  | ("\\" ( ["n","t","b","r","f","\\","'","\""]| ["u","U"]["+"]["0"-"9","a"-"f","A"-"F"]["0"-"9","a"-"f","A"-"F"]["0"-"9","a"-"f","A"-"F"]["0"-"9","a"-"f","A"-"F"] ) ) )>
     |<#LETTER: (["a"-"z","A"-"Z"])>

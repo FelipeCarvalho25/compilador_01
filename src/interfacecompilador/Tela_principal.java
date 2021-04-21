@@ -68,6 +68,7 @@ public class Tela_principal extends javax.swing.JFrame {
     private boolean abriu_arquivo = false;
     private boolean salvou_arquivo = true;
     private boolean salvando = false;
+    private boolean salvar_como = false;
     private AnalisadorLexico analisadorLexico;
 
     private Integer contlinha;
@@ -218,9 +219,10 @@ public class Tela_principal extends javax.swing.JFrame {
         add_arquivo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 if (salvar_arquivo()){
-                    area_texto.setText("");
+                    area_texto.setText(" ");
                     contlinha = 1;
                     label_cont.setText("1");
+                    area_text_mensagem.setText("");
                     abriu_arquivo = false;
                     salvou_arquivo = true;
                     area_tabs.setTitleAt(0,  "Sem título");
@@ -238,6 +240,7 @@ public class Tela_principal extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent evt) {
                 if (salvar_arquivo()){
                     interface_abrir_arquivo();
+                    area_text_mensagem.setText("");
                 }
             }
         });
@@ -311,11 +314,11 @@ public class Tela_principal extends javax.swing.JFrame {
         compilar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 //chama compilador
-                if (abriu_arquivo == false && salvou_arquivo == false){
+                /*if (abriu_arquivo == false && salvou_arquivo == false){
                     JOptionPane tela_ao_sair = new JOptionPane();
                     tela_ao_sair.showMessageDialog( area_text_mensagem, "Salve o arquivo antes de compilar!");
                     return;
-                }
+                }*/
 
                 try{
                     java.io.InputStream targetStream = new ByteArrayInputStream(area_texto.getText().getBytes(StandardCharsets.UTF_8));
@@ -379,11 +382,25 @@ public class Tela_principal extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent evt) {
                 if (salvar_arquivo()){
                     interface_abrir_arquivo();
+                    area_text_mensagem.setText("");
                 }
 
             }
         });
         item_arq_novo.setText("Novo");
+        item_arq_novo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                if (salvar_arquivo()){
+                    area_texto.setText("");
+                    contlinha = 1;
+                    label_cont.setText("1");
+                    area_text_mensagem.setText("");
+                    abriu_arquivo = false;
+                    salvou_arquivo = true;
+                    area_tabs.setTitleAt(0,  "Sem título");
+                }
+            }
+        });
         item_arq_salvar.setText("Salvar");
         item_arq_salvar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -402,6 +419,7 @@ public class Tela_principal extends javax.swing.JFrame {
         item_arq_salvar_como.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 salvando = true;
+                salvar_como = true;
                 if (salvar_arquivo()){
                     salvando = false;
                     area_tabs.setTitleAt(0,  file.getName());
@@ -483,11 +501,11 @@ public class Tela_principal extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent evt) {
                 //chama compilador
 
-                if (abriu_arquivo == false && salvou_arquivo == false){
+                /*if (abriu_arquivo == false && salvou_arquivo == false){
                     JOptionPane tela_ao_sair = new JOptionPane();
                     tela_ao_sair.showMessageDialog( area_text_mensagem, "Salve o arquivo antes de compilar!");
                     return;
-                }
+                }*/
                 try{
 
                     //String initialString = "text";
@@ -565,7 +583,7 @@ public class Tela_principal extends javax.swing.JFrame {
             }else if(salvando == true){
                 Path caminho;
                 //cchama botão de salvar da tela.
-                if(abriu_arquivo == false){
+                if(abriu_arquivo == false || salvar_como == true){
                     JTextField caminho_salvar = new JTextField();
                     JFileChooser salvarChoose = new JFileChooser();
                     salvarChoose.setFileFilter(new javax.swing.filechooser.FileFilter(){
