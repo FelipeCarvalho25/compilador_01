@@ -126,6 +126,7 @@ public class ParseException extends Exception {
       retval += " \"";
       tok = tok.next; 
     }
+    //manter mensagens em portuges
     retval += "\" na linha " + currentToken.next.beginLine + ", coluna " + currentToken.next.beginColumn;
     retval += "." + eol;
     if (expectedTokenSequences.length == 1) {
