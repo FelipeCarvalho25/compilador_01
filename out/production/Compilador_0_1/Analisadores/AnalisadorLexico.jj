@@ -41,7 +41,7 @@ TOKEN: //IDENTIFICADOR
 
 
 }
-TOKEN: //OPERADORES LOGICOS
+TOKEN: //Comentarios
 {
 	<COMENTARIO_LINHA: "//"(<CHARESP>)*> { mensages_manhosas.append("COMENTARIO DE LINHA -> "+image+"\r\n"); }
 	|<COMENTARIO_BLOCO: "/*" (<CHARESP>)* "*/"> { mensages_manhosas.append("COMENTARIO DE BLOCO -> "+image+"\r\n"); }

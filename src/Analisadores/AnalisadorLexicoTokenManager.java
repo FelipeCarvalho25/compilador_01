@@ -1200,7 +1200,10 @@ public static Token getNextToken()
       input_stream.backup(1);
       error_after = curPos <= 1 ? "" : input_stream.GetImage();
    }
-   throw new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);
+   mensages_manhosas.append(new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR).getMessage());
+     jjmatchedKind = 0;
+     matchedToken = jjFillToken();
+     return matchedToken;
   }
 }
 
