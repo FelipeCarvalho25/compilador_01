@@ -47,67 +47,77 @@ public interface AnalisadorLexicoConstants {
   /** RegularExpression Id. */
   int TO = 19;
   /** RegularExpression Id. */
-  int APARENT = 20;
+  int IDENTIFICADOR = 20;
   /** RegularExpression Id. */
-  int FPARENT = 21;
+  int CONSTANTE_NUM_REAL = 21;
   /** RegularExpression Id. */
-  int ACHAVE = 22;
+  int CONSTANTE_NUM_INT = 22;
   /** RegularExpression Id. */
-  int FCHAVE = 23;
+  int CONSTANTE_LIT = 23;
   /** RegularExpression Id. */
-  int ACOLCH = 24;
+  int ASCII = 24;
   /** RegularExpression Id. */
-  int FCOLCH = 25;
+  int LETTER = 25;
   /** RegularExpression Id. */
-  int VIRGULA = 26;
+  int COMENTARIO_LINHA = 26;
   /** RegularExpression Id. */
-  int PONTO = 27;
+  int COMENTARIO_BLOCO = 27;
   /** RegularExpression Id. */
-  int ADICAO = 28;
+  int CHARESP = 28;
   /** RegularExpression Id. */
-  int SUBTRACAO = 29;
+  int LETRA = 29;
   /** RegularExpression Id. */
-  int MULTIPLICACAO = 30;
+  int APARENT = 30;
   /** RegularExpression Id. */
-  int DIVISAO = 31;
+  int FPARENT = 31;
   /** RegularExpression Id. */
-  int POTENCIA = 32;
+  int ACHAVE = 32;
   /** RegularExpression Id. */
-  int DIVISAOINTEIRA = 33;
+  int FCHAVE = 33;
   /** RegularExpression Id. */
-  int RESTODIVISAO = 34;
+  int ACOLCH = 34;
   /** RegularExpression Id. */
-  int IGUAL = 35;
+  int FCOLCH = 35;
   /** RegularExpression Id. */
-  int EQUIVALENTE = 36;
+  int VIRGULA = 36;
   /** RegularExpression Id. */
-  int DIFERENTE = 37;
+  int PONTO = 37;
   /** RegularExpression Id. */
-  int MENOR = 38;
+  int COMENT = 38;
   /** RegularExpression Id. */
-  int MENOROUIGUAL = 39;
+  int ADICAO = 39;
   /** RegularExpression Id. */
-  int MAIOR = 40;
+  int SUBTRACAO = 40;
   /** RegularExpression Id. */
-  int MAIOROUIGUAL = 41;
+  int MULTIPLICACAO = 41;
   /** RegularExpression Id. */
-  int NAO = 42;
+  int DIVISAO = 42;
   /** RegularExpression Id. */
-  int OU = 43;
+  int POTENCIA = 43;
   /** RegularExpression Id. */
-  int E = 44;
+  int DIVISAOINTEIRA = 44;
   /** RegularExpression Id. */
-  int IDENTIFICADOR = 45;
+  int RESTODIVISAO = 45;
   /** RegularExpression Id. */
-  int CONSTANTE_NUM = 46;
+  int IGUAL = 46;
   /** RegularExpression Id. */
-  int CONSTANTE_LIT = 47;
+  int EQUIVALENTE = 47;
   /** RegularExpression Id. */
-  int LETTER = 48;
+  int DIFERENTE = 48;
   /** RegularExpression Id. */
-  int ASCII = 49;
+  int MENOR = 49;
   /** RegularExpression Id. */
-  int COMENTARIO = 50;
+  int MENOROUIGUAL = 50;
+  /** RegularExpression Id. */
+  int MAIOR = 51;
+  /** RegularExpression Id. */
+  int MAIOROUIGUAL = 52;
+  /** RegularExpression Id. */
+  int NAO = 53;
+  /** RegularExpression Id. */
+  int OU = 54;
+  /** RegularExpression Id. */
+  int E = 55;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -115,25 +125,35 @@ public interface AnalisadorLexicoConstants {
   /** Literal token values. */
   String[] tokenImage = {
     "<EOF>",
-    "\"program\"",
-    "\"define\"",
-    "\"not\"",
-    "\"variable\"",
-    "\"is\"",
-    "\"boolean\"",
-    "\"char\"",
-    "\"real\"",
-    "\"natural\"",
-    "\"execute\"",
-    "\"set\"",
-    "\"get\"",
-    "\"put\"",
-    "\"loop\"",
-    "\"while\"",
-    "\"true\"",
-    "\"false\"",
-    "\"do\"",
-    "\"to\"",
+    "<PROGRAM>",
+    "<DEFINE>",
+    "<NOT>",
+    "<VARIABLE>",
+    "<IS>",
+    "<BOOLEAN>",
+    "<CHAR>",
+    "<REAL>",
+    "<NATURAL>",
+    "<EXECUTE>",
+    "<SET>",
+    "<GET>",
+    "<PUT>",
+    "<LOOP>",
+    "<WHILE>",
+    "<TRUE>",
+    "<FALSE>",
+    "<DO>",
+    "<TO>",
+    "<IDENTIFICADOR>",
+    "<CONSTANTE_NUM_REAL>",
+    "<CONSTANTE_NUM_INT>",
+    "<CONSTANTE_LIT>",
+    "<ASCII>",
+    "<LETTER>",
+    "<COMENTARIO_LINHA>",
+    "<COMENTARIO_BLOCO>",
+    "<CHARESP>",
+    "<LETRA>",
     "\"(\"",
     "\")\"",
     "\"{\"",
@@ -142,6 +162,7 @@ public interface AnalisadorLexicoConstants {
     "\"]\"",
     "\",\"",
     "\".\"",
+    "\":-\"",
     "\"+\"",
     "\"-\"",
     "\"*\"",
@@ -159,12 +180,6 @@ public interface AnalisadorLexicoConstants {
     "\"!\"",
     "\"|\"",
     "\"&\"",
-    "<IDENTIFICADOR>",
-    "<CONSTANTE_NUM>",
-    "<CONSTANTE_LIT>",
-    "<LETTER>",
-    "<ASCII>",
-    "\":-\"",
     "\"\\r\"",
     "\"\\t\"",
     "\"\\n\"",

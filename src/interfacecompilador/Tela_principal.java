@@ -506,6 +506,7 @@ public class Tela_principal extends javax.swing.JFrame {
                     tela_ao_sair.showMessageDialog( area_text_mensagem, "Salve o arquivo antes de compilar!");
                     return;
                 }*/
+
                 try{
 
                     //String initialString = "text";
