@@ -7,6 +7,8 @@ import Editor_de_Texto.Area_de_transferencia;
 import Editor_de_Texto.Manipulador_arquivo;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Utilities;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -70,6 +72,8 @@ public class Tela_principal extends javax.swing.JFrame {
     private boolean salvando = false;
     private boolean salvar_como = false;
     private AnalisadorLexico analisadorLexico;
+    int caretPos = 0, rowNum = 1, finale = 0, colNum = 1;
+    String coluna = "1", linha = "1";
 
     private Integer contlinha;
     // End of variables declaration
@@ -143,15 +147,92 @@ public class Tela_principal extends javax.swing.JFrame {
 
             @Override
             public void keyPressed(KeyEvent e) {
+                boolean cursor_line = false;
                 //incrementa no contador de linhas quando for dado enter
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
                     if(area_texto.getLineCount() + 1 > contlinha){
                         incrementa_linha();
                     }
+                    rowNum = rowNum +1;
+                    colNum = 1;
 
-                }
+                }/*else{
+                    caretPos = area_texto.getCaretPosition();
+                    rowNum = (caretPos == 0) ? 1 : 0;
+                    finale = 0;
+                    colNum = 0;
+                    for (int offset = caretPos; offset > 0;) {
+                        try {
+                            offset = Utilities.getRowStart(area_texto, offset) - 1;
+
+                        } catch (BadLocationException badLocationException) {
+                            badLocationException.printStackTrace();
+                        }
+                        rowNum++;
+                    }
+                    try {
+                        finale = Utilities.getRowStart(area_texto, caretPos);
+                    } catch (BadLocationException badLocationException) {
+                        finale = area_texto.getText().split("\n")[contlinha-1].length()+1;
+                        //badLocationException.printStackTrace();
+                    }
+                    int atual = area_texto.getCaretPosition();
+
+                    System.out.println("atual: " + atual);
+                    colNum = atual - finale + 1;
+                    linha = " " + rowNum;
+                    coluna = " " + colNum;
+                }*/
                 //quando é excluida algum caracter e volta uma linha, é decrementado no contador
+                if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    if (contlinha > 1 && rowNum > 1) {
+                        cursor_line = true;
+                        rowNum -= 1;
+                    }else if(contlinha == 1){
+                        cursor_line = true;
+                    }
+                }
+                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    if (contlinha >= 1 && rowNum <= contlinha) {
+                        cursor_line = true;
+                        rowNum += 1;
+                    }
+                }
+                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                    if (  colNum - 1 >= 1) {
+                        cursor_line = true;
+                        colNum -= 1;
+                    }else if(colNum == 1){
+                        if (rowNum > 1){
+                            rowNum -= 1;
+                            if ( rowNum <= area_texto.getText().split("\n").length ){
+                                if (area_texto.getText().length() > 0){
+                                    colNum = area_texto.getText().split("\n")[rowNum-1].length();
+                                }
+                            }
+                        }
+                        cursor_line = true;
+                    }
+                }
+                if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                    int max = 1;
+                    if ( rowNum <= area_texto.getText().split("\n").length)  {
+                        if (area_texto.getText().length() > 0){
+                            max = area_texto.getText().split("\n")[rowNum-1].length();
+                        }
+                    }
+                    if ( max > 1 &&  colNum + 1 <= max) {
+                        cursor_line = true;
+                        colNum += 1;
+                    }else if(colNum == max ){
+                        cursor_line = true;
+                        if (rowNum < contlinha){
+                            rowNum += 1;
+                            colNum = 1;
+                        }
+                    }
+                }
 
                 if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 
@@ -160,12 +241,19 @@ public class Tela_principal extends javax.swing.JFrame {
                     }
 
                 }
+
+
                 //parte que coloca o rodapé
-                String coluna = "1";
-                if (area_texto.getText().split("\n").length == contlinha){
-                    coluna = Integer.toString(area_texto.getText().split("\n")[contlinha-1].length()+1);
+                if (!cursor_line){
+                    int tam = area_texto.getText().split("\n").length;
+                    if (rowNum <= tam){
+                        colNum = area_texto.getText().split("\n")[rowNum-1].length()+2;
+                    }
                 }
-                label_rodape.setText("Linha:" + contlinha.toString() + ", Coluna:" + coluna);
+
+                linha = " " + rowNum;
+                coluna = " " + colNum;
+                label_rodape.setText("Linha:" + linha + ", Coluna:" + coluna);
                 if (abriu_arquivo) {
                     if (area_texto.getText().compareTo(texto_original)== 1) {
                         area_tabs.setTitleAt(0, file.getName() + "*");
