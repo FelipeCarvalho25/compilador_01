@@ -189,15 +189,27 @@ public class Tela_principal extends javax.swing.JFrame {
                     if (contlinha > 1 && rowNum > 1) {
                         cursor_line = true;
                         rowNum -= 1;
+                        if ( rowNum <= area_texto.getText().split("\n").length ){
+                            if (area_texto.getText().length() > 0 && colNum > area_texto.getText().split("\n")[rowNum-1].length() + 1){
+                                colNum = area_texto.getText().split("\n")[rowNum-1].length() + 1;
+                            }
+                        }
                     }else if(contlinha == 1){
                         cursor_line = true;
                     }
+
                 }
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    if (contlinha >= 1 && rowNum <= contlinha) {
+                    if (contlinha >= 1 && rowNum <= contlinha && contlinha != 1) {
                         cursor_line = true;
                         rowNum += 1;
+                        if ( rowNum <= area_texto.getText().split("\n").length && contlinha != 1 ){
+                            if (area_texto.getText().length() > 0 && colNum > area_texto.getText().split("\n")[rowNum-1].length() + 1) {
+                                colNum = area_texto.getText().split("\n")[rowNum-1].length() + 1;
+                            }
+                        }
                     }
+
                 }
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                     if (  colNum - 1 >= 1) {
@@ -208,7 +220,7 @@ public class Tela_principal extends javax.swing.JFrame {
                             rowNum -= 1;
                             if ( rowNum <= area_texto.getText().split("\n").length ){
                                 if (area_texto.getText().length() > 0){
-                                    colNum = area_texto.getText().split("\n")[rowNum-1].length();
+                                    colNum = area_texto.getText().split("\n")[rowNum-1].length() + 1;
                                 }
                             }
                         }
@@ -217,9 +229,23 @@ public class Tela_principal extends javax.swing.JFrame {
                 }
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
                     int max = 1;
+                    caretPos = area_texto.getCaretPosition();
+                    int newRowNum = 1;
+                    finale = 0;
+                    //colNum = 0;
+                    for (int offset = caretPos; offset > 0;) {
+                        try {
+                            offset = Utilities.getRowStart(area_texto, offset) - 1;
+
+                        } catch (BadLocationException badLocationException) {
+                            badLocationException.printStackTrace();
+                        }
+                        newRowNum++;
+                    }
+
                     if ( rowNum <= area_texto.getText().split("\n").length)  {
                         if (area_texto.getText().length() > 0){
-                            max = area_texto.getText().split("\n")[rowNum-1].length();
+                            max = area_texto.getText().split("\n")[rowNum-1].length() + 1;
                         }
                     }
                     if ( max > 1 &&  colNum + 1 <= max) {
@@ -246,7 +272,7 @@ public class Tela_principal extends javax.swing.JFrame {
                 //parte que coloca o rodapé
                 if (!cursor_line){
                     int tam = area_texto.getText().split("\n").length;
-                    if (rowNum <= tam){
+                    if (rowNum <= tam && contlinha != 1){
                         colNum = area_texto.getText().split("\n")[rowNum-1].length()+2;
                     }
                 }
