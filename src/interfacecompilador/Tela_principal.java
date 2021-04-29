@@ -272,7 +272,7 @@ public class Tela_principal extends javax.swing.JFrame {
                 //parte que coloca o rodapé
                 if (!cursor_line){
                     int tam = area_texto.getText().split("\n").length;
-                    if (rowNum <= tam && contlinha != 1){
+                    if (rowNum <= tam && area_texto.getText().length() > 1){
                         colNum = area_texto.getText().split("\n")[rowNum-1].length()+2;
                     }
                 }

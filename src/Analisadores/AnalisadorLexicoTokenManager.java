@@ -1214,12 +1214,15 @@ static void TokenLexicalActions(Token matchedToken)
       case 1 :
         if (image == null)
             image = new StringBuffer();
+         int line = input_stream.getEndLine();
+         int error_column = input_stream.getBeginColumn();
         image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
-                                                                                                           mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n");
+                                                                                                           mensages_manhosas.append("PALAVRAS RESERVADAS ->" + line + error_column+ image + "\r\n");
          break;
       case 2 :
         if (image == null)
             image = new StringBuffer();
+
         image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
                                                                                       mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "\r\n");
          break;
