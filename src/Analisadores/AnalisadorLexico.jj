@@ -28,6 +28,13 @@ TOKEN: // PALAVRAS RESERVADAS
  | <TO: ("t"|"T")("o"|"O")>{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
 
 }
+TOKEN: //Comentarios
+{
+	<COMENTARIO_LINHA: "//"(<CHARESP>)*> { mensages_manhosas.append("COMENTARIO DE LINHA -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<COMENTARIO_BLOCO: "/*" (<CHARESP>)* "*/"> { mensages_manhosas.append("COMENTARIO DE BLOCO -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<#CHARESP: ( (~["'"," ","\\","\n","\r"]) | <LETRA> | ("\\" ( ["n","t","b","r","f","\\","'","\""]| ["u","U"]["+"]["0"-"9","a"-"z","A"-"Z"]["0"-"9","a"-"z","A"-"Z"]["0"-"9","a"-"z","A"-"Z"]["0"-"9","a"-"z","A"-"Z"] ) ) )>
+    |<#LETRA: (["a"-"z","A"-"Z"])>
+}
 
 TOKEN: //IDENTIFICADOR
 {
@@ -41,13 +48,7 @@ TOKEN: //IDENTIFICADOR
 
 
 }
-TOKEN: //Comentarios
-{
-	<COMENTARIO_LINHA: "//"(<CHARESP>)*> { mensages_manhosas.append("COMENTARIO DE LINHA -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<COMENTARIO_BLOCO: "/*" (<CHARESP>)* "*/"> { mensages_manhosas.append("COMENTARIO DE BLOCO -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<#CHARESP: ( (~["'"," ","\\","\n","\r"]) | <LETRA> | ("\\" ( ["n","t","b","r","f","\\","'","\""]| ["u","U"]["+"]["0"-"9","a"-"z","A"-"Z"]["0"-"9","a"-"z","A"-"Z"]["0"-"9","a"-"z","A"-"Z"]["0"-"9","a"-"z","A"-"Z"] ) ) )>
-    |<#LETRA: (["a"-"z","A"-"Z"])>
-}
+
 TOKEN: // CARACTERES ESPECIAIS
 {
 	<APARENT: "(" > {  mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
