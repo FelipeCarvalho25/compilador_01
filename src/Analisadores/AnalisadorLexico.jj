@@ -136,6 +136,36 @@ void estrutura_define():
 {
     constante() variavel() | variavel() constante()
 }
+void get():
+{
+}
+{
+    <GET> <ACHAVE> lista_identificadores() <FCHAVE> <PONTO>
+}
+void put():
+{
+}
+{
+    <PUT> <ACHAVE> lista_de_identificadore_constantes() <FCHAVE> <PONTO>
+}
+void lista_de_identificadore_constantes():
+{
+}
+{
+    <IDENTIFICADOR> lista_de_identificadore_constantes_recursivo() | tipo_constante() lista_de_identificadore_constantes_recursivo()
+}
+void tipo_constante():
+{
+}
+{
+    <CONSTANTE_NUM_REAL> | <CONSTANTE_LIT> |<CONSTANTE_NUM_INT>
+}
+void lista_de_identificadore_constantes_recursivo():
+{
+}
+{
+    <VIRGULA> lista_de_identificadore_constantes()
+}
 void variavel():{
 }
 {
@@ -144,7 +174,7 @@ void variavel():{
 void constante():{
 }
 {
-    <NOT> <VARIABLE> tipo() <IS> lista_identificadores_constante() valor() <PONTO>  constante_recursiva()
+    <NOT> <VARIABLE> tipo() <IS> lista_identificadores() valor() <PONTO>  constante_recursiva()
 }
 void valor():{
 }
@@ -182,17 +212,17 @@ void lista_identificadores_variavel_recursivo():
 }{
     <VIRGULA> lista_identificadores_variavel() | <ACOLCH> <CONSTANTE_NUM_INT> <FCOLCH>
 }
-void lista_identificadores_constante():
+void lista_identificadores():
 {
 }
 {
-     <IDENTIFICADOR> lista_identificadores_constante_recursivo()
+     <IDENTIFICADOR> lista_identificadores_recursivo()
 }
 
-void lista_identificadores_constante_recursivo():
+void lista_identificadores_recursivo():
 {
 }{
-    <VIRGULA> lista_identificadores_constante()
+    <VIRGULA> lista_identificadores()
 }
 void corpo_do_programa():{
 }
@@ -223,7 +253,7 @@ void identificador_programa():{
 
 void comentario():{
 }{
-    <CONSTANTE_LIT>
+    <COMENT> <CONSTANTE_LIT>
 }
 void Programa():
 { }
