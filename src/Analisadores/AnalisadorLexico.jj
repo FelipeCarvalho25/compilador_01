@@ -114,7 +114,117 @@ SKIP: // IGNORAR
 	|"\r\n"
 	|" "
 	}
+void program ():
+{
+}
+{
+    comentario() <PROGRAM>  <ACHAVE> declaracao_variaveis() corpo_do_programa() <FCHAVE> identificador_programa()
+}
+void declaracao_variaveis():{
+}{
+    define() | <EOF>
+}
+void define():{
+}
+{
+    <DEFINE> <ACHAVE> estrutura_define() <FCHAVE> | <EOF>
+}
 
+void estrutura_define():
+{
+}
+{
+    constante() variavel() | variavel() constante()
+}
+void variavel():{
+}
+{
+    <VARIABLE> tipo() <IS> lista_identificadores_variavel() valor() <PONTO>  variavel_recursiva()
+}
+void constante():{
+}
+{
+    <NOT> <VARIABLE> tipo() <IS> lista_identificadores_constante() valor() <PONTO>  constante_recursiva()
+}
+void valor():{
+}
+{
+    <CONSTANTE_NUM_INT> | <CONSTANTE_NUM_REAL> | <CONSTANTE_LIT> | <TRUE> | <FALSE>
+}
+void constante_recursiva():
+{
+}
+{
+    constante() | <EOF>
+}
+void variavel_recursiva():
+{
+}
+{
+    variavel() | <EOF>
+}
+
+void tipo():
+{
+}
+{
+    <NATURAL> |<REAL> | <CHAR> | <BOOLEAN>
+}
+void lista_identificadores_variavel():
+{
+}
+{
+     <IDENTIFICADOR> lista_identificadores_variavel_recursivo()
+}
+
+void lista_identificadores_variavel_recursivo():
+{
+}{
+    <VIRGULA> lista_identificadores_variavel() | <ACOLCH> <CONSTANTE_NUM_INT> <FCOLCH> | <EOF>
+}
+void lista_identificadores_constante():
+{
+}
+{
+     <IDENTIFICADOR> lista_identificadores_constante_recursivo()
+}
+
+void lista_identificadores_constante_recursivo():
+{
+}{
+    <VIRGULA> lista_identificadores_constante() | <EOF>
+}
+void corpo_do_programa():{
+}
+{
+    <EXECUTE> <ACHAVE> lista_de_comandos() <FCHAVE>
+}
+
+void lista_de_comandos():{
+}
+{
+    comando() comando_recursivo()
+}
+void comando():{
+}
+{
+    corpo_do_programa() | <EOF>
+}
+void comando_recursivo():{
+}
+{
+    lista_de_comandos() | <EOF>
+}
+void identificador_programa():{
+}
+{
+    <IDENTIFICADOR> | <EOF>
+}
+
+void comentario():{
+}{
+    <CONSTANTE_LIT> | <EOF>
+}
 void Programa():
 { }
 {
