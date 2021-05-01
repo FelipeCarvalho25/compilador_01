@@ -47,25 +47,25 @@ public interface AnalisadorLexicoConstants {
   /** RegularExpression Id. */
   int TO = 19;
   /** RegularExpression Id. */
-  int IDENTIFICADOR = 20;
+  int COMENTARIO_LINHA = 20;
   /** RegularExpression Id. */
-  int CONSTANTE_NUM_REAL = 21;
+  int COMENTARIO_BLOCO = 21;
   /** RegularExpression Id. */
-  int CONSTANTE_NUM_INT = 22;
+  int CHARESP = 22;
   /** RegularExpression Id. */
-  int CONSTANTE_LIT = 23;
+  int LETRA = 23;
   /** RegularExpression Id. */
-  int ASCII = 24;
+  int IDENTIFICADOR = 24;
   /** RegularExpression Id. */
-  int LETTER = 25;
+  int CONSTANTE_NUM_REAL = 25;
   /** RegularExpression Id. */
-  int COMENTARIO_LINHA = 26;
+  int CONSTANTE_NUM_INT = 26;
   /** RegularExpression Id. */
-  int COMENTARIO_BLOCO = 27;
+  int CONSTANTE_LIT = 27;
   /** RegularExpression Id. */
-  int CHARESP = 28;
+  int ASCII = 28;
   /** RegularExpression Id. */
-  int LETRA = 29;
+  int LETTER = 29;
   /** RegularExpression Id. */
   int APARENT = 30;
   /** RegularExpression Id. */
@@ -144,16 +144,16 @@ public interface AnalisadorLexicoConstants {
     "<FALSE>",
     "<DO>",
     "<TO>",
+    "<COMENTARIO_LINHA>",
+    "<COMENTARIO_BLOCO>",
+    "<CHARESP>",
+    "<LETRA>",
     "<IDENTIFICADOR>",
     "<CONSTANTE_NUM_REAL>",
     "<CONSTANTE_NUM_INT>",
     "<CONSTANTE_LIT>",
     "<ASCII>",
     "<LETTER>",
-    "<COMENTARIO_LINHA>",
-    "<COMENTARIO_BLOCO>",
-    "<CHARESP>",
-    "<LETRA>",
     "\"(\"",
     "\")\"",
     "\"{\"",

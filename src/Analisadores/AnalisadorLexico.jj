@@ -127,7 +127,7 @@ void declaracao_variaveis():{
 void define():{
 }
 {
-    <DEFINE> <ACHAVE> estrutura_define() <FCHAVE> | <EOF>
+    <DEFINE> <ACHAVE> estrutura_define() <FCHAVE>
 }
 
 void estrutura_define():
@@ -180,7 +180,7 @@ void lista_identificadores_variavel():
 void lista_identificadores_variavel_recursivo():
 {
 }{
-    <VIRGULA> lista_identificadores_variavel() | <ACOLCH> <CONSTANTE_NUM_INT> <FCOLCH> | <EOF>
+    <VIRGULA> lista_identificadores_variavel() | <ACOLCH> <CONSTANTE_NUM_INT> <FCOLCH>
 }
 void lista_identificadores_constante():
 {
@@ -192,7 +192,7 @@ void lista_identificadores_constante():
 void lista_identificadores_constante_recursivo():
 {
 }{
-    <VIRGULA> lista_identificadores_constante() | <EOF>
+    <VIRGULA> lista_identificadores_constante()
 }
 void corpo_do_programa():{
 }
@@ -208,22 +208,22 @@ void lista_de_comandos():{
 void comando():{
 }
 {
-    corpo_do_programa() | <EOF>
+    corpo_do_programa()
 }
 void comando_recursivo():{
 }
 {
-    lista_de_comandos() | <EOF>
+    lista_de_comandos()
 }
 void identificador_programa():{
 }
 {
-    <IDENTIFICADOR> | <EOF>
+    <IDENTIFICADOR>
 }
 
 void comentario():{
 }{
-    <CONSTANTE_LIT> | <EOF>
+    <CONSTANTE_LIT>
 }
 void Programa():
 { }

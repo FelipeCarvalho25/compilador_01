@@ -14,7 +14,7 @@ private static final int jjStopStringLiteralDfa_0(int pos, long active0)
    {
       case 0:
          if ((active0 & 0x40000000000L) != 0L)
-            return 129;
+            return 119;
          return -1;
       default :
          return -1;
@@ -69,7 +69,7 @@ static private int jjMoveStringLiteralDfa0_0()
       case 46:
          return jjStopAtPos(0, 37);
       case 47:
-         return jjStartNfaWithStates_0(0, 42, 129);
+         return jjStartNfaWithStates_0(0, 42, 119);
       case 58:
          return jjMoveStringLiteralDfa1_0(0x4000000000L);
       case 60:
@@ -161,8 +161,8 @@ static private int jjMoveNfa_0(int startState, int curPos)
                case 0:
                   if ((0x3ff000000000000L & l) != 0L)
                   {
-                     if (kind > 22)
-                        kind = 22;
+                     if (kind > 26)
+                        kind = 26;
                      jjCheckNAddStates(0, 2);
                   }
                   else if (curChar == 47)
@@ -172,14 +172,14 @@ static private int jjMoveNfa_0(int startState, int curPos)
                   else if (curChar == 34)
                      jjCheckNAddStates(8, 10);
                   break;
-               case 129:
+               case 119:
                   if (curChar == 42)
                      jjCheckNAddStates(11, 13);
                   else if (curChar == 47)
                   {
-                     if (kind > 26)
-                        kind = 26;
-                     jjCheckNAddTwoStates(130, 131);
+                     if (kind > 20)
+                        kind = 20;
+                     jjCheckNAddTwoStates(120, 121);
                   }
                   break;
                case 65:
@@ -207,8 +207,8 @@ static private int jjMoveNfa_0(int startState, int curPos)
                      jjCheckNAddStates(8, 10);
                   break;
                case 79:
-                  if (curChar == 34 && kind > 23)
-                     kind = 23;
+                  if (curChar == 34 && kind > 27)
+                     kind = 27;
                   break;
                case 81:
                   if (curChar == 43)
@@ -243,8 +243,8 @@ static private int jjMoveNfa_0(int startState, int curPos)
                      jjCheckNAddStates(5, 7);
                   break;
                case 90:
-                  if (curChar == 39 && kind > 23)
-                     kind = 23;
+                  if (curChar == 39 && kind > 27)
+                     kind = 27;
                   break;
                case 92:
                   if (curChar == 43)
@@ -267,82 +267,68 @@ static private int jjMoveNfa_0(int startState, int curPos)
                      jjCheckNAddStates(5, 7);
                   break;
                case 118:
-                  if ((0x3ff000000000000L & l) == 0L)
-                     break;
-                  if (kind > 22)
-                     kind = 22;
-                  jjCheckNAddStates(0, 2);
-                  break;
-               case 119:
-                  if (curChar == 46)
-                     jjstateSet[jjnewStateCnt++] = 120;
-                  break;
-               case 120:
-                  if ((0x3ff000000000000L & l) == 0L)
-                     break;
-                  if (kind > 21)
-                     kind = 21;
-                  jjstateSet[jjnewStateCnt++] = 121;
-                  break;
-               case 121:
-                  if ((0x3ff000000000000L & l) != 0L && kind > 21)
-                     kind = 21;
-                  break;
-               case 122:
-                  if ((0x3ff000000000000L & l) == 0L)
-                     break;
-                  if (kind > 22)
-                     kind = 22;
-                  jjstateSet[jjnewStateCnt++] = 123;
-                  break;
-               case 123:
-                  if ((0x3ff000000000000L & l) != 0L && kind > 22)
-                     kind = 22;
-                  break;
-               case 124:
-                  if ((0x3ff000000000000L & l) != 0L)
-                     jjCheckNAddStates(20, 23);
-                  break;
-               case 125:
-                  if ((0x3ff000000000000L & l) != 0L)
-                     jjCheckNAdd(119);
-                  break;
-               case 126:
-                  if ((0x3ff000000000000L & l) != 0L)
-                     jjCheckNAddTwoStates(125, 119);
-                  break;
-               case 127:
-                  if ((0x3ff000000000000L & l) != 0L)
-                     jjCheckNAddStates(24, 26);
-                  break;
-               case 128:
                   if (curChar == 47)
                      jjAddStates(3, 4);
                   break;
-               case 130:
+               case 120:
                   if ((0xffffff7effffdbffL & l) == 0L)
                      break;
-                  if (kind > 26)
-                     kind = 26;
-                  jjCheckNAddTwoStates(130, 131);
+                  if (kind > 20)
+                     kind = 20;
+                  jjCheckNAddTwoStates(120, 121);
                   break;
-               case 132:
+               case 122:
                   if ((0x8400000000L & l) == 0L)
                      break;
-                  if (kind > 26)
-                     kind = 26;
-                  jjCheckNAddTwoStates(130, 131);
+                  if (kind > 20)
+                     kind = 20;
+                  jjCheckNAddTwoStates(120, 121);
+                  break;
+               case 124:
+                  if (curChar == 43)
+                     jjstateSet[jjnewStateCnt++] = 125;
+                  break;
+               case 125:
+                  if ((0x3ff000000000000L & l) != 0L)
+                     jjstateSet[jjnewStateCnt++] = 126;
+                  break;
+               case 126:
+                  if ((0x3ff000000000000L & l) != 0L)
+                     jjstateSet[jjnewStateCnt++] = 127;
+                  break;
+               case 127:
+                  if ((0x3ff000000000000L & l) != 0L)
+                     jjstateSet[jjnewStateCnt++] = 128;
+                  break;
+               case 128:
+                  if ((0x3ff000000000000L & l) == 0L)
+                     break;
+                  if (kind > 20)
+                     kind = 20;
+                  jjCheckNAddTwoStates(120, 121);
+                  break;
+               case 129:
+                  if (curChar == 42)
+                     jjCheckNAddStates(11, 13);
+                  break;
+               case 130:
+                  if ((0xffffff7effffdbffL & l) != 0L)
+                     jjCheckNAddStates(11, 13);
+                  break;
+               case 132:
+                  if ((0x8400000000L & l) != 0L)
+                     jjCheckNAddStates(11, 13);
+                  break;
+               case 133:
+                  if (curChar == 47 && kind > 21)
+                     kind = 21;
                   break;
                case 134:
-                  if (curChar == 43)
-                     jjstateSet[jjnewStateCnt++] = 135;
-                  break;
-               case 135:
-                  if ((0x3ff000000000000L & l) != 0L)
-                     jjstateSet[jjnewStateCnt++] = 136;
+                  if (curChar == 42)
+                     jjstateSet[jjnewStateCnt++] = 133;
                   break;
                case 136:
-                  if ((0x3ff000000000000L & l) != 0L)
+                  if (curChar == 43)
                      jjstateSet[jjnewStateCnt++] = 137;
                   break;
                case 137:
@@ -350,51 +336,65 @@ static private int jjMoveNfa_0(int startState, int curPos)
                      jjstateSet[jjnewStateCnt++] = 138;
                   break;
                case 138:
+                  if ((0x3ff000000000000L & l) != 0L)
+                     jjstateSet[jjnewStateCnt++] = 139;
+                  break;
+               case 139:
+                  if ((0x3ff000000000000L & l) != 0L)
+                     jjstateSet[jjnewStateCnt++] = 140;
+                  break;
+               case 140:
+                  if ((0x3ff000000000000L & l) != 0L)
+                     jjCheckNAddStates(11, 13);
+                  break;
+               case 141:
                   if ((0x3ff000000000000L & l) == 0L)
                      break;
                   if (kind > 26)
                      kind = 26;
-                  jjCheckNAddTwoStates(130, 131);
-                  break;
-               case 139:
-                  if (curChar == 42)
-                     jjCheckNAddStates(11, 13);
-                  break;
-               case 140:
-                  if ((0xffffff7effffdbffL & l) != 0L)
-                     jjCheckNAddStates(11, 13);
+                  jjCheckNAddStates(0, 2);
                   break;
                case 142:
-                  if ((0x8400000000L & l) != 0L)
-                     jjCheckNAddStates(11, 13);
-                  break;
-               case 143:
-                  if (curChar == 47 && kind > 27)
-                     kind = 27;
-                  break;
-               case 144:
-                  if (curChar == 42)
+                  if (curChar == 46)
                      jjstateSet[jjnewStateCnt++] = 143;
                   break;
+               case 143:
+                  if ((0x3ff000000000000L & l) == 0L)
+                     break;
+                  if (kind > 25)
+                     kind = 25;
+                  jjstateSet[jjnewStateCnt++] = 144;
+                  break;
+               case 144:
+                  if ((0x3ff000000000000L & l) != 0L && kind > 25)
+                     kind = 25;
+                  break;
+               case 145:
+                  if ((0x3ff000000000000L & l) == 0L)
+                     break;
+                  if (kind > 26)
+                     kind = 26;
+                  jjstateSet[jjnewStateCnt++] = 146;
+                  break;
                case 146:
-                  if (curChar == 43)
-                     jjstateSet[jjnewStateCnt++] = 147;
+                  if ((0x3ff000000000000L & l) != 0L && kind > 26)
+                     kind = 26;
                   break;
                case 147:
                   if ((0x3ff000000000000L & l) != 0L)
-                     jjstateSet[jjnewStateCnt++] = 148;
+                     jjCheckNAddStates(20, 23);
                   break;
                case 148:
                   if ((0x3ff000000000000L & l) != 0L)
-                     jjstateSet[jjnewStateCnt++] = 149;
+                     jjCheckNAdd(142);
                   break;
                case 149:
                   if ((0x3ff000000000000L & l) != 0L)
-                     jjstateSet[jjnewStateCnt++] = 150;
+                     jjCheckNAddTwoStates(148, 142);
                   break;
                case 150:
                   if ((0x3ff000000000000L & l) != 0L)
-                     jjCheckNAddStates(11, 13);
+                     jjCheckNAddStates(24, 26);
                   break;
                default : break;
             }
@@ -410,8 +410,8 @@ static private int jjMoveNfa_0(int startState, int curPos)
                case 0:
                   if ((0x7fffffe87fffffeL & l) != 0L)
                   {
-                     if (kind > 20)
-                        kind = 20;
+                     if (kind > 24)
+                        kind = 24;
                      jjCheckNAddStates(27, 29);
                   }
                   if ((0x10000000100000L & l) != 0L)
@@ -690,22 +690,22 @@ static private int jjMoveNfa_0(int startState, int curPos)
                case 61:
                   if ((0x7fffffe87fffffeL & l) == 0L)
                      break;
-                  if (kind > 20)
-                     kind = 20;
+                  if (kind > 24)
+                     kind = 24;
                   jjCheckNAddStates(27, 29);
                   break;
                case 62:
                   if ((0x7fffffe87fffffeL & l) == 0L)
                      break;
-                  if (kind > 20)
-                     kind = 20;
+                  if (kind > 24)
+                     kind = 24;
                   jjCheckNAddStates(36, 38);
                   break;
                case 63:
                   if ((0x7fffffe07fffffeL & l) == 0L)
                      break;
-                  if (kind > 20)
-                     kind = 20;
+                  if (kind > 24)
+                     kind = 24;
                   jjCheckNAddStates(39, 44);
                   break;
                case 64:
@@ -719,8 +719,8 @@ static private int jjMoveNfa_0(int startState, int curPos)
                case 68:
                   if (curChar != 95)
                      break;
-                  if (kind > 20)
-                     kind = 20;
+                  if (kind > 24)
+                     kind = 24;
                   jjCheckNAddStates(36, 38);
                   break;
                case 70:
@@ -730,8 +730,8 @@ static private int jjMoveNfa_0(int startState, int curPos)
                case 71:
                   if ((0x7fffffe07fffffeL & l) == 0L)
                      break;
-                  if (kind > 20)
-                     kind = 20;
+                  if (kind > 24)
+                     kind = 24;
                   jjCheckNAddStates(36, 38);
                   break;
                case 72:
@@ -741,15 +741,15 @@ static private int jjMoveNfa_0(int startState, int curPos)
                case 73:
                   if ((0x7fffffe07fffffeL & l) == 0L)
                      break;
-                  if (kind > 20)
-                     kind = 20;
+                  if (kind > 24)
+                     kind = 24;
                   jjCheckNAddStates(45, 47);
                   break;
                case 74:
                   if ((0x7fffffe07fffffeL & l) == 0L)
                      break;
-                  if (kind > 20)
-                     kind = 20;
+                  if (kind > 24)
+                     kind = 24;
                   jjCheckNAddStates(48, 54);
                   break;
                case 76:
@@ -900,76 +900,76 @@ static private int jjMoveNfa_0(int startState, int curPos)
                   if ((0x800000008000L & l) != 0L && kind > 19)
                      kind = 19;
                   break;
-               case 130:
+               case 120:
                   if ((0xffffffffefffffffL & l) == 0L)
                      break;
-                  if (kind > 26)
-                     kind = 26;
-                  jjCheckNAddTwoStates(130, 131);
+                  if (kind > 20)
+                     kind = 20;
+                  jjCheckNAddTwoStates(120, 121);
                   break;
-               case 131:
+               case 121:
                   if (curChar == 92)
                      jjAddStates(59, 60);
                   break;
-               case 132:
+               case 122:
                   if ((0x14404410000000L & l) == 0L)
                      break;
-                  if (kind > 26)
-                     kind = 26;
-                  jjCheckNAddTwoStates(130, 131);
+                  if (kind > 20)
+                     kind = 20;
+                  jjCheckNAddTwoStates(120, 121);
                   break;
-               case 133:
+               case 123:
                   if ((0x20000000200000L & l) != 0L)
-                     jjstateSet[jjnewStateCnt++] = 134;
+                     jjstateSet[jjnewStateCnt++] = 124;
+                  break;
+               case 125:
+                  if ((0x7fffffe07fffffeL & l) != 0L)
+                     jjstateSet[jjnewStateCnt++] = 126;
+                  break;
+               case 126:
+                  if ((0x7fffffe07fffffeL & l) != 0L)
+                     jjstateSet[jjnewStateCnt++] = 127;
+                  break;
+               case 127:
+                  if ((0x7fffffe07fffffeL & l) != 0L)
+                     jjstateSet[jjnewStateCnt++] = 128;
+                  break;
+               case 128:
+                  if ((0x7fffffe07fffffeL & l) == 0L)
+                     break;
+                  if (kind > 20)
+                     kind = 20;
+                  jjCheckNAddTwoStates(120, 121);
+                  break;
+               case 130:
+                  if ((0xffffffffefffffffL & l) != 0L)
+                     jjCheckNAddStates(11, 13);
+                  break;
+               case 131:
+                  if (curChar == 92)
+                     jjAddStates(61, 62);
+                  break;
+               case 132:
+                  if ((0x14404410000000L & l) != 0L)
+                     jjCheckNAddStates(11, 13);
                   break;
                case 135:
-                  if ((0x7fffffe07fffffeL & l) != 0L)
+                  if ((0x20000000200000L & l) != 0L)
                      jjstateSet[jjnewStateCnt++] = 136;
-                  break;
-               case 136:
-                  if ((0x7fffffe07fffffeL & l) != 0L)
-                     jjstateSet[jjnewStateCnt++] = 137;
                   break;
                case 137:
                   if ((0x7fffffe07fffffeL & l) != 0L)
                      jjstateSet[jjnewStateCnt++] = 138;
                   break;
                case 138:
-                  if ((0x7fffffe07fffffeL & l) == 0L)
-                     break;
-                  if (kind > 26)
-                     kind = 26;
-                  jjCheckNAddTwoStates(130, 131);
+                  if ((0x7fffffe07fffffeL & l) != 0L)
+                     jjstateSet[jjnewStateCnt++] = 139;
+                  break;
+               case 139:
+                  if ((0x7fffffe07fffffeL & l) != 0L)
+                     jjstateSet[jjnewStateCnt++] = 140;
                   break;
                case 140:
-                  if ((0xffffffffefffffffL & l) != 0L)
-                     jjCheckNAddStates(11, 13);
-                  break;
-               case 141:
-                  if (curChar == 92)
-                     jjAddStates(61, 62);
-                  break;
-               case 142:
-                  if ((0x14404410000000L & l) != 0L)
-                     jjCheckNAddStates(11, 13);
-                  break;
-               case 145:
-                  if ((0x20000000200000L & l) != 0L)
-                     jjstateSet[jjnewStateCnt++] = 146;
-                  break;
-               case 147:
-                  if ((0x7fffffe07fffffeL & l) != 0L)
-                     jjstateSet[jjnewStateCnt++] = 148;
-                  break;
-               case 148:
-                  if ((0x7fffffe07fffffeL & l) != 0L)
-                     jjstateSet[jjnewStateCnt++] = 149;
-                  break;
-               case 149:
-                  if ((0x7fffffe07fffffeL & l) != 0L)
-                     jjstateSet[jjnewStateCnt++] = 150;
-                  break;
-               case 150:
                   if ((0x7fffffe07fffffeL & l) != 0L)
                      jjCheckNAddStates(11, 13);
                   break;
@@ -993,14 +993,14 @@ static private int jjMoveNfa_0(int startState, int curPos)
                   if ((jjbitVec0[i2] & l2) != 0L)
                      jjAddStates(5, 7);
                   break;
-               case 130:
+               case 120:
                   if ((jjbitVec0[i2] & l2) == 0L)
                      break;
-                  if (kind > 26)
-                     kind = 26;
+                  if (kind > 20)
+                     kind = 20;
                   jjAddStates(63, 64);
                   break;
-               case 140:
+               case 130:
                   if ((jjbitVec0[i2] & l2) != 0L)
                      jjAddStates(11, 13);
                   break;
@@ -1022,11 +1022,11 @@ static private int jjMoveNfa_0(int startState, int curPos)
    }
 }
 static final int[] jjnextStates = {
-   119, 122, 124, 129, 139, 87, 88, 90, 76, 77, 79, 140, 141, 144, 66, 62, 
-   70, 72, 68, 73, 125, 119, 126, 127, 125, 119, 126, 62, 69, 63, 114, 117, 
+   142, 145, 147, 119, 129, 87, 88, 90, 76, 77, 79, 130, 131, 134, 66, 62, 
+   70, 72, 68, 73, 148, 142, 149, 150, 148, 142, 149, 62, 69, 63, 114, 117, 
    107, 112, 98, 104, 62, 63, 69, 64, 62, 67, 68, 69, 63, 62, 74, 69, 
-   64, 62, 67, 68, 74, 69, 63, 78, 80, 89, 91, 132, 133, 142, 145, 130, 
-   131, 
+   64, 62, 67, 68, 74, 69, 63, 78, 80, 89, 91, 122, 123, 132, 135, 120, 
+   121, 
 };
 
 /** Token literal values. */
@@ -1043,7 +1043,7 @@ public static final String[] lexStateNames = {
    "DEFAULT", 
 };
 static final long[] jjtoToken = {
-   0xffffffccffffffL, 
+   0xffffffcf3fffffL, 
 };
 static final long[] jjtoSkip = {
    0x3f00000000000000L, 
@@ -1200,9 +1200,7 @@ public static Token getNextToken()
       input_stream.backup(1);
       error_after = curPos <= 1 ? "" : input_stream.GetImage();
    }
-     mensages_manhosas.append(new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR).getMessage());
-     jjmatchedKind = 0;
-     matchedToken = jjFillToken();
+   throw new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);
   }
 }
 
@@ -1328,219 +1326,219 @@ static void TokenLexicalActions(Token matchedToken)
         if (image == null)
             image = new StringBuffer();
         image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
-                                                                                                                                                                                                                                                                      mensages_manhosas.append("IDENTIFICADOR -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                                               mensages_manhosas.append("COMENTARIO DE LINHA -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 21 :
         if (image == null)
             image = new StringBuffer();
         image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
+                                                      mensages_manhosas.append("COMENTARIO DE BLOCO -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+         break;
+      case 24 :
+        if (image == null)
+            image = new StringBuffer();
+        image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
+                                                                                                                                                                                                                                                                      mensages_manhosas.append("IDENTIFICADOR -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+         break;
+      case 25 :
+        if (image == null)
+            image = new StringBuffer();
+        image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
                                                                                                                                                 mensages_manhosas.append("CONSTANTE_NUM REAL-> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
-         break;
-      case 22 :
-        if (image == null)
-            image = new StringBuffer();
-        image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
-                                                                                mensages_manhosas.append("CONSTANTE_NUM INTEIRA -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
-         break;
-      case 23 :
-        if (image == null)
-            image = new StringBuffer();
-        image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
-                                                                                mensages_manhosas.append("CONSTANTE_LIT -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 26 :
         if (image == null)
             image = new StringBuffer();
         image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
-                                               mensages_manhosas.append("COMENTARIO DE LINHA -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                                                                                mensages_manhosas.append("CONSTANTE_NUM INTEIRA -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 27 :
         if (image == null)
             image = new StringBuffer();
         image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
-                                                      mensages_manhosas.append("COMENTARIO DE BLOCO -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                                                                                mensages_manhosas.append("CONSTANTE_LIT -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 30 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[30]);
         lengthOfMatch = jjstrLiteralImages[30].length();
-                           mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                           mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 31 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[31]);
         lengthOfMatch = jjstrLiteralImages[31].length();
-                          mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                          mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 32 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[32]);
         lengthOfMatch = jjstrLiteralImages[32].length();
-                         mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                         mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 33 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[33]);
         lengthOfMatch = jjstrLiteralImages[33].length();
-                         mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                         mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 34 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[34]);
         lengthOfMatch = jjstrLiteralImages[34].length();
-                         mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                         mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 35 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[35]);
         lengthOfMatch = jjstrLiteralImages[35].length();
-                         mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                         mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 36 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[36]);
         lengthOfMatch = jjstrLiteralImages[36].length();
-                          mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                          mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 37 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[37]);
         lengthOfMatch = jjstrLiteralImages[37].length();
-                        mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                        mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 38 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[38]);
         lengthOfMatch = jjstrLiteralImages[38].length();
-                           mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                           mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 39 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[39]);
         lengthOfMatch = jjstrLiteralImages[39].length();
-                        mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                        mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 40 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[40]);
         lengthOfMatch = jjstrLiteralImages[40].length();
-                            mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                            mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 41 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[41]);
         lengthOfMatch = jjstrLiteralImages[41].length();
-                                mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                                mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 42 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[42]);
         lengthOfMatch = jjstrLiteralImages[42].length();
-                          mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                          mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 43 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[43]);
         lengthOfMatch = jjstrLiteralImages[43].length();
-                            mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                            mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 44 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[44]);
         lengthOfMatch = jjstrLiteralImages[44].length();
-                                 mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                                 mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 45 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[45]);
         lengthOfMatch = jjstrLiteralImages[45].length();
-                                mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                                mensages_manhosas.append("SSÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 46 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[46]);
         lengthOfMatch = jjstrLiteralImages[46].length();
-                        mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                        mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 47 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[47]);
         lengthOfMatch = jjstrLiteralImages[47].length();
-                              mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                              mensages_manhosas.append("SÍMBOLOO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 48 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[48]);
         lengthOfMatch = jjstrLiteralImages[48].length();
-                             mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                             mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 49 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[49]);
         lengthOfMatch = jjstrLiteralImages[49].length();
-                        mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                        mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 50 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[50]);
         lengthOfMatch = jjstrLiteralImages[50].length();
-                                mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL  -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                                mensages_manhosas.append("SÍMBOLO ESPECIAL  -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 51 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[51]);
         lengthOfMatch = jjstrLiteralImages[51].length();
-                        mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                        mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 52 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[52]);
         lengthOfMatch = jjstrLiteralImages[52].length();
-                                mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                                mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 53 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[53]);
         lengthOfMatch = jjstrLiteralImages[53].length();
-                     mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                     mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 54 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[54]);
         lengthOfMatch = jjstrLiteralImages[54].length();
-                     mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                     mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 55 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[55]);
         lengthOfMatch = jjstrLiteralImages[55].length();
-                    mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                    mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       default : 
          break;
