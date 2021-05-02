@@ -122,7 +122,7 @@ void program ():
 }
 void declaracao_variaveis():{
 }{
-    define() | <EOF>
+    define() | {}
 }
 void define():{
 }
@@ -164,17 +164,17 @@ void lista_de_identificadore_constantes_recursivo():
 {
 }
 {
-    <VIRGULA> lista_de_identificadore_constantes()
+    <VIRGULA> lista_de_identificadore_constantes() | {}
 }
 void variavel():{
 }
 {
-    <VARIABLE> tipo() <IS> lista_identificadores_variavel() valor() <PONTO>  variavel_recursiva()
+    <VARIABLE> tipo() <IS> lista_identificadores_variavel() valor() <PONTO>  variavel_recursiva() | {}
 }
 void constante():{
 }
 {
-    <NOT> <VARIABLE> tipo() <IS> lista_identificadores() valor() <PONTO>  constante_recursiva()
+    <NOT> <VARIABLE> tipo() <IS> lista_identificadores() valor() <PONTO>  constante_recursiva() | {}
 }
 void valor():{
 }
@@ -185,13 +185,13 @@ void constante_recursiva():
 {
 }
 {
-    constante() | <EOF>
+    constante() | {}
 }
 void variavel_recursiva():
 {
 }
 {
-    variavel() | <EOF>
+    variavel() | {}
 }
 
 void tipo():
@@ -210,7 +210,7 @@ void lista_identificadores_variavel():
 void lista_identificadores_variavel_recursivo():
 {
 }{
-    <VIRGULA> lista_identificadores_variavel() | <ACOLCH> <CONSTANTE_NUM_INT> <FCOLCH>
+    <VIRGULA> lista_identificadores_variavel() | <ACOLCH> <CONSTANTE_NUM_INT> <FCOLCH> | {}
 }
 void lista_identificadores():
 {
@@ -222,7 +222,7 @@ void lista_identificadores():
 void lista_identificadores_recursivo():
 {
 }{
-    <VIRGULA> lista_identificadores()
+    <VIRGULA> lista_identificadores() | {}
 }
 void corpo_do_programa():{
 }
@@ -238,22 +238,22 @@ void lista_de_comandos():{
 void comando():{
 }
 {
-    corpo_do_programa()
+    get() | put()
 }
 void comando_recursivo():{
 }
 {
-    lista_de_comandos()
+    lista_de_comandos() | {}
 }
 void identificador_programa():{
 }
 {
-    <IDENTIFICADOR>
+    <IDENTIFICADOR> | {}
 }
 
 void comentario():{
 }{
-    <COMENT> <CONSTANTE_LIT>
+    <COMENT> <CONSTANTE_LIT> | {}
 }
 void Programa():
 { }
