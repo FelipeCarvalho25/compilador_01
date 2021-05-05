@@ -328,7 +328,7 @@ void menorprioridade():
 	<ADICAO> termo2() menorprioridade()
 	| <SUBTRACAO> termo2() menorprioridade()
 	| <OU> termo2() menorprioridade()
-	| <EOF>
+	|  {}
 
 }
 
@@ -346,7 +346,7 @@ void mediaprioridade():
 	| <DIVISAOINTEIRA> termo1() mediaprioridade()
 	| <RESTODIVISAO> termo1() mediaprioridade()
 	| <E> termo1() mediaprioridade()
-	| <EOF>
+	|  {}
 }
 
 void termo1():
@@ -359,7 +359,7 @@ void maiorprioridade():
 {}
 {
 	<POTENCIA> elemento() maiorprioridade()
-	| <EOF>
+	|  {}
 }
 
 void elemento():
@@ -379,7 +379,7 @@ void indice():
 {}
 {
 	<ACOLCH> <CONSTANTE_NUM_INT> <FCOLCH>
-	| <EOF>
+	|  {}
 }
 
 void Programa():
