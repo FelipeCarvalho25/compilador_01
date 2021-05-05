@@ -26,6 +26,7 @@ TOKEN: // PALAVRAS RESERVADAS
  | <FALSE: ("f"|"F")("a"|"A")("l"|"L")("s"|"S")("e"|"E")>{ mensages_manhosas.append("PALAVRAS RESERVADAS TIPO BOOLEANO->" + image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
  | <DO: ("d"|"D")("o"|"O")>{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
  | <TO: ("t"|"T")("o"|"O")>{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+ | <VERIFY: ("v"|"V")("e"|"E")("r"|"R")("i"|"I")("f"|"F")("y"|"Y")>{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
 
 }
 TOKEN: //Comentarios
@@ -255,12 +256,40 @@ void comentario():{
 }{
     <COMENT> <CONSTANTE_LIT> | {}
 }
+
+void selecao():
+{}
+{
+    <VERIFY> expressao()   isTrueFalse() <PONTO>
+}
+
+void isTrueFalse():
+{}
+{
+    <IS> trueFalse()
+}
+void trueFalse():
+{}
+{
+    <TRUE><ACHAVE> lista_de_comandos() <FCHAVE> isFalse() | <FALSE> <ACHAVE> lista_de_comandos() <FCHAVE> isTrue()
+}
+
+void isTrue():
+{}
+{
+    <IS> <TRUE> <ACHAVE> lista_de_comandos() <FCHAVE> | {}
+}
+void isFalse():
+{}
+{
+    <IS> <FALSE> <ACHAVE> lista_de_comandos() <FCHAVE> | {}
+}
 void Programa():
 { }
 {
 	  
 	  ((
-	    <PROGRAM>|<DEFINE>|<NOT>|<VARIABLE>|<IS>|<BOOLEAN>|<CHAR>|<REAL>|<NATURAL>|<EXECUTE>|<SET>|<GET>|<PUT>|<LOOP>|<WHILE>|<TRUE>|<FALSE>|<DO>|<TO>|
+	    <PROGRAM>|<DEFINE>|<NOT>|<VARIABLE>|<IS>|<BOOLEAN>|<CHAR>|<REAL>|<NATURAL>|<EXECUTE>|<VERIFY>|<SET>|<GET>|<PUT>|<LOOP>|<WHILE>|<TRUE>|<FALSE>|<DO>|<TO>|
 	<APARENT>|<FPARENT>|<ACHAVE>|<FCHAVE>|<ACOLCH>|<FCOLCH>|<VIRGULA>|<PONTO>|<ADICAO>|<SUBTRACAO>|<MULTIPLICACAO>|<DIVISAO>|
 	<POTENCIA>|<DIVISAOINTEIRA>|<RESTODIVISAO>|<IGUAL>|<EQUIVALENTE>| <DIFERENTE>|<MENOR>|<MENOROUIGUAL>|<MAIOR>|<MAIOROUIGUAL>|
 	<NAO>|<OU>|<E>|<IDENTIFICADOR>|<CONSTANTE_NUM_REAL>|<CONSTANTE_NUM_INT>|<CONSTANTE_LIT>|<COMENTARIO_BLOCO> |<COMENTARIO_LINHA>
