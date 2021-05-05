@@ -284,6 +284,104 @@ void isFalse():
 {
     <IS> <FALSE> <ACHAVE> lista_de_comandos() <FCHAVE> | {}
 }
+
+void atribuicao():
+{}
+{
+	<SET> expressao() <TO> lista_identificadores() <PONTO>
+}
+
+void repeticao():
+{}
+{
+	<LOOP> lista_de_comandos() <WHILE> expressao() isTrue() <PONTO>
+	| <WHILE> expressao() isTrue() <DO> lista_de_comandos() <PONTO>
+}
+
+
+void expressao():
+{}
+{
+	expressaoaritmeticaoulogica() expressao2() 
+}
+
+void expressao2():
+{}
+{
+	<EQUIVALENTE> expressaoaritmeticaoulogica() 
+	| <DIFERENTE> expressaoaritmeticaoulogica()
+	| <MENOR> expressaoaritmeticaoulogica()
+	| <MAIOR> expressaoaritmeticaoulogica()
+	| <MENOROUIGUAL> expressaoaritmeticaoulogica()
+	| <MAIOROUIGUAL> expressaoaritmeticaoulogica()
+}
+
+void expressaoaritmeticaoulogica():
+{}
+{
+	termo2() menorprioridade()
+}
+
+void menorprioridade():
+{}
+{
+	<ADICAO> termo2() menorprioridade()
+	| <SUBTRACAO> termo2() menorprioridade()
+	| <OU> termo2() menorprioridade()
+	| <EOF>
+
+}
+
+void termo2():
+{}
+{
+	termo1() mediaprioridade()
+}
+
+void mediaprioridade():
+{}
+{
+	<MULTIPLICACAO> termo1() mediaprioridade()
+	| <DIVISAO> termo1() mediaprioridade()
+	| <DIVISAOINTEIRA> termo1() mediaprioridade()
+	| <RESTODIVISAO> termo1() mediaprioridade()
+	| <E> termo1() mediaprioridade()
+	| <EOF>
+}
+
+void termo1():
+{}
+{
+	elemento() maiorprioridade()
+}
+
+void maiorprioridade():
+{}
+{
+	<POTENCIA> elemento() maiorprioridade()
+	| <EOF>
+}
+
+void elemento():
+{}
+{
+	<IDENTIFICADOR> indice()
+	| <CONSTANTE_NUM_INT>
+	| <CONSTANTE_NUM_REAL>
+	| <CONSTANTE_LIT>
+	| <TRUE>
+	| <FALSE>
+	| <APARENT> expressao() <FPARENT>
+	| <NAO> <APARENT> expressao() <FPARENT>
+}
+
+void indice():
+{}
+{
+	<ACOLCH> <CONSTANTE_NUM_INT> <FCOLCH>
+	| <EOF>
+}
+
 void Programa():
 { }
 {
