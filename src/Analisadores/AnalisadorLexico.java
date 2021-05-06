@@ -17,13 +17,9 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     case DEFINE:
       define();
       break;
-    case 0:
-      jj_consume_token(0);
-      break;
     default:
       jj_la1[0] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+
     }
   }
 
@@ -38,11 +34,11 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case NOT:
       constante();
-      variavel();
+      variavel_recursiva();
       break;
     case VARIABLE:
       variavel();
-      constante();
+      constante_recursiva();
       break;
     default:
       jj_la1[1] = jj_gen;
@@ -105,8 +101,15 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   }
 
   static final public void lista_de_identificadore_constantes_recursivo() throws ParseException {
-    jj_consume_token(VIRGULA);
-    lista_de_identificadore_constantes();
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case VIRGULA:
+      jj_consume_token(VIRGULA);
+      lista_de_identificadore_constantes();
+      break;
+    default:
+      jj_la1[4] = jj_gen;
+
+    }
   }
 
   static final public void variavel() throws ParseException {
@@ -148,7 +151,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       jj_consume_token(FALSE);
       break;
     default:
-      jj_la1[4] = jj_gen;
+      jj_la1[5] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -159,13 +162,9 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     case NOT:
       constante();
       break;
-    case 0:
-      jj_consume_token(0);
-      break;
     default:
-      jj_la1[5] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+      jj_la1[6] = jj_gen;
+
     }
   }
 
@@ -174,13 +173,9 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     case VARIABLE:
       variavel();
       break;
-    case 0:
-      jj_consume_token(0);
-      break;
     default:
-      jj_la1[6] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+      jj_la1[7] = jj_gen;
+
     }
   }
 
@@ -199,7 +194,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       jj_consume_token(BOOLEAN);
       break;
     default:
-      jj_la1[7] = jj_gen;
+      jj_la1[8] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -222,9 +217,8 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       jj_consume_token(FCOLCH);
       break;
     default:
-      jj_la1[8] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+      jj_la1[9] = jj_gen;
+
     }
   }
 
@@ -234,8 +228,15 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   }
 
   static final public void lista_identificadores_recursivo() throws ParseException {
-    jj_consume_token(VIRGULA);
-    lista_identificadores();
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case VIRGULA:
+      jj_consume_token(VIRGULA);
+      lista_identificadores();
+      break;
+    default:
+      jj_la1[10] = jj_gen;
+
+    }
   }
 
   static final public void corpo_do_programa() throws ParseException {
@@ -251,238 +252,329 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   }
 
   static final public void comando() throws ParseException {
-    corpo_do_programa();
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case GET:
+      get();
+      break;
+    case PUT:
+      put();
+      break;
+    default:
+      jj_la1[11] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
   }
 
   static final public void comando_recursivo() throws ParseException {
-    lista_de_comandos();
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case GET:
+    case PUT:
+      lista_de_comandos();
+      break;
+    default:
+      jj_la1[12] = jj_gen;
+
+    }
   }
 
   static final public void identificador_programa() throws ParseException {
-    jj_consume_token(IDENTIFICADOR);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case IDENTIFICADOR:
+      jj_consume_token(IDENTIFICADOR);
+      break;
+    default:
+      jj_la1[13] = jj_gen;
+
+    }
   }
 
   static final public void comentario() throws ParseException {
-    jj_consume_token(CONSTANTE_LIT);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case COMENT:
+      jj_consume_token(COMENT);
+      jj_consume_token(CONSTANTE_LIT);
+      break;
+    default:
+      jj_la1[14] = jj_gen;
+
+    }
+  }
+
+  static final public void selecao() throws ParseException {
+    jj_consume_token(VERIFY);
+    expressao();
+    isTrueFalse();
+    jj_consume_token(PONTO);
+  }
+
+  static final public void isTrueFalse() throws ParseException {
+    jj_consume_token(IS);
+    trueFalse();
+  }
+
+  static final public void trueFalse() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case TRUE:
+      jj_consume_token(TRUE);
+      jj_consume_token(ACHAVE);
+      lista_de_comandos();
+      jj_consume_token(FCHAVE);
+      isFalse();
+      break;
+    case FALSE:
+      jj_consume_token(FALSE);
+      jj_consume_token(ACHAVE);
+      lista_de_comandos();
+      jj_consume_token(FCHAVE);
+      isTrue();
+      break;
+    default:
+      jj_la1[15] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+  }
+
+  static final public void isTrue() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case IS:
+      jj_consume_token(IS);
+      jj_consume_token(TRUE);
+      jj_consume_token(ACHAVE);
+      lista_de_comandos();
+      jj_consume_token(FCHAVE);
+      break;
+    default:
+      jj_la1[16] = jj_gen;
+
+    }
+  }
+
+  static final public void isFalse() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case IS:
+      jj_consume_token(IS);
+      jj_consume_token(FALSE);
+      jj_consume_token(ACHAVE);
+      lista_de_comandos();
+      jj_consume_token(FCHAVE);
+      break;
+    default:
+      jj_la1[17] = jj_gen;
+
+    }
+  }
+
+  static final public void atribuicao() throws ParseException {
+    jj_consume_token(SET);
+    expressao();
+    jj_consume_token(TO);
+    lista_identificadores();
+    jj_consume_token(PONTO);
+  }
+
+  static final public void repeticao() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case LOOP:
+      jj_consume_token(LOOP);
+      lista_de_comandos();
+      jj_consume_token(WHILE);
+      expressao();
+      isTrue();
+      jj_consume_token(PONTO);
+      break;
+    case WHILE:
+      jj_consume_token(WHILE);
+      expressao();
+      isTrue();
+      jj_consume_token(DO);
+      lista_de_comandos();
+      jj_consume_token(PONTO);
+      break;
+    default:
+      jj_la1[18] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+  }
+
+  static final public void expressao() throws ParseException {
+    expressaoaritmeticaoulogica();
+    expressao2();
+  }
+
+  static final public void expressao2() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case EQUIVALENTE:
+      jj_consume_token(EQUIVALENTE);
+      expressaoaritmeticaoulogica();
+      break;
+    case DIFERENTE:
+      jj_consume_token(DIFERENTE);
+      expressaoaritmeticaoulogica();
+      break;
+    case MENOR:
+      jj_consume_token(MENOR);
+      expressaoaritmeticaoulogica();
+      break;
+    case MAIOR:
+      jj_consume_token(MAIOR);
+      expressaoaritmeticaoulogica();
+      break;
+    case MENOROUIGUAL:
+      jj_consume_token(MENOROUIGUAL);
+      expressaoaritmeticaoulogica();
+      break;
+    case MAIOROUIGUAL:
+      jj_consume_token(MAIOROUIGUAL);
+      expressaoaritmeticaoulogica();
+      break;
+    default:
+      jj_la1[19] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+  }
+
+  static final public void expressaoaritmeticaoulogica() throws ParseException {
+    termo2();
+    menorprioridade();
+  }
+
+  static final public void menorprioridade() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case ADICAO:
+      jj_consume_token(ADICAO);
+      termo2();
+      menorprioridade();
+      break;
+    case SUBTRACAO:
+      jj_consume_token(SUBTRACAO);
+      termo2();
+      menorprioridade();
+      break;
+    case OU:
+      jj_consume_token(OU);
+      termo2();
+      menorprioridade();
+      break;
+    default:
+      jj_la1[20] = jj_gen;
+
+    }
+  }
+
+  static final public void termo2() throws ParseException {
+    termo1();
+    mediaprioridade();
+  }
+
+  static final public void mediaprioridade() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case MULTIPLICACAO:
+      jj_consume_token(MULTIPLICACAO);
+      termo1();
+      mediaprioridade();
+      break;
+    case DIVISAO:
+      jj_consume_token(DIVISAO);
+      termo1();
+      mediaprioridade();
+      break;
+    case DIVISAOINTEIRA:
+      jj_consume_token(DIVISAOINTEIRA);
+      termo1();
+      mediaprioridade();
+      break;
+    case RESTODIVISAO:
+      jj_consume_token(RESTODIVISAO);
+      termo1();
+      mediaprioridade();
+      break;
+    case E:
+      jj_consume_token(E);
+      termo1();
+      mediaprioridade();
+      break;
+    default:
+      jj_la1[21] = jj_gen;
+
+    }
+  }
+
+  static final public void termo1() throws ParseException {
+    elemento();
+    maiorprioridade();
+  }
+
+  static final public void maiorprioridade() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case POTENCIA:
+      jj_consume_token(POTENCIA);
+      elemento();
+      maiorprioridade();
+      break;
+    default:
+      jj_la1[22] = jj_gen;
+
+    }
+  }
+
+  static final public void elemento() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case IDENTIFICADOR:
+      jj_consume_token(IDENTIFICADOR);
+      indice();
+      break;
+    case CONSTANTE_NUM_INT:
+      jj_consume_token(CONSTANTE_NUM_INT);
+      break;
+    case CONSTANTE_NUM_REAL:
+      jj_consume_token(CONSTANTE_NUM_REAL);
+      break;
+    case CONSTANTE_LIT:
+      jj_consume_token(CONSTANTE_LIT);
+      break;
+    case TRUE:
+      jj_consume_token(TRUE);
+      break;
+    case FALSE:
+      jj_consume_token(FALSE);
+      break;
+    case APARENT:
+      jj_consume_token(APARENT);
+      expressao();
+      jj_consume_token(FPARENT);
+      break;
+    case NAO:
+      jj_consume_token(NAO);
+      jj_consume_token(APARENT);
+      expressao();
+      jj_consume_token(FPARENT);
+      break;
+    default:
+      jj_la1[23] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+  }
+
+  static final public void indice() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case ACOLCH:
+      jj_consume_token(ACOLCH);
+      jj_consume_token(CONSTANTE_NUM_INT);
+      jj_consume_token(FCOLCH);
+      break;
+    default:
+      jj_la1[24] = jj_gen;
+
+    }
   }
 
   static final public void Programa() throws ParseException {
-    label_1:
-    while (true) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case PROGRAM:
-      case DEFINE:
-      case NOT:
-      case VARIABLE:
-      case IS:
-      case BOOLEAN:
-      case CHAR:
-      case REAL:
-      case NATURAL:
-      case EXECUTE:
-      case SET:
-      case GET:
-      case PUT:
-      case LOOP:
-      case WHILE:
-      case TRUE:
-      case FALSE:
-      case DO:
-      case TO:
-      case COMENTARIO_LINHA:
-      case COMENTARIO_BLOCO:
-      case IDENTIFICADOR:
-      case CONSTANTE_NUM_REAL:
-      case CONSTANTE_NUM_INT:
-      case CONSTANTE_LIT:
-      case APARENT:
-      case FPARENT:
-      case ACHAVE:
-      case FCHAVE:
-      case ACOLCH:
-      case FCOLCH:
-      case VIRGULA:
-      case PONTO:
-      case ADICAO:
-      case SUBTRACAO:
-      case MULTIPLICACAO:
-      case DIVISAO:
-      case POTENCIA:
-      case DIVISAOINTEIRA:
-      case RESTODIVISAO:
-      case IGUAL:
-      case EQUIVALENTE:
-      case DIFERENTE:
-      case MENOR:
-      case MENOROUIGUAL:
-      case MAIOR:
-      case MAIOROUIGUAL:
-      case NAO:
-      case OU:
-      case E:
-        ;
-        break;
-      default:
-        jj_la1[9] = jj_gen;
-        break label_1;
-      }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case PROGRAM:
-        jj_consume_token(PROGRAM);
-        break;
-      case DEFINE:
-        jj_consume_token(DEFINE);
-        break;
-      case NOT:
-        jj_consume_token(NOT);
-        break;
-      case VARIABLE:
-        jj_consume_token(VARIABLE);
-        break;
-      case IS:
-        jj_consume_token(IS);
-        break;
-      case BOOLEAN:
-        jj_consume_token(BOOLEAN);
-        break;
-      case CHAR:
-        jj_consume_token(CHAR);
-        break;
-      case REAL:
-        jj_consume_token(REAL);
-        break;
-      case NATURAL:
-        jj_consume_token(NATURAL);
-        break;
-      case EXECUTE:
-        jj_consume_token(EXECUTE);
-        break;
-      case SET:
-        jj_consume_token(SET);
-        break;
-      case GET:
-        jj_consume_token(GET);
-        break;
-      case PUT:
-        jj_consume_token(PUT);
-        break;
-      case LOOP:
-        jj_consume_token(LOOP);
-        break;
-      case WHILE:
-        jj_consume_token(WHILE);
-        break;
-      case TRUE:
-        jj_consume_token(TRUE);
-        break;
-      case FALSE:
-        jj_consume_token(FALSE);
-        break;
-      case DO:
-        jj_consume_token(DO);
-        break;
-      case TO:
-        jj_consume_token(TO);
-        break;
-      case APARENT:
-        jj_consume_token(APARENT);
-        break;
-      case FPARENT:
-        jj_consume_token(FPARENT);
-        break;
-      case ACHAVE:
-        jj_consume_token(ACHAVE);
-        break;
-      case FCHAVE:
-        jj_consume_token(FCHAVE);
-        break;
-      case ACOLCH:
-        jj_consume_token(ACOLCH);
-        break;
-      case FCOLCH:
-        jj_consume_token(FCOLCH);
-        break;
-      case VIRGULA:
-        jj_consume_token(VIRGULA);
-        break;
-      case PONTO:
-        jj_consume_token(PONTO);
-        break;
-      case ADICAO:
-        jj_consume_token(ADICAO);
-        break;
-      case SUBTRACAO:
-        jj_consume_token(SUBTRACAO);
-        break;
-      case MULTIPLICACAO:
-        jj_consume_token(MULTIPLICACAO);
-        break;
-      case DIVISAO:
-        jj_consume_token(DIVISAO);
-        break;
-      case POTENCIA:
-        jj_consume_token(POTENCIA);
-        break;
-      case DIVISAOINTEIRA:
-        jj_consume_token(DIVISAOINTEIRA);
-        break;
-      case RESTODIVISAO:
-        jj_consume_token(RESTODIVISAO);
-        break;
-      case IGUAL:
-        jj_consume_token(IGUAL);
-        break;
-      case EQUIVALENTE:
-        jj_consume_token(EQUIVALENTE);
-        break;
-      case DIFERENTE:
-        jj_consume_token(DIFERENTE);
-        break;
-      case MENOR:
-        jj_consume_token(MENOR);
-        break;
-      case MENOROUIGUAL:
-        jj_consume_token(MENOROUIGUAL);
-        break;
-      case MAIOR:
-        jj_consume_token(MAIOR);
-        break;
-      case MAIOROUIGUAL:
-        jj_consume_token(MAIOROUIGUAL);
-        break;
-      case NAO:
-        jj_consume_token(NAO);
-        break;
-      case OU:
-        jj_consume_token(OU);
-        break;
-      case E:
-        jj_consume_token(E);
-        break;
-      case IDENTIFICADOR:
-        jj_consume_token(IDENTIFICADOR);
-        break;
-      case CONSTANTE_NUM_REAL:
-        jj_consume_token(CONSTANTE_NUM_REAL);
-        break;
-      case CONSTANTE_NUM_INT:
-        jj_consume_token(CONSTANTE_NUM_INT);
-        break;
-      case CONSTANTE_LIT:
-        jj_consume_token(CONSTANTE_LIT);
-        break;
-      case COMENTARIO_BLOCO:
-        jj_consume_token(COMENTARIO_BLOCO);
-        break;
-      case COMENTARIO_LINHA:
-        jj_consume_token(COMENTARIO_LINHA);
-        break;
-      default:
-        jj_la1[10] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-    }
+    program();
   }
 
   static private boolean jj_initialized_once = false;
@@ -495,7 +587,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   static public Token jj_nt;
   static private int jj_ntk;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[11];
+  static final private int[] jj_la1 = new int[25];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -503,10 +595,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x5,0x18,0xf000000,0xe000000,0xe030000,0x9,0x11,0x3c0,0x0,0xcf3ffffe,0xcf3ffffe,};
+      jj_la1_0 = new int[] {0x4,0x18,0x1e000000,0x1c000000,0x0,0x1c030000,0x8,0x10,0x3c0,0x0,0x0,0x3000,0x3000,0x2000000,0x0,0x30000,0x20,0x20,0xc000,0x0,0x0,0x0,0x0,0x9e030000,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x14,0xffffbf,0xffffbf,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x20,0x0,0x0,0x0,0x0,0x28,0x20,0x0,0x0,0x0,0x80,0x0,0x0,0x0,0x0,0x3f0000,0x800300,0x1006c00,0x1000,0x400000,0x8,};
    }
 
   /** Constructor with InputStream. */
@@ -527,7 +619,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 25; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -541,7 +633,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 25; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -558,7 +650,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 25; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -568,7 +660,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 25; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -584,7 +676,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 25; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -593,7 +685,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 25; i++) jj_la1[i] = -1;
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
@@ -632,7 +724,8 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
   static private int jj_ntk() {
     if ((jj_nt=token.next) == null)
-      return (jj_ntk = (token.next=token_source.getNextToken()).kind);
+      return (jj_ntk = ((token.next=token_source.getNextToken()) != null ? (token.next=token_source.getNextToken()).kind : -1));
+
     else
       return (jj_ntk = jj_nt.kind);
   }
@@ -644,12 +737,12 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   /** Generate ParseException. */
   static public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[62];
+    boolean[] la1tokens = new boolean[63];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 11; i++) {
+    for (int i = 0; i < 25; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -661,7 +754,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         }
       }
     }
-    for (int i = 0; i < 62; i++) {
+    for (int i = 0; i < 63; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

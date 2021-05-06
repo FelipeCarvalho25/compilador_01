@@ -135,7 +135,7 @@ void estrutura_define():
 {
 }
 {
-    constante() variavel() | variavel() constante()
+    constante() variavel_recursiva() | variavel() constante_recursiva()
 }
 void get():
 {
@@ -170,12 +170,12 @@ void lista_de_identificadore_constantes_recursivo():
 void variavel():{
 }
 {
-    <VARIABLE> tipo() <IS> lista_identificadores_variavel() valor() <PONTO>  variavel_recursiva() | {}
+    <VARIABLE> tipo() <IS> lista_identificadores_variavel() valor() <PONTO>  variavel_recursiva()
 }
 void constante():{
 }
 {
-    <NOT> <VARIABLE> tipo() <IS> lista_identificadores() valor() <PONTO>  constante_recursiva() | {}
+    <NOT> <VARIABLE> tipo() <IS> lista_identificadores() valor() <PONTO>  constante_recursiva()
 }
 void valor():{
 }
@@ -228,7 +228,7 @@ void lista_identificadores_recursivo():
 void corpo_do_programa():{
 }
 {
-    <EXECUTE> <ACHAVE> lista_de_comandos() <FCHAVE>
+    <EXECUTE> <ACHAVE> lista_de_comandos() <FCHAVE> | {}
 }
 
 void lista_de_comandos():{
@@ -385,12 +385,12 @@ void indice():
 void Programa():
 { }
 {
-	  
-	  ((
+	  program()
+	  /*((
 	    <PROGRAM>|<DEFINE>|<NOT>|<VARIABLE>|<IS>|<BOOLEAN>|<CHAR>|<REAL>|<NATURAL>|<EXECUTE>|<VERIFY>|<SET>|<GET>|<PUT>|<LOOP>|<WHILE>|<TRUE>|<FALSE>|<DO>|<TO>|
 	<APARENT>|<FPARENT>|<ACHAVE>|<FCHAVE>|<ACOLCH>|<FCOLCH>|<VIRGULA>|<PONTO>|<ADICAO>|<SUBTRACAO>|<MULTIPLICACAO>|<DIVISAO>|
 	<POTENCIA>|<DIVISAOINTEIRA>|<RESTODIVISAO>|<IGUAL>|<EQUIVALENTE>| <DIFERENTE>|<MENOR>|<MENOROUIGUAL>|<MAIOR>|<MAIOROUIGUAL>|
 	<NAO>|<OU>|<E>|<IDENTIFICADOR>|<CONSTANTE_NUM_REAL>|<CONSTANTE_NUM_INT>|<CONSTANTE_LIT>|<COMENTARIO_BLOCO> |<COMENTARIO_LINHA>
 	)*)
-
+*/
 }

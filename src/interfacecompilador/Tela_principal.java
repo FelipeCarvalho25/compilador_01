@@ -442,9 +442,11 @@ public class Tela_principal extends javax.swing.JFrame {
 
                     area_text_mensagem.setText(analisadorLexico.getMessages());
                 }catch (ParseException e){
-                    System.out.println(e.getMessage());
-                    e.printStackTrace();
-                    System.out.println("Analisador: foram encontrados erros no analisador");
+                    String erros = analisadorLexico.getMessages() + e.getMessage();
+                    area_text_mensagem.setText(erros);
+                    //System.out.println(e.getMessage());
+                    //e.printStackTrace();
+                    //System.out.println("Analisador: foram encontrados erros no analisador");
                 }
 
             }
