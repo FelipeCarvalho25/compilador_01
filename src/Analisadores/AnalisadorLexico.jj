@@ -1,10 +1,41 @@
 PARSER_BEGIN(AnalisadorLexico)
-
+package Analisadores;
 public class AnalisadorLexico {
+
+    public String getMessages() {
+        return this.token_source.getMensagesManhosas();
+     }
 
 }
 PARSER_END(AnalisadorLexico)
 
+TOKEN_MGR_DECLS:
+{
+    private static int countLexError =0;
+    private static StringBuffer mensages_manhosas = new StringBuffer();
+    private static StringBuffer mensagens_erros = new StringBuffer();
+
+    public int foundLexError()
+    {
+        return countLexError;
+    }
+    public String getMensagesManhosas(){
+          return mensages_manhosas.toString();
+     }
+     public String getMensagensErros(){
+               return mensagens_erros.toString();
+          }
+}
+
+
+SPECIAL_TOKEN : {
+    <INVALID_LEXICAL:(~["'"," ","\\","\n","\r", "a"-"z", "A"-"Z", "0"-"9", "\"","(",")","[","]","{","}",":", ";", ",",".", "=",">","<","!","+","-","*","/","%","\t"
+    ,"\f", "&", "|"])+ > {mensagens_erros.append("ERRO(01): ENCONTRADO SIMBOLO INVALIDO -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); countLexError++; }
+    | <INVALID_STRG1: "\"" (~["\n","\r", "\"" ])* ["\n","\r"] > {mensagens_erros.append("ERRO(02): STRING NAO FINALIZADA -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); countLexError++; }
+    | <INVALID_STRG2: "'\"'" (~["\n","\r", "'" ])* ["\n","\r"] > {mensagens_erros.append("ERRO(02): STRING NAO FINALIZADA -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); countLexError++; }
+
+
+} //TIPOS
 TOKEN: // PALAVRAS RESERVADAS
 {
 	<PROGRAM: ("p" | "P")  ("r" | "R") ("o" | "O") ("g" | "G") ("r" | "R") ("a" | "A") ("m" | "M") > { mensages_manhosas.append("PALAVRAS RESERVADAS ->" +   image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
@@ -29,13 +60,13 @@ TOKEN: // PALAVRAS RESERVADAS
  | <VERIFY: ("v"|"V")("e"|"E")("r"|"R")("i"|"I")("f"|"F")("y"|"Y")>{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
 
 }
-TOKEN: //Comentarios
+/*TOKEN: //Comentarios
 {
 	<COMENTARIO_LINHA: "//"(<CHARESP>)*> { mensages_manhosas.append("COMENTARIO DE LINHA -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<COMENTARIO_BLOCO: "/*" (<CHARESP>)* "*/"> { mensages_manhosas.append("COMENTARIO DE BLOCO -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<#CHARESP: ( (~["'"," ","\\","\n","\r"]) | <LETRA> | ("\\" ( ["n","t","b","r","f","\\","'","\""]| ["u","U"]["+"]["0"-"9","a"-"z","A"-"Z"]["0"-"9","a"-"z","A"-"Z"]["0"-"9","a"-"z","A"-"Z"]["0"-"9","a"-"z","A"-"Z"] ) ) )>
-    |<#LETRA: (["a"-"z","A"-"Z"])>
-}
+	|<COMENTARIO_BLOCO: "/*" (<CHARESP>)* ""> { mensages_manhosas.append("COMENTARIO DE BLOCO -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	//|<#CHARESP: ( (~["'"," ","\\","\n","\r"]) | <LETRA> | ("\\" ( ["n","t","b","r","f","\\","'","\""]| ["u","U"]["+"]["0"-"9","a"-"z","A"-"Z"]["0"-"9","a"-"z","A"-"Z"]["0"-"9","a"-"z","A"-"Z"]["0"-"9","a"-"z","A"-"Z"] ) ) )>
+   // |<#LETRA: (["a"-"z","A"-"Z"])>
+}*/
 
 TOKEN: //IDENTIFICADOR
 {
@@ -94,16 +125,7 @@ TOKEN: //OPERADORES LOGICOS
 
 }
 
-/*TOKEN: //TIPOS
-{
 
-	<NATURAIS: ((["1"-"9"])+ (["0"-"9"])+) > { mensages_manhosas.append("NUMERO NATURAIS -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<REAIS: ((["0"-"9"])+ | (["0"-"9"])+ "." (["0"-"9"])+ | (["0"-"9"])+ "." | "." (["0"-"9"])+ ) > { mensages_manhosas.append("NUMERO REAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	//|<CHARS: ([" "-"~"]) > { mensages_manhosas.append( "CHAR -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	//|<BOOLEANS: "true" | "false" | "-1"> { mensages_manhosas.append("BOOLEAN -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-
-
-}*/
 
 SKIP: // IGNORAR
 {
@@ -114,12 +136,23 @@ SKIP: // IGNORAR
 	| "\f"
 	|"\r\n"
 	|" "
-	}
+	|"/*": multiLineComent
+	| "//" : singleLineComent
+}
+<singleLineComent> SKIP : {
+    <["\n","\r"]>: DEFAULT
+    | <~[]>
+}
+<multiLineComent>SKIP : {
+    "*/":DEFAULT
+    | <~[]>
+}
+
 void program ():
 {
 }
 {
-    comentario() <PROGRAM>  <ACHAVE> declaracao_variaveis() corpo_do_programa() <FCHAVE> identificador_programa()
+    comentario() <PROGRAM>  <ACHAVE> declaracao_variaveis() corpo_do_programa() <FCHAVE> identificador_programa() <EOF>
 }
 void declaracao_variaveis():{
 }{
@@ -239,7 +272,7 @@ void lista_de_comandos():{
 void comando():{
 }
 {
-    get() | put()
+    get() | put() | selecao() | atribuicao() | repeticao()
 }
 void comando_recursivo():{
 }

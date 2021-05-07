@@ -433,14 +433,14 @@ public class Tela_principal extends javax.swing.JFrame {
                     tela_ao_sair.showMessageDialog( area_text_mensagem, "Salve o arquivo antes de compilar!");
                     return;
                 }*/
-
+                String mensagens_saida = "";
                 try{
                     java.io.InputStream targetStream = new ByteArrayInputStream(area_texto.getText().getBytes(StandardCharsets.UTF_8));
 
                     if (analisadorLexico == null) analisadorLexico = new AnalisadorLexico(targetStream); else analisadorLexico.ReInit(targetStream);
                     analisadorLexico.Programa();
 
-                    area_text_mensagem.setText(analisadorLexico.getMessages());
+
                 }catch (ParseException e){
                     String erros = analisadorLexico.getMessages() + e.getMessage();
                     area_text_mensagem.setText(erros);
@@ -448,6 +448,7 @@ public class Tela_principal extends javax.swing.JFrame {
                     //e.printStackTrace();
                     //System.out.println("Analisador: foram encontrados erros no analisador");
                 }
+
 
             }
         });

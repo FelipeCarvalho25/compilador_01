@@ -2,6 +2,10 @@
 package Analisadores;
 public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
+    public String getMessages() {
+        return this.token_source.getMensagesManhosas();
+     }
+
   static final public void program() throws ParseException {
     comentario();
     jj_consume_token(PROGRAM);
@@ -10,6 +14,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     corpo_do_programa();
     jj_consume_token(FCHAVE);
     identificador_programa();
+    jj_consume_token(0);
   }
 
   static final public void declaracao_variaveis() throws ParseException {
@@ -240,10 +245,17 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   }
 
   static final public void corpo_do_programa() throws ParseException {
-    jj_consume_token(EXECUTE);
-    jj_consume_token(ACHAVE);
-    lista_de_comandos();
-    jj_consume_token(FCHAVE);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case EXECUTE:
+      jj_consume_token(EXECUTE);
+      jj_consume_token(ACHAVE);
+      lista_de_comandos();
+      jj_consume_token(FCHAVE);
+      break;
+    default:
+      jj_la1[11] = jj_gen;
+
+    }
   }
 
   static final public void lista_de_comandos() throws ParseException {
@@ -259,8 +271,18 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     case PUT:
       put();
       break;
+    case VERIFY:
+      selecao();
+      break;
+    case SET:
+      atribuicao();
+      break;
+    case LOOP:
+    case WHILE:
+      repeticao();
+      break;
     default:
-      jj_la1[11] = jj_gen;
+      jj_la1[12] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -268,12 +290,16 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
   static final public void comando_recursivo() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case SET:
     case GET:
     case PUT:
+    case LOOP:
+    case WHILE:
+    case VERIFY:
       lista_de_comandos();
       break;
     default:
-      jj_la1[12] = jj_gen;
+      jj_la1[13] = jj_gen;
 
     }
   }
@@ -284,7 +310,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       jj_consume_token(IDENTIFICADOR);
       break;
     default:
-      jj_la1[13] = jj_gen;
+      jj_la1[14] = jj_gen;
 
     }
   }
@@ -296,7 +322,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       jj_consume_token(CONSTANTE_LIT);
       break;
     default:
-      jj_la1[14] = jj_gen;
+      jj_la1[15] = jj_gen;
 
     }
   }
@@ -330,7 +356,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       isTrue();
       break;
     default:
-      jj_la1[15] = jj_gen;
+      jj_la1[16] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -346,7 +372,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       jj_consume_token(FCHAVE);
       break;
     default:
-      jj_la1[16] = jj_gen;
+      jj_la1[17] = jj_gen;
 
     }
   }
@@ -361,7 +387,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       jj_consume_token(FCHAVE);
       break;
     default:
-      jj_la1[17] = jj_gen;
+      jj_la1[18] = jj_gen;
 
     }
   }
@@ -393,7 +419,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       jj_consume_token(PONTO);
       break;
     default:
-      jj_la1[18] = jj_gen;
+      jj_la1[19] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -431,7 +457,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       expressaoaritmeticaoulogica();
       break;
     default:
-      jj_la1[19] = jj_gen;
+      jj_la1[20] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -460,7 +486,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       menorprioridade();
       break;
     default:
-      jj_la1[20] = jj_gen;
+      jj_la1[21] = jj_gen;
 
     }
   }
@@ -498,7 +524,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       mediaprioridade();
       break;
     default:
-      jj_la1[21] = jj_gen;
+      jj_la1[22] = jj_gen;
 
     }
   }
@@ -516,7 +542,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       maiorprioridade();
       break;
     default:
-      jj_la1[22] = jj_gen;
+      jj_la1[23] = jj_gen;
 
     }
   }
@@ -554,7 +580,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       jj_consume_token(FPARENT);
       break;
     default:
-      jj_la1[23] = jj_gen;
+      jj_la1[24] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -568,7 +594,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       jj_consume_token(FCOLCH);
       break;
     default:
-      jj_la1[24] = jj_gen;
+      jj_la1[25] = jj_gen;
 
     }
   }
@@ -587,18 +613,23 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   static public Token jj_nt;
   static private int jj_ntk;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[25];
+  static final private int[] jj_la1 = new int[26];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
+  static private int[] jj_la1_2;
   static {
       jj_la1_init_0();
       jj_la1_init_1();
+      jj_la1_init_2();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x4,0x18,0x1e000000,0x1c000000,0x0,0x1c030000,0x8,0x10,0x3c0,0x0,0x0,0x3000,0x3000,0x2000000,0x0,0x30000,0x20,0x20,0xc000,0x0,0x0,0x0,0x0,0x9e030000,0x0,};
+      jj_la1_0 = new int[] {0x20,0xc0,0xf000000,0xe000000,0x0,0xe180000,0x40,0x80,0x1e00,0x0,0x0,0x2000,0x87c000,0x87c000,0x1000000,0x0,0x180000,0x100,0x100,0x60000,0x0,0x0,0x0,0x0,0x4f180000,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x20,0x0,0x0,0x0,0x0,0x28,0x20,0x0,0x0,0x0,0x80,0x0,0x0,0x0,0x0,0x3f0000,0x800300,0x1006c00,0x1000,0x400000,0x8,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x10,0x0,0x0,0x0,0x0,0x14,0x10,0x0,0x0,0x0,0x0,0x40,0x0,0x0,0x0,0x0,0x1f8000,0x400180,0x803600,0x800,0x200000,0x4,};
+   }
+   private static void jj_la1_init_2() {
+      jj_la1_2 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
 
   /** Constructor with InputStream. */
@@ -619,7 +650,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 25; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -633,7 +664,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 25; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -650,7 +681,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 25; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -660,7 +691,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 25; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -676,7 +707,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 25; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -685,7 +716,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 25; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
@@ -724,8 +755,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
   static private int jj_ntk() {
     if ((jj_nt=token.next) == null)
-      return (jj_ntk = ((token.next=token_source.getNextToken()) != null ? (token.next=token_source.getNextToken()).kind : -1));
-
+      return (jj_ntk = (token.next=token_source.getNextToken()).kind);
     else
       return (jj_ntk = jj_nt.kind);
   }
@@ -737,12 +767,12 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   /** Generate ParseException. */
   static public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[63];
+    boolean[] la1tokens = new boolean[68];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 25; i++) {
+    for (int i = 0; i < 26; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -751,10 +781,13 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
           if ((jj_la1_1[i] & (1<<j)) != 0) {
             la1tokens[32+j] = true;
           }
+          if ((jj_la1_2[i] & (1<<j)) != 0) {
+            la1tokens[64+j] = true;
+          }
         }
       }
     }
-    for (int i = 0; i < 63; i++) {
+    for (int i = 0; i < 68; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
@@ -775,7 +808,5 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   /** Disable tracing. */
   static final public void disable_tracing() {
   }
-  public String getMessages() {
-    return this.token_source.getMensagesManhosas();
-  }
+
 }

@@ -1,10 +1,46 @@
 PARSER_BEGIN(AnalisadorLexico)
-
+package Analisadores;
 public class AnalisadorLexico {
 
+    public String getMessages() {
+        return this.token_source.getMensagesManhosas();
+     }
+     public int getNumErrorLex() {
+             return this.token_source.foundLexError();
+          }
+        public String getmsgErrosLex() {
+             return this.token_source.getMensagensErros();
+          }
 }
 PARSER_END(AnalisadorLexico)
 
+TOKEN_MGR_DECLS:
+{
+    private static int countLexError =0;
+    private static StringBuffer mensages_manhosas = new StringBuffer();
+    private static StringBuffer mensagens_erros = new StringBuffer();
+
+    public int foundLexError()
+    {
+        return countLexError;
+    }
+    public String getMensagesManhosas(){
+          return mensages_manhosas.toString();
+     }
+     public String getMensagensErros(){
+               return mensagens_erros.toString();
+          }
+}
+
+
+SPECIAL_TOKEN : {
+    <INVALID_LEXICAL:(~["'"," ","\\","\n","\r", "a"-"z", "A"-"Z", "0"-"9", "\"","(",")","[","]","{","}",":", ";", ",",".", "=",">","<","!","+","-","*","/","%","\t"
+    ,"\f", "&", "|"])+ > {mensagens_erros.append("ERRO(01): ENCONTRADO SIMBOLO INVALIDO -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); countLexError++; }
+    | <INVALID_STRG1: "\"" (~["\n","\r", "\"" ])* ["\n","\r"] > {mensagens_erros.append("ERRO(02): STRING NAO FINALIZADA -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); countLexError++; }
+    | <INVALID_STRG2: "'\"'" (~["\n","\r", "'" ])* ["\n","\r"] > {mensagens_erros.append("ERRO(02): STRING NAO FINALIZADA -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); countLexError++; }
+
+
+} //TIPOS
 TOKEN: // PALAVRAS RESERVADAS
 {
 	<PROGRAM: ("p" | "P")  ("r" | "R") ("o" | "O") ("g" | "G") ("r" | "R") ("a" | "A") ("m" | "M") > { mensages_manhosas.append("PALAVRAS RESERVADAS ->" +   image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
@@ -26,15 +62,16 @@ TOKEN: // PALAVRAS RESERVADAS
  | <FALSE: ("f"|"F")("a"|"A")("l"|"L")("s"|"S")("e"|"E")>{ mensages_manhosas.append("PALAVRAS RESERVADAS TIPO BOOLEANO->" + image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
  | <DO: ("d"|"D")("o"|"O")>{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
  | <TO: ("t"|"T")("o"|"O")>{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+ | <VERIFY: ("v"|"V")("e"|"E")("r"|"R")("i"|"I")("f"|"F")("y"|"Y")>{ mensages_manhosas.append("PALAVRAS RESERVADAS ->" + image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
 
 }
-TOKEN: //Comentarios
+/*TOKEN: //Comentarios
 {
 	<COMENTARIO_LINHA: "//"(<CHARESP>)*> { mensages_manhosas.append("COMENTARIO DE LINHA -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<COMENTARIO_BLOCO: "/*" (<CHARESP>)* "*/"> { mensages_manhosas.append("COMENTARIO DE BLOCO -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<#CHARESP: ( (~["'"," ","\\","\n","\r"]) | <LETRA> | ("\\" ( ["n","t","b","r","f","\\","'","\""]| ["u","U"]["+"]["0"-"9","a"-"z","A"-"Z"]["0"-"9","a"-"z","A"-"Z"]["0"-"9","a"-"z","A"-"Z"]["0"-"9","a"-"z","A"-"Z"] ) ) )>
-    |<#LETRA: (["a"-"z","A"-"Z"])>
-}
+	|<COMENTARIO_BLOCO: "/*" (<CHARESP>)* ""> { mensages_manhosas.append("COMENTARIO DE BLOCO -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	//|<#CHARESP: ( (~["'"," ","\\","\n","\r"]) | <LETRA> | ("\\" ( ["n","t","b","r","f","\\","'","\""]| ["u","U"]["+"]["0"-"9","a"-"z","A"-"Z"]["0"-"9","a"-"z","A"-"Z"]["0"-"9","a"-"z","A"-"Z"]["0"-"9","a"-"z","A"-"Z"] ) ) )>
+   // |<#LETRA: (["a"-"z","A"-"Z"])>
+}*/
 
 TOKEN: //IDENTIFICADOR
 {
@@ -93,16 +130,7 @@ TOKEN: //OPERADORES LOGICOS
 
 }
 
-/*TOKEN: //TIPOS
-{
 
-	<NATURAIS: ((["1"-"9"])+ (["0"-"9"])+) > { mensages_manhosas.append("NUMERO NATURAIS -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<REAIS: ((["0"-"9"])+ | (["0"-"9"])+ "." (["0"-"9"])+ | (["0"-"9"])+ "." | "." (["0"-"9"])+ ) > { mensages_manhosas.append("NUMERO REAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	//|<CHARS: ([" "-"~"]) > { mensages_manhosas.append( "CHAR -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	//|<BOOLEANS: "true" | "false" | "-1"> { mensages_manhosas.append("BOOLEAN -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-
-
-}*/
 
 SKIP: // IGNORAR
 {
@@ -113,16 +141,27 @@ SKIP: // IGNORAR
 	| "\f"
 	|"\r\n"
 	|" "
-	}
+	|"/*": multiLineComent
+	| "//" : singleLineComent
+}
+<singleLineComent> SKIP : {
+    <["\n","\r"]>: DEFAULT
+    | <~[]>
+}
+<multiLineComent>SKIP : {
+    "*/":DEFAULT
+    | <~[]>
+}
+
 void program ():
 {
 }
 {
-    comentario() <PROGRAM>  <ACHAVE> declaracao_variaveis() corpo_do_programa() <FCHAVE> identificador_programa()
+    comentario() <PROGRAM>  <ACHAVE> declaracao_variaveis() corpo_do_programa() <FCHAVE> identificador_programa() <EOF>
 }
 void declaracao_variaveis():{
 }{
-    define() | <EOF>
+    define() | {}
 }
 void define():{
 }
@@ -134,7 +173,7 @@ void estrutura_define():
 {
 }
 {
-    constante() variavel() | variavel() constante()
+    constante() variavel_recursiva() | variavel() constante_recursiva()
 }
 void get():
 {
@@ -164,7 +203,7 @@ void lista_de_identificadore_constantes_recursivo():
 {
 }
 {
-    <VIRGULA> lista_de_identificadore_constantes()
+    <VIRGULA> lista_de_identificadore_constantes() | {}
 }
 void variavel():{
 }
@@ -185,13 +224,13 @@ void constante_recursiva():
 {
 }
 {
-    constante() | <EOF>
+    constante() | {}
 }
 void variavel_recursiva():
 {
 }
 {
-    variavel() | <EOF>
+    variavel() | {}
 }
 
 void tipo():
@@ -210,7 +249,7 @@ void lista_identificadores_variavel():
 void lista_identificadores_variavel_recursivo():
 {
 }{
-    <VIRGULA> lista_identificadores_variavel() | <ACOLCH> <CONSTANTE_NUM_INT> <FCOLCH>
+    <VIRGULA> lista_identificadores_variavel() | <ACOLCH> <CONSTANTE_NUM_INT> <FCOLCH> | {}
 }
 void lista_identificadores():
 {
@@ -222,12 +261,12 @@ void lista_identificadores():
 void lista_identificadores_recursivo():
 {
 }{
-    <VIRGULA> lista_identificadores()
+    <VIRGULA> lista_identificadores() | {}
 }
 void corpo_do_programa():{
 }
 {
-    <EXECUTE> <ACHAVE> lista_de_comandos() <FCHAVE>
+    <EXECUTE> <ACHAVE> lista_de_comandos() <FCHAVE> | {}
 }
 
 void lista_de_comandos():{
@@ -238,32 +277,158 @@ void lista_de_comandos():{
 void comando():{
 }
 {
-    corpo_do_programa()
+    get() | put() | selecao() | atribuicao() | repeticao()
 }
 void comando_recursivo():{
 }
 {
-    lista_de_comandos()
+    lista_de_comandos() | {}
 }
 void identificador_programa():{
 }
 {
-    <IDENTIFICADOR>
+    <IDENTIFICADOR> | {}
 }
 
 void comentario():{
 }{
-    <CONSTANTE_LIT>
+    <COMENT> <CONSTANTE_LIT> | {}
 }
+
+void selecao():
+{}
+{
+    <VERIFY> expressao()   isTrueFalse() <PONTO>
+}
+
+void isTrueFalse():
+{}
+{
+    <IS> trueFalse()
+}
+void trueFalse():
+{}
+{
+    <TRUE><ACHAVE> lista_de_comandos() <FCHAVE> isFalse() | <FALSE> <ACHAVE> lista_de_comandos() <FCHAVE> isTrue()
+}
+
+void isTrue():
+{}
+{
+    <IS> <TRUE> <ACHAVE> lista_de_comandos() <FCHAVE> | {}
+}
+void isFalse():
+{}
+{
+    <IS> <FALSE> <ACHAVE> lista_de_comandos() <FCHAVE> | {}
+}
+
+void atribuicao():
+{}
+{
+	<SET> expressao() <TO> lista_identificadores() <PONTO>
+}
+
+void repeticao():
+{}
+{
+	<LOOP> lista_de_comandos() <WHILE> expressao() isTrue() <PONTO>
+	| <WHILE> expressao() isTrue() <DO> lista_de_comandos() <PONTO>
+}
+
+
+void expressao():
+{}
+{
+	expressaoaritmeticaoulogica() expressao2() 
+}
+
+void expressao2():
+{}
+{
+	<EQUIVALENTE> expressaoaritmeticaoulogica() 
+	| <DIFERENTE> expressaoaritmeticaoulogica()
+	| <MENOR> expressaoaritmeticaoulogica()
+	| <MAIOR> expressaoaritmeticaoulogica()
+	| <MENOROUIGUAL> expressaoaritmeticaoulogica()
+	| <MAIOROUIGUAL> expressaoaritmeticaoulogica()
+}
+
+void expressaoaritmeticaoulogica():
+{}
+{
+	termo2() menorprioridade()
+}
+
+void menorprioridade():
+{}
+{
+	<ADICAO> termo2() menorprioridade()
+	| <SUBTRACAO> termo2() menorprioridade()
+	| <OU> termo2() menorprioridade()
+	|  {}
+
+}
+
+void termo2():
+{}
+{
+	termo1() mediaprioridade()
+}
+
+void mediaprioridade():
+{}
+{
+	<MULTIPLICACAO> termo1() mediaprioridade()
+	| <DIVISAO> termo1() mediaprioridade()
+	| <DIVISAOINTEIRA> termo1() mediaprioridade()
+	| <RESTODIVISAO> termo1() mediaprioridade()
+	| <E> termo1() mediaprioridade()
+	|  {}
+}
+
+void termo1():
+{}
+{
+	elemento() maiorprioridade()
+}
+
+void maiorprioridade():
+{}
+{
+	<POTENCIA> elemento() maiorprioridade()
+	|  {}
+}
+
+void elemento():
+{}
+{
+	<IDENTIFICADOR> indice()
+	| <CONSTANTE_NUM_INT>
+	| <CONSTANTE_NUM_REAL>
+	| <CONSTANTE_LIT>
+	| <TRUE>
+	| <FALSE>
+	| <APARENT> expressao() <FPARENT>
+	| <NAO> <APARENT> expressao() <FPARENT>
+}
+
+void indice():
+{}
+{
+	<ACOLCH> <CONSTANTE_NUM_INT> <FCOLCH>
+	|  {}
+}
+
 void Programa():
 { }
 {
-	  
-	  ((
-	    <PROGRAM>|<DEFINE>|<NOT>|<VARIABLE>|<IS>|<BOOLEAN>|<CHAR>|<REAL>|<NATURAL>|<EXECUTE>|<SET>|<GET>|<PUT>|<LOOP>|<WHILE>|<TRUE>|<FALSE>|<DO>|<TO>|
+	  program()
+	  /*((
+	    <PROGRAM>|<DEFINE>|<NOT>|<VARIABLE>|<IS>|<BOOLEAN>|<CHAR>|<REAL>|<NATURAL>|<EXECUTE>|<VERIFY>|<SET>|<GET>|<PUT>|<LOOP>|<WHILE>|<TRUE>|<FALSE>|<DO>|<TO>|
 	<APARENT>|<FPARENT>|<ACHAVE>|<FCHAVE>|<ACOLCH>|<FCOLCH>|<VIRGULA>|<PONTO>|<ADICAO>|<SUBTRACAO>|<MULTIPLICACAO>|<DIVISAO>|
 	<POTENCIA>|<DIVISAOINTEIRA>|<RESTODIVISAO>|<IGUAL>|<EQUIVALENTE>| <DIFERENTE>|<MENOR>|<MENOROUIGUAL>|<MAIOR>|<MAIOROUIGUAL>|
 	<NAO>|<OU>|<E>|<IDENTIFICADOR>|<CONSTANTE_NUM_REAL>|<CONSTANTE_NUM_INT>|<CONSTANTE_LIT>|<COMENTARIO_BLOCO> |<COMENTARIO_LINHA>
 	)*)
-
+*/
 }
