@@ -446,8 +446,7 @@ public class Tela_principal extends javax.swing.JFrame {
                     analisadorLexico.Programa();
 
                 }catch (ParseException e){
-                    System.out.println(e.getMessage());
-                    System.out.println("Analisador: foram encontrados erros no analisador");
+                    qtdErrosSint = analisadorLexico.getSintaticError();
                 }
                 finally {
                     qtdErrosLex = analisadorLexico.getLexError();

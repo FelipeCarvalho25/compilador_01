@@ -48,8 +48,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
       }
     } catch (ParseException e) {
-        nCountSintaticError += 1;
-        mensagens_erros_sintatic.append(e.getMessage());
+        if(token_source.foundLexError() == 0) {
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
   }
 
@@ -60,8 +62,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       estrutura_define();
       jj_consume_token(FCHAVE);
     } catch (ParseException e) {
-         nCountSintaticError += 1;
-         mensagens_erros_sintatic.append(e.getMessage());
+        if(token_source.foundLexError() == 0) {
+             nCountSintaticError += 1;
+             mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
   }
 
@@ -866,7 +870,8 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
   static private Token jj_consume_token(int kind) throws ParseException {
     Token oldToken;
-    if ((oldToken = token).next != null) token = token.next;
+    if(token_source.foundLexError() > 0) throw generateParseException();
+      if ((oldToken = token).next != null) token = token.next;
     else token = token.next = token_source.getNextToken();
     jj_ntk = -1;
     if (token.kind == kind) {

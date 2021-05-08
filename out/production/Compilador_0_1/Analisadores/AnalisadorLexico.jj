@@ -177,11 +177,13 @@ void declaracao_variaveis():
 {}
 {
     try{
-    define() | {}
+        define() | {}
     }
     catch(ParseException e){
-        nCountSintaticError += 1;
-        mensagens_erros_sintatic.append(e.getMessage());
+        if(token_source.foundLexError() == 0) {
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
 }
 void define():
@@ -190,8 +192,10 @@ void define():
     try{
         <DEFINE> <ACHAVE> estrutura_define() <FCHAVE>
     }catch(ParseException e){
-         nCountSintaticError += 1;
-         mensagens_erros_sintatic.append(e.getMessage());
+        if(token_source.foundLexError() == 0) {
+             nCountSintaticError += 1;
+             mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
 }
 
