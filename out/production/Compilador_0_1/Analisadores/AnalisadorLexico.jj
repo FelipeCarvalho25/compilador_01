@@ -1,16 +1,25 @@
 PARSER_BEGIN(AnalisadorLexico)
 package Analisadores;
 public class AnalisadorLexico {
-
+    static int nCountSintaticError = 0;
+    private static StringBuffer mensagens_erros_sintatic = new StringBuffer();
     public String getMessages() {
         return this.token_source.getMensagesManhosas();
      }
-     public int getNumErrorLex() {
-             return this.token_source.foundLexError();
-          }
-        public String getmsgErrosLex() {
-             return this.token_source.getMensagensErros();
-          }
+
+    public int getLexError() {
+       return this.token_source.foundLexError();
+    }
+    public int getSintaticError() {
+           return this.nCountSintaticError;
+        }
+
+    public String getMensagensErros() {
+       return this.token_source.getMensagensErros();
+    }
+   public String getMsgSintaticError() {
+          return this.mensagens_erros_sintatic.toString();
+       }
 }
 PARSER_END(AnalisadorLexico)
 
@@ -157,148 +166,279 @@ void program ():
 {
 }
 {
-    comentario() <PROGRAM>  <ACHAVE> declaracao_variaveis() corpo_do_programa() <FCHAVE> identificador_programa() <EOF>
+    try{
+        comentario() <PROGRAM>  <ACHAVE> declaracao_variaveis() corpo_do_programa() <FCHAVE> identificador_programa() <EOF>
+    }catch(ParseException e){
+        nCountSintaticError += 1;
+        mensagens_erros_sintatic.append(e.getMessage());
+    }
 }
-void declaracao_variaveis():{
-}{
-    define() | {}
-}
-void define():{
-}
+void declaracao_variaveis():
+{}
 {
-    <DEFINE> <ACHAVE> estrutura_define() <FCHAVE>
+    try{
+    define() | {}
+    }
+    catch(ParseException e){
+        nCountSintaticError += 1;
+        mensagens_erros_sintatic.append(e.getMessage());
+    }
+}
+void define():
+{}
+{
+    try{
+        <DEFINE> <ACHAVE> estrutura_define() <FCHAVE>
+    }catch(ParseException e){
+         nCountSintaticError += 1;
+         mensagens_erros_sintatic.append(e.getMessage());
+    }
 }
 
 void estrutura_define():
+{}
 {
-}
-{
-    constante() variavel_recursiva() | variavel() constante_recursiva()
+    try{
+        constante() variavel_recursiva() | variavel() constante_recursiva()
+    }catch(ParseException e){
+        nCountSintaticError += 1;
+        mensagens_erros_sintatic.append(e.getMessage());
+    }
 }
 void get():
 {
 }
 {
-    <GET> <ACHAVE> lista_identificadores() <FCHAVE> <PONTO>
+   try{
+        <GET> <ACHAVE> lista_identificadores() <FCHAVE> <PONTO>
+   }catch(ParseException e){
+        nCountSintaticError += 1;
+        mensagens_erros_sintatic.append(e.getMessage());
+   }
 }
 void put():
 {
 }
 {
-    <PUT> <ACHAVE> lista_de_identificadore_constantes() <FCHAVE> <PONTO>
+    try{
+        <PUT> <ACHAVE> lista_de_identificadore_constantes() <FCHAVE> <PONTO>
+    }catch(ParseException e){
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+       }
 }
 void lista_de_identificadore_constantes():
 {
 }
 {
-    <IDENTIFICADOR> lista_de_identificadore_constantes_recursivo() | tipo_constante() lista_de_identificadore_constantes_recursivo()
+    try{
+        <IDENTIFICADOR> lista_de_identificadore_constantes_recursivo() | tipo_constante() lista_de_identificadore_constantes_recursivo()
+        }catch(ParseException e){
+                    nCountSintaticError += 1;
+                    mensagens_erros_sintatic.append(e.getMessage());
+               }
 }
 void tipo_constante():
 {
 }
 {
-    <CONSTANTE_NUM_REAL> | <CONSTANTE_LIT> |<CONSTANTE_NUM_INT>
+    try{
+        <CONSTANTE_NUM_REAL> | <CONSTANTE_LIT> |<CONSTANTE_NUM_INT>
+    }catch(ParseException e){
+                        nCountSintaticError += 1;
+                        mensagens_erros_sintatic.append(e.getMessage());
+                   }
 }
 void lista_de_identificadore_constantes_recursivo():
 {
 }
 {
-    <VIRGULA> lista_de_identificadore_constantes() | {}
+   try{
+     <VIRGULA> lista_de_identificadore_constantes() | {}
+    }catch(ParseException e){
+         nCountSintaticError += 1;
+         mensagens_erros_sintatic.append(e.getMessage());
+    }
 }
 void variavel():{
 }
 {
-    <VARIABLE> tipo() <IS> lista_identificadores_variavel() valor() <PONTO>  variavel_recursiva()
+    try{
+        <VARIABLE> tipo() <IS> lista_identificadores_variavel() valor() <PONTO>  variavel_recursiva()
+    }catch(ParseException e){
+        nCountSintaticError += 1;
+             mensagens_erros_sintatic.append(e.getMessage());
+        }
 }
 void constante():{
 }
 {
-    <NOT> <VARIABLE> tipo() <IS> lista_identificadores() valor() <PONTO>  constante_recursiva()
+   try{
+        <NOT> <VARIABLE> tipo() <IS> lista_identificadores() valor() <PONTO>  constante_recursiva()
+   }catch(ParseException e){
+           nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+           }
 }
 void valor():{
 }
 {
-    <CONSTANTE_NUM_INT> | <CONSTANTE_NUM_REAL> | <CONSTANTE_LIT> | <TRUE> | <FALSE>
+    try{
+        <CONSTANTE_NUM_INT> | <CONSTANTE_NUM_REAL> | <CONSTANTE_LIT> | <TRUE> | <FALSE>
+    }catch(ParseException e){
+               nCountSintaticError += 1;
+                    mensagens_erros_sintatic.append(e.getMessage());
+               }
 }
 void constante_recursiva():
 {
 }
 {
-    constante() | {}
+     try{
+        constante() | {}
+     }catch(ParseException e){
+        nCountSintaticError += 1;
+        mensagens_erros_sintatic.append(e.getMessage());
+     }
 }
 void variavel_recursiva():
 {
 }
 {
-    variavel() | {}
+    try{
+        variavel() | {}
+    }catch(ParseException e){
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+         }
 }
 
 void tipo():
 {
 }
 {
-    <NATURAL> |<REAL> | <CHAR> | <BOOLEAN>
+    try{
+        <NATURAL> |<REAL> | <CHAR> | <BOOLEAN>
+    }catch(ParseException e){
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+             }
 }
 void lista_identificadores_variavel():
 {
 }
 {
-     <IDENTIFICADOR> lista_identificadores_variavel_recursivo()
+    try{
+        <IDENTIFICADOR> lista_identificadores_variavel_recursivo()
+    }catch(ParseException e){
+                    nCountSintaticError += 1;
+                    mensagens_erros_sintatic.append(e.getMessage());
+                 }
 }
 
 void lista_identificadores_variavel_recursivo():
+{}
 {
-}{
-    <VIRGULA> lista_identificadores_variavel() | <ACOLCH> <CONSTANTE_NUM_INT> <FCOLCH> | {}
+    try{
+      <VIRGULA> lista_identificadores_variavel() | <ACOLCH> <CONSTANTE_NUM_INT> <FCOLCH> | {}
+    }catch(ParseException e){
+         nCountSintaticError += 1;
+         mensagens_erros_sintatic.append(e.getMessage());
+    }
 }
 void lista_identificadores():
 {
 }
 {
-     <IDENTIFICADOR> lista_identificadores_recursivo()
+    try{
+        <IDENTIFICADOR> lista_identificadores_recursivo()
+    }catch(ParseException e){
+             nCountSintaticError += 1;
+             mensagens_erros_sintatic.append(e.getMessage());
+        }
 }
 
 void lista_identificadores_recursivo():
+{}
 {
-}{
-    <VIRGULA> lista_identificadores() | {}
+    try{
+         <VIRGULA> lista_identificadores() | {}
+    }catch(ParseException e){
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+            }
 }
-void corpo_do_programa():{
-}
+void corpo_do_programa():
+{}
 {
-    <EXECUTE> <ACHAVE> lista_de_comandos() <FCHAVE> | {}
+    try{
+        <EXECUTE> <ACHAVE> lista_de_comandos() <FCHAVE> | {}
+    }catch(ParseException e){
+                     nCountSintaticError += 1;
+                     mensagens_erros_sintatic.append(e.getMessage());
+                }
 }
 
 void lista_de_comandos():{
 }
 {
-    comando() comando_recursivo()
+    try{
+        comando() comando_recursivo()
+    }catch(ParseException e){
+                         nCountSintaticError += 1;
+                         mensagens_erros_sintatic.append(e.getMessage());
+                    }
 }
 void comando():{
 }
 {
-    get() | put() | selecao() | atribuicao() | repeticao()
+    try{
+        get() | put() | selecao() | atribuicao() | repeticao()
+    }catch(ParseException e){
+        nCountSintaticError += 1;
+        mensagens_erros_sintatic.append(e.getMessage());
+    }
 }
 void comando_recursivo():{
 }
 {
-    lista_de_comandos() | {}
+    try{
+        lista_de_comandos() | {}
+    }catch(ParseException e){
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+        }
 }
 void identificador_programa():{
 }
 {
-    <IDENTIFICADOR> | {}
+    try{
+        <IDENTIFICADOR> | {}
+    }catch(ParseException e){
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
 }
 
 void comentario():{
 }{
-    <COMENT> <CONSTANTE_LIT> | {}
+    try{
+      <COMENT> <CONSTANTE_LIT> | {}
+     }catch(ParseException e){
+                     nCountSintaticError += 1;
+                     mensagens_erros_sintatic.append(e.getMessage());
+                 }
 }
 
 void selecao():
 {}
 {
-    <VERIFY> expressao()   isTrueFalse() <PONTO>
+    try{
+        <VERIFY> expressao()   isTrueFalse() <PONTO>
+    }catch(ParseException e){
+                         nCountSintaticError += 1;
+                         mensagens_erros_sintatic.append(e.getMessage());
+                     }
 }
 
 void isTrueFalse():
