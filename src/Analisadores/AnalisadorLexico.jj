@@ -6,6 +6,13 @@ public class AnalisadorLexico {
         return this.token_source.getMensagesManhosas();
      }
 
+    public String getLexError() {
+       return this.token_source.foundLexError();
+    }
+
+    public String getMensagensErros() {
+       return this.token_source.getMensagensErros();
+    }
 }
 PARSER_END(AnalisadorLexico)
 

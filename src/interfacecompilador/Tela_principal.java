@@ -434,6 +434,9 @@ public class Tela_principal extends javax.swing.JFrame {
                     return;
                 }*/
                 String mensagens_saida = "";
+                int qtdErrosLex = 0;
+                int qtdErrosSint = 0;
+
                 try{
                     java.io.InputStream targetStream = new ByteArrayInputStream(area_texto.getText().getBytes(StandardCharsets.UTF_8));
 
@@ -447,6 +450,21 @@ public class Tela_principal extends javax.swing.JFrame {
                     //System.out.println(e.getMessage());
                     //e.printStackTrace();
                     //System.out.println("Analisador: foram encontrados erros no analisador");
+                }
+                finally {
+                    qtdErrosLex = analisadorLexico.getLexError();
+                   // qtdErrosSint = analisadorLexico.getSintaticError();
+                    mensagens_saida += "Foram encontrados " + qtdErrosLex + " erros léxicos \n";
+                   // mensagens_saida += "Foram encontrados " + qtdErrosSint + " erros sintáticos \n";
+                    if(qtdErrosLex > 0) {
+                        mensagens_saida += analisadorLexico.getMensagensErros();
+                    }
+                    else if(qtdErrosSint > 0) {
+                        mensagens_saida += analisadorLexico.getMsgSintaticError();
+                    }
+                    else{
+                        mensagens_saida += "Programa compilado com sucesso! \n";
+                    }
                 }
 
 
@@ -638,6 +656,12 @@ public class Tela_principal extends javax.swing.JFrame {
                     e.printStackTrace();
                     System.out.println("Analisador: foram encontrados erros no analisador");
                 }
+               finally {
+                    if(analisadorLexico.getLexError > 0){
+
+                    }
+                }
+
             }
         });
         item_comp_executar.setText("Executar");
