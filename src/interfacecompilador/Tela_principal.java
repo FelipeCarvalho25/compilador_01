@@ -463,6 +463,7 @@ public class Tela_principal extends javax.swing.JFrame {
                         mensagens_saida += "Programa compilado com sucesso! \n";
                     }
                 }
+                area_text_mensagem.setText("");
                 area_text_mensagem.setText(mensagens_saida);
             }
         });
@@ -667,6 +668,7 @@ public class Tela_principal extends javax.swing.JFrame {
                         mensagens_saida += "Programa compilado com sucesso! \n";
                     }
                 }
+                area_text_mensagem.setText("");
                 area_text_mensagem.setText(mensagens_saida);
             }
         });
