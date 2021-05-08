@@ -168,19 +168,20 @@ void program ():
 {
     try{
         comentario() <PROGRAM>  <ACHAVE> declaracao_variaveis() corpo_do_programa() <FCHAVE> identificador_programa() <EOF>
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    }catch(ParseException e){
+        if(token_source.foundLexError() == 0) {
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+        }
+    }
 }
 void declaracao_variaveis():
 {}
 {
     try{
         define() | {}
-    } catch(ParseException e){
+    }
+    catch(ParseException e){
         if(token_source.foundLexError() == 0) {
             nCountSintaticError += 1;
             mensagens_erros_sintatic.append(e.getMessage());
@@ -192,12 +193,12 @@ void define():
 {
     try{
         <DEFINE> <ACHAVE> estrutura_define() <FCHAVE>
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    }catch(ParseException e){
+        if(token_source.foundLexError() == 0) {
+             nCountSintaticError += 1;
+             mensagens_erros_sintatic.append(e.getMessage());
+        }
+    }
 }
 
 void estrutura_define():
@@ -205,12 +206,10 @@ void estrutura_define():
 {
     try{
         constante() variavel_recursiva() | variavel() constante_recursiva()
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    }catch(ParseException e){
+        nCountSintaticError += 1;
+        mensagens_erros_sintatic.append(e.getMessage());
+    }
 }
 void get():
 {
@@ -218,12 +217,10 @@ void get():
 {
    try{
         <GET> <ACHAVE> lista_identificadores() <FCHAVE> <PONTO>
-   } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-             }
-         }
+   }catch(ParseException e){
+        nCountSintaticError += 1;
+        mensagens_erros_sintatic.append(e.getMessage());
+   }
 }
 void put():
 {
@@ -231,12 +228,10 @@ void put():
 {
     try{
         <PUT> <ACHAVE> lista_de_identificadore_constantes() <FCHAVE> <PONTO>
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    }catch(ParseException e){
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+       }
 }
 void lista_de_identificadore_constantes():
 {
@@ -244,12 +239,10 @@ void lista_de_identificadore_constantes():
 {
     try{
         <IDENTIFICADOR> lista_de_identificadore_constantes_recursivo() | tipo_constante() lista_de_identificadore_constantes_recursivo()
-        } catch(ParseException e){
-                  if(token_source.foundLexError() == 0) {
-                      nCountSintaticError += 1;
-                      mensagens_erros_sintatic.append(e.getMessage());
-                  }
-              }
+        }catch(ParseException e){
+                    nCountSintaticError += 1;
+                    mensagens_erros_sintatic.append(e.getMessage());
+               }
 }
 void tipo_constante():
 {
@@ -257,12 +250,10 @@ void tipo_constante():
 {
     try{
         <CONSTANTE_NUM_REAL> | <CONSTANTE_LIT> |<CONSTANTE_NUM_INT>
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    }catch(ParseException e){
+                        nCountSintaticError += 1;
+                        mensagens_erros_sintatic.append(e.getMessage());
+                   }
 }
 void lista_de_identificadore_constantes_recursivo():
 {
@@ -270,48 +261,40 @@ void lista_de_identificadore_constantes_recursivo():
 {
    try{
      <VIRGULA> lista_de_identificadore_constantes() | {}
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    }catch(ParseException e){
+         nCountSintaticError += 1;
+         mensagens_erros_sintatic.append(e.getMessage());
+    }
 }
 void variavel():{
 }
 {
     try{
         <VARIABLE> tipo() <IS> lista_identificadores_variavel() valor() <PONTO>  variavel_recursiva()
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    }catch(ParseException e){
+        nCountSintaticError += 1;
+             mensagens_erros_sintatic.append(e.getMessage());
+        }
 }
 void constante():{
 }
 {
    try{
         <NOT> <VARIABLE> tipo() <IS> lista_identificadores() valor() <PONTO>  constante_recursiva()
-   } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-             }
-         }
+   }catch(ParseException e){
+           nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+           }
 }
 void valor():{
 }
 {
     try{
         <CONSTANTE_NUM_INT> | <CONSTANTE_NUM_REAL> | <CONSTANTE_LIT> | <TRUE> | <FALSE>
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    }catch(ParseException e){
+               nCountSintaticError += 1;
+                    mensagens_erros_sintatic.append(e.getMessage());
+               }
 }
 void constante_recursiva():
 {
@@ -319,12 +302,10 @@ void constante_recursiva():
 {
      try{
         constante() | {}
-     } catch(ParseException e){
-               if(token_source.foundLexError() == 0) {
-                   nCountSintaticError += 1;
-                   mensagens_erros_sintatic.append(e.getMessage());
-               }
-           }
+     }catch(ParseException e){
+        nCountSintaticError += 1;
+        mensagens_erros_sintatic.append(e.getMessage());
+     }
 }
 void variavel_recursiva():
 {
@@ -332,12 +313,10 @@ void variavel_recursiva():
 {
     try{
         variavel() | {}
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    }catch(ParseException e){
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+         }
 }
 
 void tipo():
@@ -346,12 +325,10 @@ void tipo():
 {
     try{
         <NATURAL> |<REAL> | <CHAR> | <BOOLEAN>
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    }catch(ParseException e){
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+             }
 }
 void lista_identificadores_variavel():
 {
@@ -359,12 +336,10 @@ void lista_identificadores_variavel():
 {
     try{
         <IDENTIFICADOR> lista_identificadores_variavel_recursivo()
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    }catch(ParseException e){
+                    nCountSintaticError += 1;
+                    mensagens_erros_sintatic.append(e.getMessage());
+                 }
 }
 
 void lista_identificadores_variavel_recursivo():
@@ -372,12 +347,10 @@ void lista_identificadores_variavel_recursivo():
 {
     try{
       <VIRGULA> lista_identificadores_variavel() | <ACOLCH> <CONSTANTE_NUM_INT> <FCOLCH> | {}
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    }catch(ParseException e){
+         nCountSintaticError += 1;
+         mensagens_erros_sintatic.append(e.getMessage());
+    }
 }
 void lista_identificadores():
 {
@@ -385,12 +358,10 @@ void lista_identificadores():
 {
     try{
         <IDENTIFICADOR> lista_identificadores_recursivo()
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    }catch(ParseException e){
+             nCountSintaticError += 1;
+             mensagens_erros_sintatic.append(e.getMessage());
+        }
 }
 
 void lista_identificadores_recursivo():
@@ -398,24 +369,20 @@ void lista_identificadores_recursivo():
 {
     try{
          <VIRGULA> lista_identificadores() | {}
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    }catch(ParseException e){
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+            }
 }
 void corpo_do_programa():
 {}
 {
     try{
         <EXECUTE> <ACHAVE> lista_de_comandos() <FCHAVE> | {}
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    }catch(ParseException e){
+                     nCountSintaticError += 1;
+                     mensagens_erros_sintatic.append(e.getMessage());
+                }
 }
 
 void lista_de_comandos():{
@@ -423,60 +390,50 @@ void lista_de_comandos():{
 {
     try{
         comando() comando_recursivo()
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    }catch(ParseException e){
+                         nCountSintaticError += 1;
+                         mensagens_erros_sintatic.append(e.getMessage());
+                    }
 }
 void comando():{
 }
 {
     try{
         get() | put() | selecao() | atribuicao() | repeticao()
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    }catch(ParseException e){
+        nCountSintaticError += 1;
+        mensagens_erros_sintatic.append(e.getMessage());
+    }
 }
 void comando_recursivo():{
 }
 {
     try{
         lista_de_comandos() | {}
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    }catch(ParseException e){
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+        }
 }
 void identificador_programa():{
 }
 {
     try{
         <IDENTIFICADOR> | {}
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    }catch(ParseException e){
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
 }
 
 void comentario():{
 }{
     try{
       <COMENT> <CONSTANTE_LIT> | {}
-     } catch(ParseException e){
-               if(token_source.foundLexError() == 0) {
-                   nCountSintaticError += 1;
-                   mensagens_erros_sintatic.append(e.getMessage());
-               }
-           }
+     }catch(ParseException e){
+                     nCountSintaticError += 1;
+                     mensagens_erros_sintatic.append(e.getMessage());
+                 }
 }
 
 void selecao():
@@ -484,256 +441,135 @@ void selecao():
 {
     try{
         <VERIFY> expressao()   isTrueFalse() <PONTO>
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    }catch(ParseException e){
+                         nCountSintaticError += 1;
+                         mensagens_erros_sintatic.append(e.getMessage());
+                     }
 }
 
 void isTrueFalse():
 {}
 {
-    try{
-        <IS> trueFalse()
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    <IS> trueFalse()
 }
 void trueFalse():
 {}
 {
-    try{
-        <TRUE><ACHAVE> lista_de_comandos() <FCHAVE> isFalse() | <FALSE> <ACHAVE> lista_de_comandos() <FCHAVE> isTrue()
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    <TRUE><ACHAVE> lista_de_comandos() <FCHAVE> isFalse() | <FALSE> <ACHAVE> lista_de_comandos() <FCHAVE> isTrue()
 }
 
 void isTrue():
 {}
 {
-    try{
-        <IS> <TRUE> <ACHAVE> lista_de_comandos() <FCHAVE> | {}
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    <IS> <TRUE> <ACHAVE> lista_de_comandos() <FCHAVE> | {}
 }
 void isFalse():
 {}
 {
-    try{
-        <IS> <FALSE> <ACHAVE> lista_de_comandos() <FCHAVE> | {}
-    } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+    <IS> <FALSE> <ACHAVE> lista_de_comandos() <FCHAVE> | {}
 }
 
 void atribuicao():
 {}
 {
-    try{
-	    <SET> expressao() <TO> lista_identificadores() <PONTO>
-	} catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+	<SET> expressao() <TO> lista_identificadores() <PONTO>
 }
 
 void repeticao():
 {}
 {
-    try{
-	    <LOOP> lista_de_comandos() <WHILE> expressao() isTrue() <PONTO>
-	    | <WHILE> expressao() isTrue() <DO> lista_de_comandos() <PONTO>
-	} catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+	<LOOP> lista_de_comandos() <WHILE> expressao() isTrue() <PONTO>
+	| <WHILE> expressao() isTrue() <DO> lista_de_comandos() <PONTO>
 }
 
 
 void expressao():
 {}
 {
-    try{
-	    expressaoaritmeticaoulogica() expressao2()
-	} catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+	expressaoaritmeticaoulogica() expressao2() 
 }
 
 void expressao2():
 {}
 {
-    try{
-	    <EQUIVALENTE> expressaoaritmeticaoulogica()
-	    | <DIFERENTE> expressaoaritmeticaoulogica()
-	    | <MENOR> expressaoaritmeticaoulogica()
-	    | <MAIOR> expressaoaritmeticaoulogica()
-	    | <MENOROUIGUAL> expressaoaritmeticaoulogica()
-	    | <MAIOROUIGUAL> expressaoaritmeticaoulogica()
-	} catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+	<EQUIVALENTE> expressaoaritmeticaoulogica() 
+	| <DIFERENTE> expressaoaritmeticaoulogica()
+	| <MENOR> expressaoaritmeticaoulogica()
+	| <MAIOR> expressaoaritmeticaoulogica()
+	| <MENOROUIGUAL> expressaoaritmeticaoulogica()
+	| <MAIOROUIGUAL> expressaoaritmeticaoulogica()
 }
 
 void expressaoaritmeticaoulogica():
 {}
 {
-    try{
-	    termo2() menorprioridade()
-	} catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+	termo2() menorprioridade()
 }
 
 void menorprioridade():
 {}
 {
-    try{
-	    <ADICAO> termo2() menorprioridade()
-	    | <SUBTRACAO> termo2() menorprioridade()
-	    | <OU> termo2() menorprioridade()
-	    |  {}
-	} catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+	<ADICAO> termo2() menorprioridade()
+	| <SUBTRACAO> termo2() menorprioridade()
+	| <OU> termo2() menorprioridade()
+	|  {}
 
 }
 
 void termo2():
 {}
 {
-    try{
-	    termo1() mediaprioridade()
-	} catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+	termo1() mediaprioridade()
 }
 
 void mediaprioridade():
 {}
 {
-    try{
-    	<MULTIPLICACAO> termo1() mediaprioridade()
-	    | <DIVISAO> termo1() mediaprioridade()
-	    | <DIVISAOINTEIRA> termo1() mediaprioridade()
-	    | <RESTODIVISAO> termo1() mediaprioridade()
-	    | <E> termo1() mediaprioridade()
-	    |  {}
-	} catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+	<MULTIPLICACAO> termo1() mediaprioridade()
+	| <DIVISAO> termo1() mediaprioridade()
+	| <DIVISAOINTEIRA> termo1() mediaprioridade()
+	| <RESTODIVISAO> termo1() mediaprioridade()
+	| <E> termo1() mediaprioridade()
+	|  {}
 }
 
 void termo1():
 {}
 {
-    try{
-	    elemento() maiorprioridade()
-	} catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+	elemento() maiorprioridade()
 }
 
 void maiorprioridade():
 {}
 {
-    try{
-    	<POTENCIA> elemento() maiorprioridade()
-	    |  {}
-	} catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+	<POTENCIA> elemento() maiorprioridade()
+	|  {}
 }
 
 void elemento():
 {}
 {
-    try{
-	    <IDENTIFICADOR> indice()
-	    | <CONSTANTE_NUM_INT>
-	    | <CONSTANTE_NUM_REAL>
-	    | <CONSTANTE_LIT>
-	    | <TRUE>
-	    | <FALSE>
-	    | <APARENT> expressao() <FPARENT>
-	    | <NAO> <APARENT> expressao() <FPARENT>
-	} catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+	<IDENTIFICADOR> indice()
+	| <CONSTANTE_NUM_INT>
+	| <CONSTANTE_NUM_REAL>
+	| <CONSTANTE_LIT>
+	| <TRUE>
+	| <FALSE>
+	| <APARENT> expressao() <FPARENT>
+	| <NAO> <APARENT> expressao() <FPARENT>
 }
 
 void indice():
 {}
 {
-    try{
-	    <ACOLCH> <CONSTANTE_NUM_INT> <FCOLCH>
-	    |  {}
-	} catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-          }
+	<ACOLCH> <CONSTANTE_NUM_INT> <FCOLCH>
+	|  {}
 }
 
 void Programa():
 { }
 {
-    try{
 	  program()
-	 } catch(ParseException e){
-               if(token_source.foundLexError() == 0) {
-                   nCountSintaticError += 1;
-                   mensagens_erros_sintatic.append(e.getMessage());
-               }
-           }
 	  /*((
 	    <PROGRAM>|<DEFINE>|<NOT>|<VARIABLE>|<IS>|<BOOLEAN>|<CHAR>|<REAL>|<NATURAL>|<EXECUTE>|<VERIFY>|<SET>|<GET>|<PUT>|<LOOP>|<WHILE>|<TRUE>|<FALSE>|<DO>|<TO>|
 	<APARENT>|<FPARENT>|<ACHAVE>|<FCHAVE>|<ACOLCH>|<FCOLCH>|<VIRGULA>|<PONTO>|<ADICAO>|<SUBTRACAO>|<MULTIPLICACAO>|<DIVISAO>|
@@ -741,4 +577,9 @@ void Programa():
 	<NAO>|<OU>|<E>|<IDENTIFICADOR>|<CONSTANTE_NUM_REAL>|<CONSTANTE_NUM_INT>|<CONSTANTE_LIT>|<COMENTARIO_BLOCO> |<COMENTARIO_LINHA>
 	)*)
 */
+}
+void Lexico():
+{}
+{
+    <INVALID_LEXICAL> | <INVALID_STRG1> | <INVALID_STRG2>
 }
