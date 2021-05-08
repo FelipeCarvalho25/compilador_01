@@ -169,8 +169,10 @@ void program ():
     try{
         comentario() <PROGRAM>  <ACHAVE> declaracao_variaveis() corpo_do_programa() <FCHAVE> identificador_programa() <EOF>
     }catch(ParseException e){
-        nCountSintaticError += 1;
-        mensagens_erros_sintatic.append(e.getMessage());
+        if(token_source.foundLexError() == 0) {
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
 }
 void declaracao_variaveis():
@@ -575,4 +577,9 @@ void Programa():
 	<NAO>|<OU>|<E>|<IDENTIFICADOR>|<CONSTANTE_NUM_REAL>|<CONSTANTE_NUM_INT>|<CONSTANTE_LIT>|<COMENTARIO_BLOCO> |<COMENTARIO_LINHA>
 	)*)
 */
+}
+void Lexico():
+{}
+{
+    <INVALID_LEXICAL> | <INVALID_STRG1> | <INVALID_STRG2>
 }

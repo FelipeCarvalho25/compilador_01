@@ -32,8 +32,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       identificador_programa();
       jj_consume_token(0);
     } catch (ParseException e) {
-        nCountSintaticError += 1;
-        mensagens_erros_sintatic.append(e.getMessage());
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
@@ -62,10 +64,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       estrutura_define();
       jj_consume_token(FCHAVE);
     } catch (ParseException e) {
-        if(token_source.foundLexError() == 0) {
-             nCountSintaticError += 1;
-             mensagens_erros_sintatic.append(e.getMessage());
-        }
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
@@ -86,8 +88,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         throw new ParseException();
       }
     } catch (ParseException e) {
-        nCountSintaticError += 1;
-        mensagens_erros_sintatic.append(e.getMessage());
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
@@ -99,8 +103,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       jj_consume_token(FCHAVE);
       jj_consume_token(PONTO);
     } catch (ParseException e) {
-        nCountSintaticError += 1;
-        mensagens_erros_sintatic.append(e.getMessage());
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+             }
     }
   }
 
@@ -112,8 +118,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       jj_consume_token(FCHAVE);
       jj_consume_token(PONTO);
     } catch (ParseException e) {
-            nCountSintaticError += 1;
-            mensagens_erros_sintatic.append(e.getMessage());
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
@@ -136,8 +144,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         throw new ParseException();
       }
     } catch (ParseException e) {
-                    nCountSintaticError += 1;
-                    mensagens_erros_sintatic.append(e.getMessage());
+                  if(token_source.foundLexError() == 0) {
+                      nCountSintaticError += 1;
+                      mensagens_erros_sintatic.append(e.getMessage());
+                  }
     }
   }
 
@@ -159,8 +169,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         throw new ParseException();
       }
     } catch (ParseException e) {
-                        nCountSintaticError += 1;
-                        mensagens_erros_sintatic.append(e.getMessage());
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
@@ -176,8 +188,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
       }
     } catch (ParseException e) {
-         nCountSintaticError += 1;
-         mensagens_erros_sintatic.append(e.getMessage());
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
@@ -191,8 +205,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       jj_consume_token(PONTO);
       variavel_recursiva();
     } catch (ParseException e) {
-        nCountSintaticError += 1;
-             mensagens_erros_sintatic.append(e.getMessage());
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
@@ -207,8 +223,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       jj_consume_token(PONTO);
       constante_recursiva();
     } catch (ParseException e) {
-           nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+             }
     }
   }
 
@@ -236,8 +254,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         throw new ParseException();
       }
     } catch (ParseException e) {
-               nCountSintaticError += 1;
-                    mensagens_erros_sintatic.append(e.getMessage());
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
@@ -252,8 +272,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
       }
     } catch (ParseException e) {
-        nCountSintaticError += 1;
-        mensagens_erros_sintatic.append(e.getMessage());
+               if(token_source.foundLexError() == 0) {
+                   nCountSintaticError += 1;
+                   mensagens_erros_sintatic.append(e.getMessage());
+               }
     }
   }
 
@@ -268,8 +290,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
       }
     } catch (ParseException e) {
-            nCountSintaticError += 1;
-            mensagens_erros_sintatic.append(e.getMessage());
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
@@ -294,8 +318,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         throw new ParseException();
       }
     } catch (ParseException e) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
@@ -304,8 +330,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       jj_consume_token(IDENTIFICADOR);
       lista_identificadores_variavel_recursivo();
     } catch (ParseException e) {
-                    nCountSintaticError += 1;
-                    mensagens_erros_sintatic.append(e.getMessage());
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
@@ -326,8 +354,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
       }
     } catch (ParseException e) {
-         nCountSintaticError += 1;
-         mensagens_erros_sintatic.append(e.getMessage());
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
@@ -336,8 +366,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       jj_consume_token(IDENTIFICADOR);
       lista_identificadores_recursivo();
     } catch (ParseException e) {
-             nCountSintaticError += 1;
-             mensagens_erros_sintatic.append(e.getMessage());
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
@@ -353,8 +385,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
       }
     } catch (ParseException e) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
@@ -372,8 +406,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
       }
     } catch (ParseException e) {
-                     nCountSintaticError += 1;
-                     mensagens_erros_sintatic.append(e.getMessage());
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
@@ -382,8 +418,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       comando();
       comando_recursivo();
     } catch (ParseException e) {
-                         nCountSintaticError += 1;
-                         mensagens_erros_sintatic.append(e.getMessage());
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
@@ -412,8 +450,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         throw new ParseException();
       }
     } catch (ParseException e) {
-        nCountSintaticError += 1;
-        mensagens_erros_sintatic.append(e.getMessage());
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
@@ -433,8 +473,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
       }
     } catch (ParseException e) {
-            nCountSintaticError += 1;
-            mensagens_erros_sintatic.append(e.getMessage());
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
@@ -449,8 +491,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
       }
     } catch (ParseException e) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
@@ -466,8 +510,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
       }
     } catch (ParseException e) {
-                     nCountSintaticError += 1;
-                     mensagens_erros_sintatic.append(e.getMessage());
+               if(token_source.foundLexError() == 0) {
+                   nCountSintaticError += 1;
+                   mensagens_erros_sintatic.append(e.getMessage());
+               }
     }
   }
 
@@ -478,278 +524,399 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       isTrueFalse();
       jj_consume_token(PONTO);
     } catch (ParseException e) {
-                         nCountSintaticError += 1;
-                         mensagens_erros_sintatic.append(e.getMessage());
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
   static final public void isTrueFalse() throws ParseException {
-    jj_consume_token(IS);
-    trueFalse();
+    try {
+      jj_consume_token(IS);
+      trueFalse();
+    } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
+    }
   }
 
   static final public void trueFalse() throws ParseException {
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case TRUE:
-      jj_consume_token(TRUE);
-      jj_consume_token(ACHAVE);
-      lista_de_comandos();
-      jj_consume_token(FCHAVE);
-      isFalse();
-      break;
-    case FALSE:
-      jj_consume_token(FALSE);
-      jj_consume_token(ACHAVE);
-      lista_de_comandos();
-      jj_consume_token(FCHAVE);
-      isTrue();
-      break;
-    default:
-      jj_la1[16] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case TRUE:
+        jj_consume_token(TRUE);
+        jj_consume_token(ACHAVE);
+        lista_de_comandos();
+        jj_consume_token(FCHAVE);
+        isFalse();
+        break;
+      case FALSE:
+        jj_consume_token(FALSE);
+        jj_consume_token(ACHAVE);
+        lista_de_comandos();
+        jj_consume_token(FCHAVE);
+        isTrue();
+        break;
+      default:
+        jj_la1[16] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
   static final public void isTrue() throws ParseException {
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case IS:
-      jj_consume_token(IS);
-      jj_consume_token(TRUE);
-      jj_consume_token(ACHAVE);
-      lista_de_comandos();
-      jj_consume_token(FCHAVE);
-      break;
-    default:
-      jj_la1[17] = jj_gen;
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case IS:
+        jj_consume_token(IS);
+        jj_consume_token(TRUE);
+        jj_consume_token(ACHAVE);
+        lista_de_comandos();
+        jj_consume_token(FCHAVE);
+        break;
+      default:
+        jj_la1[17] = jj_gen;
 
+      }
+    } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
   static final public void isFalse() throws ParseException {
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case IS:
-      jj_consume_token(IS);
-      jj_consume_token(FALSE);
-      jj_consume_token(ACHAVE);
-      lista_de_comandos();
-      jj_consume_token(FCHAVE);
-      break;
-    default:
-      jj_la1[18] = jj_gen;
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case IS:
+        jj_consume_token(IS);
+        jj_consume_token(FALSE);
+        jj_consume_token(ACHAVE);
+        lista_de_comandos();
+        jj_consume_token(FCHAVE);
+        break;
+      default:
+        jj_la1[18] = jj_gen;
 
+      }
+    } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
   static final public void atribuicao() throws ParseException {
-    jj_consume_token(SET);
-    expressao();
-    jj_consume_token(TO);
-    lista_identificadores();
-    jj_consume_token(PONTO);
+    try {
+      jj_consume_token(SET);
+      expressao();
+      jj_consume_token(TO);
+      lista_identificadores();
+      jj_consume_token(PONTO);
+    } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
+    }
   }
 
   static final public void repeticao() throws ParseException {
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case LOOP:
-      jj_consume_token(LOOP);
-      lista_de_comandos();
-      jj_consume_token(WHILE);
-      expressao();
-      isTrue();
-      jj_consume_token(PONTO);
-      break;
-    case WHILE:
-      jj_consume_token(WHILE);
-      expressao();
-      isTrue();
-      jj_consume_token(DO);
-      lista_de_comandos();
-      jj_consume_token(PONTO);
-      break;
-    default:
-      jj_la1[19] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case LOOP:
+        jj_consume_token(LOOP);
+        lista_de_comandos();
+        jj_consume_token(WHILE);
+        expressao();
+        isTrue();
+        jj_consume_token(PONTO);
+        break;
+      case WHILE:
+        jj_consume_token(WHILE);
+        expressao();
+        isTrue();
+        jj_consume_token(DO);
+        lista_de_comandos();
+        jj_consume_token(PONTO);
+        break;
+      default:
+        jj_la1[19] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
   static final public void expressao() throws ParseException {
-    expressaoaritmeticaoulogica();
-    expressao2();
+    try {
+      expressaoaritmeticaoulogica();
+      expressao2();
+    } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
+    }
   }
 
   static final public void expressao2() throws ParseException {
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case EQUIVALENTE:
-      jj_consume_token(EQUIVALENTE);
-      expressaoaritmeticaoulogica();
-      break;
-    case DIFERENTE:
-      jj_consume_token(DIFERENTE);
-      expressaoaritmeticaoulogica();
-      break;
-    case MENOR:
-      jj_consume_token(MENOR);
-      expressaoaritmeticaoulogica();
-      break;
-    case MAIOR:
-      jj_consume_token(MAIOR);
-      expressaoaritmeticaoulogica();
-      break;
-    case MENOROUIGUAL:
-      jj_consume_token(MENOROUIGUAL);
-      expressaoaritmeticaoulogica();
-      break;
-    case MAIOROUIGUAL:
-      jj_consume_token(MAIOROUIGUAL);
-      expressaoaritmeticaoulogica();
-      break;
-    default:
-      jj_la1[20] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case EQUIVALENTE:
+        jj_consume_token(EQUIVALENTE);
+        expressaoaritmeticaoulogica();
+        break;
+      case DIFERENTE:
+        jj_consume_token(DIFERENTE);
+        expressaoaritmeticaoulogica();
+        break;
+      case MENOR:
+        jj_consume_token(MENOR);
+        expressaoaritmeticaoulogica();
+        break;
+      case MAIOR:
+        jj_consume_token(MAIOR);
+        expressaoaritmeticaoulogica();
+        break;
+      case MENOROUIGUAL:
+        jj_consume_token(MENOROUIGUAL);
+        expressaoaritmeticaoulogica();
+        break;
+      case MAIOROUIGUAL:
+        jj_consume_token(MAIOROUIGUAL);
+        expressaoaritmeticaoulogica();
+        break;
+      default:
+        jj_la1[20] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
   static final public void expressaoaritmeticaoulogica() throws ParseException {
-    termo2();
-    menorprioridade();
+    try {
+      termo2();
+      menorprioridade();
+    } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
+    }
   }
 
   static final public void menorprioridade() throws ParseException {
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case ADICAO:
-      jj_consume_token(ADICAO);
-      termo2();
-      menorprioridade();
-      break;
-    case SUBTRACAO:
-      jj_consume_token(SUBTRACAO);
-      termo2();
-      menorprioridade();
-      break;
-    case OU:
-      jj_consume_token(OU);
-      termo2();
-      menorprioridade();
-      break;
-    default:
-      jj_la1[21] = jj_gen;
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case ADICAO:
+        jj_consume_token(ADICAO);
+        termo2();
+        menorprioridade();
+        break;
+      case SUBTRACAO:
+        jj_consume_token(SUBTRACAO);
+        termo2();
+        menorprioridade();
+        break;
+      case OU:
+        jj_consume_token(OU);
+        termo2();
+        menorprioridade();
+        break;
+      default:
+        jj_la1[21] = jj_gen;
 
+      }
+    } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
   static final public void termo2() throws ParseException {
-    termo1();
-    mediaprioridade();
+    try {
+      termo1();
+      mediaprioridade();
+    } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
+    }
   }
 
   static final public void mediaprioridade() throws ParseException {
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case MULTIPLICACAO:
-      jj_consume_token(MULTIPLICACAO);
-      termo1();
-      mediaprioridade();
-      break;
-    case DIVISAO:
-      jj_consume_token(DIVISAO);
-      termo1();
-      mediaprioridade();
-      break;
-    case DIVISAOINTEIRA:
-      jj_consume_token(DIVISAOINTEIRA);
-      termo1();
-      mediaprioridade();
-      break;
-    case RESTODIVISAO:
-      jj_consume_token(RESTODIVISAO);
-      termo1();
-      mediaprioridade();
-      break;
-    case E:
-      jj_consume_token(E);
-      termo1();
-      mediaprioridade();
-      break;
-    default:
-      jj_la1[22] = jj_gen;
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case MULTIPLICACAO:
+        jj_consume_token(MULTIPLICACAO);
+        termo1();
+        mediaprioridade();
+        break;
+      case DIVISAO:
+        jj_consume_token(DIVISAO);
+        termo1();
+        mediaprioridade();
+        break;
+      case DIVISAOINTEIRA:
+        jj_consume_token(DIVISAOINTEIRA);
+        termo1();
+        mediaprioridade();
+        break;
+      case RESTODIVISAO:
+        jj_consume_token(RESTODIVISAO);
+        termo1();
+        mediaprioridade();
+        break;
+      case E:
+        jj_consume_token(E);
+        termo1();
+        mediaprioridade();
+        break;
+      default:
+        jj_la1[22] = jj_gen;
 
+      }
+    } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
   static final public void termo1() throws ParseException {
-    elemento();
-    maiorprioridade();
+    try {
+      elemento();
+      maiorprioridade();
+    } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
+    }
   }
 
   static final public void maiorprioridade() throws ParseException {
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case POTENCIA:
-      jj_consume_token(POTENCIA);
-      elemento();
-      maiorprioridade();
-      break;
-    default:
-      jj_la1[23] = jj_gen;
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case POTENCIA:
+        jj_consume_token(POTENCIA);
+        elemento();
+        maiorprioridade();
+        break;
+      default:
+        jj_la1[23] = jj_gen;
 
+      }
+    } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
   static final public void elemento() throws ParseException {
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case IDENTIFICADOR:
-      jj_consume_token(IDENTIFICADOR);
-      indice();
-      break;
-    case CONSTANTE_NUM_INT:
-      jj_consume_token(CONSTANTE_NUM_INT);
-      break;
-    case CONSTANTE_NUM_REAL:
-      jj_consume_token(CONSTANTE_NUM_REAL);
-      break;
-    case CONSTANTE_LIT:
-      jj_consume_token(CONSTANTE_LIT);
-      break;
-    case TRUE:
-      jj_consume_token(TRUE);
-      break;
-    case FALSE:
-      jj_consume_token(FALSE);
-      break;
-    case APARENT:
-      jj_consume_token(APARENT);
-      expressao();
-      jj_consume_token(FPARENT);
-      break;
-    case NAO:
-      jj_consume_token(NAO);
-      jj_consume_token(APARENT);
-      expressao();
-      jj_consume_token(FPARENT);
-      break;
-    default:
-      jj_la1[24] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case IDENTIFICADOR:
+        jj_consume_token(IDENTIFICADOR);
+        indice();
+        break;
+      case CONSTANTE_NUM_INT:
+        jj_consume_token(CONSTANTE_NUM_INT);
+        break;
+      case CONSTANTE_NUM_REAL:
+        jj_consume_token(CONSTANTE_NUM_REAL);
+        break;
+      case CONSTANTE_LIT:
+        jj_consume_token(CONSTANTE_LIT);
+        break;
+      case TRUE:
+        jj_consume_token(TRUE);
+        break;
+      case FALSE:
+        jj_consume_token(FALSE);
+        break;
+      case APARENT:
+        jj_consume_token(APARENT);
+        expressao();
+        jj_consume_token(FPARENT);
+        break;
+      case NAO:
+        jj_consume_token(NAO);
+        jj_consume_token(APARENT);
+        expressao();
+        jj_consume_token(FPARENT);
+        break;
+      default:
+        jj_la1[24] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
   static final public void indice() throws ParseException {
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case ACOLCH:
-      jj_consume_token(ACOLCH);
-      jj_consume_token(CONSTANTE_NUM_INT);
-      jj_consume_token(FCOLCH);
-      break;
-    default:
-      jj_la1[25] = jj_gen;
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case ACOLCH:
+        jj_consume_token(ACOLCH);
+        jj_consume_token(CONSTANTE_NUM_INT);
+        jj_consume_token(FCOLCH);
+        break;
+      default:
+        jj_la1[25] = jj_gen;
 
+      }
+    } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
     }
   }
 
   static final public void Programa() throws ParseException {
-    program();
+    try {
+      program();
+    } catch (ParseException e) {
+               if(token_source.foundLexError() == 0) {
+                   nCountSintaticError += 1;
+                   mensagens_erros_sintatic.append(e.getMessage());
+               }
+    }
   }
 
   static private boolean jj_initialized_once = false;
@@ -871,7 +1038,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   static private Token jj_consume_token(int kind) throws ParseException {
     Token oldToken;
     if(token_source.foundLexError() > 0) throw generateParseException();
-      if ((oldToken = token).next != null) token = token.next;
+    if ((oldToken = token).next != null) token = token.next;
     else token = token.next = token_source.getNextToken();
     jj_ntk = -1;
     if (token.kind == kind) {
@@ -904,6 +1071,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   }
 
   static private int jj_ntk() {
+    if(token_source.foundLexError() > 0) return 0;
     if ((jj_nt=token.next) == null)
       return (jj_ntk = (token.next=token_source.getNextToken()).kind);
     else
