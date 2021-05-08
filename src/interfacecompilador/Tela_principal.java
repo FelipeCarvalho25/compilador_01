@@ -428,6 +428,7 @@ public class Tela_principal extends javax.swing.JFrame {
         compilar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 //chama compilador
+
                 /*if (abriu_arquivo == false && salvou_arquivo == false){
                     JOptionPane tela_ao_sair = new JOptionPane();
                     tela_ao_sair.showMessageDialog( area_text_mensagem, "Salve o arquivo antes de compilar!");
@@ -436,26 +437,23 @@ public class Tela_principal extends javax.swing.JFrame {
                 String mensagens_saida = "";
                 int qtdErrosLex = 0;
                 int qtdErrosSint = 0;
-
                 try{
-                    java.io.InputStream targetStream = new ByteArrayInputStream(area_texto.getText().getBytes(StandardCharsets.UTF_8));
+
+                    //String initialString = "text";
+                    java.io.InputStream targetStream = new ByteArrayInputStream(area_texto.getText().getBytes());
 
                     if (analisadorLexico == null) analisadorLexico = new AnalisadorLexico(targetStream); else analisadorLexico.ReInit(targetStream);
                     analisadorLexico.Programa();
 
-
                 }catch (ParseException e){
-                    String erros = analisadorLexico.getMessages() + e.getMessage();
-                    area_text_mensagem.setText(erros);
-                    //System.out.println(e.getMessage());
-                    //e.printStackTrace();
-                    //System.out.println("Analisador: foram encontrados erros no analisador");
+                    System.out.println(e.getMessage());
+                    System.out.println("Analisador: foram encontrados erros no analisador");
                 }
                 finally {
                     qtdErrosLex = analisadorLexico.getLexError();
-                   // qtdErrosSint = analisadorLexico.getSintaticError();
+                    qtdErrosSint = analisadorLexico.getSintaticError();
                     mensagens_saida += "Foram encontrados " + qtdErrosLex + " erros léxicos \n";
-                   // mensagens_saida += "Foram encontrados " + qtdErrosSint + " erros sintáticos \n";
+                    mensagens_saida += "Foram encontrados " + qtdErrosSint + " erros sintáticos \n";
                     if(qtdErrosLex > 0) {
                         mensagens_saida += analisadorLexico.getMensagensErros();
                     }
@@ -466,8 +464,7 @@ public class Tela_principal extends javax.swing.JFrame {
                         mensagens_saida += "Programa compilado com sucesso! \n";
                     }
                 }
-
-
+                area_text_mensagem.setText(mensagens_saida);
             }
         });
         barra_ferramentas.add(compilar);
@@ -641,7 +638,9 @@ public class Tela_principal extends javax.swing.JFrame {
                     tela_ao_sair.showMessageDialog( area_text_mensagem, "Salve o arquivo antes de compilar!");
                     return;
                 }*/
-
+                String mensagens_saida = "";
+                int qtdErrosLex = 0;
+                int qtdErrosSint = 0;
                 try{
 
                     //String initialString = "text";
@@ -649,19 +648,27 @@ public class Tela_principal extends javax.swing.JFrame {
 
                     if (analisadorLexico == null) analisadorLexico = new AnalisadorLexico(targetStream); else analisadorLexico.ReInit(targetStream);
                     analisadorLexico.Programa();
-                    area_text_mensagem.setText("");
-                    area_text_mensagem.setText(analisadorLexico.getMessages());
+
                 }catch (ParseException e){
                     System.out.println(e.getMessage());
-                    e.printStackTrace();
                     System.out.println("Analisador: foram encontrados erros no analisador");
                 }
-               finally {
-                    if(analisadorLexico.getLexError > 0){
-
+                finally {
+                    qtdErrosLex = analisadorLexico.getLexError();
+                     qtdErrosSint = analisadorLexico.getSintaticError();
+                    mensagens_saida += "Foram encontrados " + qtdErrosLex + " erros léxicos \n";
+                     mensagens_saida += "Foram encontrados " + qtdErrosSint + " erros sintáticos \n";
+                    if(qtdErrosLex > 0) {
+                        mensagens_saida += analisadorLexico.getMensagensErros();
+                    }
+                    else if(qtdErrosSint > 0) {
+                        mensagens_saida += analisadorLexico.getMsgSintaticError();
+                    }
+                    else{
+                        mensagens_saida += "Programa compilado com sucesso! \n";
                     }
                 }
-
+                area_text_mensagem.setText(mensagens_saida);
             }
         });
         item_comp_executar.setText("Executar");
