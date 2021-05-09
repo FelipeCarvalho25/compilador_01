@@ -136,7 +136,7 @@ public class Tela_principal extends javax.swing.JFrame {
         label_rodape.setHorizontalAlignment(SwingConstants.LEFT);*/
         //setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-
+       // area_texto.set
         area_texto.setColumns(20);
         //adicionado listners para qualquer interação no editor de texto.
         KeyListener keyAction = new KeyListener() {
