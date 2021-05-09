@@ -975,8 +975,6 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
   /** Reinitialise. */
   static public void ReInit(java.io.InputStream stream) {
-      nCountSintaticError = 0;
-      mensagens_erros_sintatic = new StringBuffer();
      ReInit(stream, null);
   }
   /** Reinitialise. */

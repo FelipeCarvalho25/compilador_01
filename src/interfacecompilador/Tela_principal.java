@@ -7,6 +7,8 @@ import Editor_de_Texto.Area_de_transferencia;
 import Editor_de_Texto.Manipulador_arquivo;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Utilities;
 import java.awt.*;
@@ -136,7 +138,56 @@ public class Tela_principal extends javax.swing.JFrame {
         label_rodape.setHorizontalAlignment(SwingConstants.LEFT);*/
         //setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-       // area_texto.set
+       area_texto.getDocument().addDocumentListener(new DocumentListener() {
+
+           @Override
+           public void removeUpdate(DocumentEvent e) {
+               abriu_arquivo = true;
+               incrementa_linha();
+               abriu_arquivo = false;
+               rowNum = contlinha;
+               if ( rowNum <= area_texto.getText().split("\n").length ){
+                   if (area_texto.getText().length() > 0 ){
+                       colNum = area_texto.getText().split("\n")[rowNum-1].length() + 1;
+                   }
+               }
+               linha = " " + rowNum;
+               coluna = " " + colNum;
+               label_rodape.setText("Linha:" + linha + ", Coluna:" + coluna);
+           }
+
+           @Override
+           public void insertUpdate(DocumentEvent e) {
+               abriu_arquivo = true;
+               incrementa_linha();
+               abriu_arquivo = false;
+               rowNum = contlinha;
+               if ( rowNum <= area_texto.getText().split("\n").length ){
+                   if (area_texto.getText().length() > 0 ){
+                       colNum = area_texto.getText().split("\n")[rowNum-1].length() + 1;
+                   }
+               }
+               linha = " " + rowNum;
+               coluna = " " + colNum;
+               label_rodape.setText("Linha:" + linha + ", Coluna:" + coluna);
+           }
+
+           @Override
+           public void changedUpdate(DocumentEvent arg0) {
+               abriu_arquivo = true;
+               incrementa_linha();
+               abriu_arquivo = false;
+               rowNum = contlinha;
+               if ( rowNum <= area_texto.getText().split("\n").length ){
+                   if (area_texto.getText().length() > 0 ){
+                       colNum = area_texto.getText().split("\n")[rowNum-1].length() + 1;
+                   }
+               }
+               linha = " " + rowNum;
+               coluna = " " + colNum;
+               label_rodape.setText("Linha:" + linha + ", Coluna:" + coluna);
+           }
+       });
         area_texto.setColumns(20);
         //adicionado listners para qualquer interação no editor de texto.
         KeyListener keyAction = new KeyListener() {
