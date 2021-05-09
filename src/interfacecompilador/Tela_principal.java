@@ -3,6 +3,7 @@ package interfacecompilador;
 
 import Analisadores.AnalisadorLexico;
 import Analisadores.ParseException;
+import Analisadores.TokenMgrError;
 import Editor_de_Texto.Area_de_transferencia;
 import Editor_de_Texto.Manipulador_arquivo;
 
@@ -701,8 +702,12 @@ public class Tela_principal extends javax.swing.JFrame {
                     analisadorLexico.Programa();
 
                 }catch (ParseException e){
-                    System.out.println(e.getMessage());
-                    System.out.println("Analisador: foram encontrados erros no analisador");
+                    mensagens_saida +=e.getMessage();
+                    qtdErrosSint ++;
+                }
+                catch (TokenMgrError e){
+                    mensagens_saida +=e.getMessage();
+                    qtdErrosLex ++;
                 }
                 finally {
                     qtdErrosLex = analisadorLexico.getLexError();
