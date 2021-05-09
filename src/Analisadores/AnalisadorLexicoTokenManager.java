@@ -1118,8 +1118,8 @@ static public void ReInit(SimpleCharStream stream)
    jjmatchedPos = jjnewStateCnt = 0;
    curLexState = defaultLexState;
    input_stream = stream;
-   StringBuffer mensagens_erros = new StringBuffer();
-   StringBuffer mensages_manhosas = new StringBuffer();
+   mensagens_erros = new StringBuffer();
+   mensages_manhosas = new StringBuffer();
    countLexError =0;
    ReInitRounds();
 }
@@ -1472,182 +1472,182 @@ static void TokenLexicalActions(Token matchedToken)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[30]);
         lengthOfMatch = jjstrLiteralImages[30].length();
-                           mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                           mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 31 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[31]);
         lengthOfMatch = jjstrLiteralImages[31].length();
-                          mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                          mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 32 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[32]);
         lengthOfMatch = jjstrLiteralImages[32].length();
-                         mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                         mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 33 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[33]);
         lengthOfMatch = jjstrLiteralImages[33].length();
-                         mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                         mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 34 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[34]);
         lengthOfMatch = jjstrLiteralImages[34].length();
-                         mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                         mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 35 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[35]);
         lengthOfMatch = jjstrLiteralImages[35].length();
-                         mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                         mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 36 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[36]);
         lengthOfMatch = jjstrLiteralImages[36].length();
-                          mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                          mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 37 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[37]);
         lengthOfMatch = jjstrLiteralImages[37].length();
-                        mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                        mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 38 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[38]);
         lengthOfMatch = jjstrLiteralImages[38].length();
-                           mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                           mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 39 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[39]);
         lengthOfMatch = jjstrLiteralImages[39].length();
-                        mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                        mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 40 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[40]);
         lengthOfMatch = jjstrLiteralImages[40].length();
-                            mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                            mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 41 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[41]);
         lengthOfMatch = jjstrLiteralImages[41].length();
-                                mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                                mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 42 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[42]);
         lengthOfMatch = jjstrLiteralImages[42].length();
-                          mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                          mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 43 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[43]);
         lengthOfMatch = jjstrLiteralImages[43].length();
-                            mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                            mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 44 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[44]);
         lengthOfMatch = jjstrLiteralImages[44].length();
-                                 mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                                 mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 45 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[45]);
         lengthOfMatch = jjstrLiteralImages[45].length();
-                                mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                                mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 46 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[46]);
         lengthOfMatch = jjstrLiteralImages[46].length();
-                        mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                        mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 47 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[47]);
         lengthOfMatch = jjstrLiteralImages[47].length();
-                              mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                              mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 48 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[48]);
         lengthOfMatch = jjstrLiteralImages[48].length();
-                             mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                             mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 49 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[49]);
         lengthOfMatch = jjstrLiteralImages[49].length();
-                        mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                        mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 50 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[50]);
         lengthOfMatch = jjstrLiteralImages[50].length();
-                                mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL  -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                                mensages_manhosas.append("SIMBOLO ESPECIAL  -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 51 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[51]);
         lengthOfMatch = jjstrLiteralImages[51].length();
-                        mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                        mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 52 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[52]);
         lengthOfMatch = jjstrLiteralImages[52].length();
-                                mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                                mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 53 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[53]);
         lengthOfMatch = jjstrLiteralImages[53].length();
-                     mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                     mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 54 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[54]);
         lengthOfMatch = jjstrLiteralImages[54].length();
-                     mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                     mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       case 55 :
         if (image == null)
             image = new StringBuffer();
         image.append(jjstrLiteralImages[55]);
         lengthOfMatch = jjstrLiteralImages[55].length();
-                    mensages_manhosas.append("S\u00c3\ufffdMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
+                    mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n");
          break;
       default : 
          break;

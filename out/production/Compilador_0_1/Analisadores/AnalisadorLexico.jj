@@ -97,45 +97,45 @@ TOKEN: //IDENTIFICADOR
 
 TOKEN: // CARACTERES ESPECIAIS
 {
-	<APARENT: "(" > {  mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<FPARENT: ")"> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<ACHAVE: "{"> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<FCHAVE: "}"> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<ACOLCH: "["> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<FCOLCH: "]"> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<VIRGULA: ","> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<PONTO: "."> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<COMENT: ":-" > { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	<APARENT: "(" > {  mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<FPARENT: ")"> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<ACHAVE: "{"> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<FCHAVE: "}"> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<ACOLCH: "["> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<FCOLCH: "]"> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<VIRGULA: ","> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<PONTO: "."> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<COMENT: ":-" > { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
 
 
 }
 
 TOKEN: //OPERADORES ARTMETICOS
 {
-	<ADICAO: "+"> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<SUBTRACAO: "-"> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<MULTIPLICACAO: "*"> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<DIVISAO: "/"> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<POTENCIA: "**"> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<DIVISAOINTEIRA: "%"> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<RESTODIVISAO: "%%"> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<IGUAL: "="> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	<ADICAO: "+"> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<SUBTRACAO: "-"> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<MULTIPLICACAO: "*"> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<DIVISAO: "/"> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<POTENCIA: "**"> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<DIVISAOINTEIRA: "%"> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<RESTODIVISAO: "%%"> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<IGUAL: "="> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
 }
 TOKEN: //OPERADORES RELACIONAIS
 {
-	<EQUIVALENTE: "=="> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<DIFERENTE: "!="> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<MENOR: "<"> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<MENOROUIGUAL: "<="> { mensages_manhosas.append("SÍMBOLO ESPECIAL  -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<MAIOR: ">"> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<MAIOROUIGUAL: ">="> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	<EQUIVALENTE: "=="> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<DIFERENTE: "!="> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<MENOR: "<"> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<MENOROUIGUAL: "<="> { mensages_manhosas.append("SIMBOLO ESPECIAL  -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<MAIOR: ">"> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<MAIOROUIGUAL: ">="> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
 
 }
 TOKEN: //OPERADORES LOGICOS
 {
-	<NAO: "!"> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<OU: "|"> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
-	|<E: "&"> { mensages_manhosas.append("SÍMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	<NAO: "!"> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<OU: "|"> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+	|<E: "&"> { mensages_manhosas.append("SIMBOLO ESPECIAL -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
 
 }
 
@@ -143,7 +143,7 @@ TOKEN: //OPERADORES LOGICOS
 
 SKIP: // IGNORAR
 {
-	//<COMENTARIO: ":-"> { mensages_manhosas.append("COMENTARIO -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); }
+
 	 "\r"
 	| "\t"
 	| "\n"
