@@ -504,7 +504,7 @@ void isTrueFalse():
               }
           }
 }
-void trueFalse():
+void  trueFalse():
 {}
 {
     try{
