@@ -975,6 +975,8 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
   /** Reinitialise. */
   static public void ReInit(java.io.InputStream stream) {
+      mensagens_erros_sintatic = new StringBuffer();
+      nCountSintaticError = 0;
      ReInit(stream, null);
   }
   /** Reinitialise. */
@@ -1041,8 +1043,8 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
   static private Token jj_consume_token(int kind) throws ParseException {
     Token oldToken;
-      if(token_source.foundLexError() > 0)  throw generateParseException();
-    if ((oldToken = token).next != null) token = token.next;
+      if(token_source.foundLexError() >  0) throw generateParseException();
+          if ((oldToken = token).next != null) token = token.next;
     else token = token.next = token_source.getNextToken();
     jj_ntk = -1;
     if (token.kind == kind) {
@@ -1075,8 +1077,8 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   }
 
   static private int jj_ntk() {
-      if(token_source.foundLexError() > 0) return -1;
-    if ((jj_nt=token.next) == null)
+      if(token_source.foundLexError() >  0) return -1;
+          if ((jj_nt=token.next) == null)
       return (jj_ntk = (token.next=token_source.getNextToken()).kind);
     else
       return (jj_ntk = jj_nt.kind);
