@@ -636,7 +636,9 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case LOOP:
         jj_consume_token(LOOP);
+        jj_consume_token(ACHAVE);
         lista_de_comandos();
+        jj_consume_token(FCHAVE);
         jj_consume_token(WHILE);
         expressao();
         isTrue();
@@ -647,7 +649,9 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         expressao();
         isTrue();
         jj_consume_token(DO);
+        jj_consume_token(ACHAVE);
         lista_de_comandos();
+        jj_consume_token(FCHAVE);
         jj_consume_token(PONTO);
         break;
       default:
@@ -1035,7 +1039,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
   static private Token jj_consume_token(int kind) throws ParseException {
     Token oldToken;
-      if(token_source.foundLexError() > 0) throw generateParseException();
+      if(token_source.foundLexError() >  0) throw generateParseException();
     if ((oldToken = token).next != null) token = token.next;
     else token = token.next = token_source.getNextToken();
     jj_ntk = -1;

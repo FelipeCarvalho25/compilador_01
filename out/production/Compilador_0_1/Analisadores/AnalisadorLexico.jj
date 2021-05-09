@@ -559,8 +559,8 @@ void repeticao():
 {}
 {
     try{
-	    <LOOP> lista_de_comandos() <WHILE> expressao() isTrue() <PONTO>
-	    | <WHILE> expressao() isTrue() <DO> lista_de_comandos() <PONTO>
+	    <LOOP> <ACHAVE> lista_de_comandos() <FCHAVE> <WHILE> expressao() isTrue() <PONTO>
+	    | <WHILE> expressao() isTrue() <DO> <ACHAVE >lista_de_comandos() <FCHAVE> <PONTO>
 	} catch(ParseException e){
               if(token_source.foundLexError() == 0) {
                   nCountSintaticError += 1;
