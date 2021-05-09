@@ -281,7 +281,7 @@ void variavel():{
 }
 {
     try{
-        <VARIABLE> tipo() <IS> lista_identificadores_variavel() valor() <PONTO>  variavel_recursiva()
+        <VARIABLE> tipo() <IS> lista_identificadores_variavel() <PONTO>  variavel_recursiva()
     } catch(ParseException e){
               if(token_source.foundLexError() == 0) {
                   nCountSintaticError += 1;
@@ -593,6 +593,8 @@ void expressao2():
 	    | <MAIOR> expressaoaritmeticaoulogica()
 	    | <MENOROUIGUAL> expressaoaritmeticaoulogica()
 	    | <MAIOROUIGUAL> expressaoaritmeticaoulogica()
+	    | {}
+
 	} catch(ParseException e){
               if(token_source.foundLexError() == 0) {
                   nCountSintaticError += 1;

@@ -1118,8 +1118,8 @@ static public void ReInit(SimpleCharStream stream)
    jjmatchedPos = jjnewStateCnt = 0;
    curLexState = defaultLexState;
    input_stream = stream;
-   mensagens_erros = new StringBuffer();
-   mensages_manhosas = new StringBuffer();
+   StringBuffer mensagens_erros = new StringBuffer();
+   StringBuffer mensages_manhosas = new StringBuffer();
    countLexError =0;
    ReInitRounds();
 }

@@ -201,7 +201,6 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       tipo();
       jj_consume_token(IS);
       lista_identificadores_variavel();
-      valor();
       jj_consume_token(PONTO);
       variavel_recursiva();
     } catch (ParseException e) {
@@ -705,8 +704,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         break;
       default:
         jj_la1[20] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+
       }
     } catch (ParseException e) {
               if(token_source.foundLexError() == 0) {
@@ -1037,7 +1035,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
   static private Token jj_consume_token(int kind) throws ParseException {
     Token oldToken;
-    if(token_source.foundLexError() > 0) throw generateParseException();
+      if(token_source.foundLexError() > 0) throw generateParseException();
     if ((oldToken = token).next != null) token = token.next;
     else token = token.next = token_source.getNextToken();
     jj_ntk = -1;
@@ -1071,7 +1069,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   }
 
   static private int jj_ntk() {
-    if(token_source.foundLexError() > 0) return 0;
+      if(token_source.foundLexError() > 0) return -1;
     if ((jj_nt=token.next) == null)
       return (jj_ntk = (token.next=token_source.getNextToken()).kind);
     else
