@@ -94,6 +94,7 @@ public class ParseException extends Exception {
    * of the final stack trace, and hence the correct error message
    * gets displayed.
    */
+  public String[] tokensexpressao = {"==","!=","<",">","<=",">=","+","-","|","*","/","%","%%","&","**"};
   public String getMessage() {
     if (!specialConstructor) {
       return super.getMessage();
@@ -110,9 +111,32 @@ public class ParseException extends Exception {
       if (expectedTokenSequences[i][expectedTokenSequences[i].length - 1] != 0) {
         expected.append("...");
       }
-      expected.append(eol).append("    ");
+      expected.append(", ").append("    ");
     }
-    String retval = "Encontrado \"";
+    String retval = "";
+    if((tokenImage[currentToken.next.kind].equals("<EOF>")) && (currentToken.image.equals("}"))){  //Mensagem programa finalizado incorretamente
+            retval += "\n" + "\n" + "ERRO (04)---> Programa Finalizado Incorretamente. ";
+    }else if(!(tokenImage[currentToken.next.kind].equals("}")) && (currentToken.image.equals("}"))){  //Mensagem funcao finalizada incorretamente
+          retval += "\n" + "\n" + "ERRO (05)---> Função não foi finalizada corretamente,  ";
+    }
+    if(currentToken.next.image.equals("to")){  //Mensagem expressão invalida
+          retval += "\n" + "\n" + "ERRO (06)---> Expressão Inválida,   ";
+    }
+    if((currentToken.image.equals("(")) && (currentToken.next.image.equals(")"))){  //Mensagem expressão VAZIA
+          retval += "\n" + "\n" + "ERRO (06)---> Expressão Inválida,   ";
+    }
+    if(((!(currentToken.image.equals("<IDENTIFICADOR>")))
+            || (!(currentToken.image.equals("<CONSTANTE_NUM_REAL>")))
+            || (!(currentToken.image.equals("<CONSTANTE_NUM_INT>")))
+            || (!(currentToken.image.equals("<CONSTANTE_LIT>"))))
+            && (currentToken.next.image.equals("is"))){  //Mensagem expressão VAZIA
+          retval += "\n" + "\n" + "ERRO (06)---> Expressão Inválida,   ";
+    }
+    if(currentToken.image.equals("variable")){
+        retval += "\n" + "\n" + "ERRO (07)---> Tipo Inválido,   ";
+    }
+
+    retval += "\n" + "Encontrado  \" ";
     Token tok = currentToken.next;
     for (int i = 0; i < maxSize; i++) {
       if (i != 0) retval += " ";
@@ -130,9 +154,9 @@ public class ParseException extends Exception {
     retval += "\" na linha " + currentToken.next.beginLine + ", coluna " + currentToken.next.beginColumn;
     retval += "." + eol;
     if (expectedTokenSequences.length == 1) {
-      retval += "Estava sendo esperado:" + eol + "    ";
+      retval += "Estava sendo esperado:" + eol  + "   ";
     } else {
-      retval += "Estava sendo esperado um:" + eol + "    ";
+      retval += "Estava sendo esperado um: " + eol + "   ";
     }
     retval += expected.toString();
     return retval;
