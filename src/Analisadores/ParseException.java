@@ -173,6 +173,18 @@ public class ParseException extends Exception {
     ) {
           retval += "\n" + "\n" + "ERRO (12)---> Vetor declarado incorretamente,   ";
       }
+    if("SET".contains(expected.toString())
+            || ("GET".contains(expected.toString()))
+            || ("PUT".contains(expected.toString()))
+            || ("LOOP".contains(expected.toString()))
+            || ("WHILE".contains(expected.toString()))
+            || ("VERIFY".contains(expected.toString()))
+    ){
+        retval += "\n" + "\n" + "ERRO (08)---> COMANDO Inválido,   ";
+    }
+    if(".".contains(expected.toString())){
+        retval += "\n" + "\n" + "ERRO (13)---> Comando ou funcao finalizado incorretamente,   ";
+      }
 
 
     retval += "\n" + "Encontrado  \" ";
