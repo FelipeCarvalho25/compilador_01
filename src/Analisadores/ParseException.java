@@ -122,6 +122,20 @@ public class ParseException extends Exception {
     if(currentToken.next.image.equals("to")){  //Mensagem expressão invalida
           retval += "\n" + "\n" + "ERRO (06)---> Expressão Inválida,   ";
     }
+      if(currentToken.next.image.equals(")")
+              || (currentToken.image.equals("+"))
+              || (currentToken.image.equals("-"))
+              || (currentToken.image.equals("*"))
+              || (currentToken.image.equals("/"))
+              || (currentToken.image.equals("=="))
+              || (currentToken.image.equals(">="))
+              || (currentToken.image.equals("<="))
+              || (currentToken.image.equals(">"))
+              || (currentToken.image.equals("<"))
+
+      ){  //Mensagem expressão invalida
+          retval += "\n" + "\n" + "ERRO (06)---> Expressão Inválida,   ";
+      }
     if((currentToken.image.equals("(")) && (currentToken.next.image.equals(")"))){  //Mensagem expressão VAZIA
           retval += "\n" + "\n" + "ERRO (06)---> Expressão Inválida,   ";
     }
@@ -133,8 +147,33 @@ public class ParseException extends Exception {
           retval += "\n" + "\n" + "ERRO (06)---> Expressão Inválida,   ";
     }
     if(currentToken.image.equals("variable")){
-        retval += "\n" + "\n" + "ERRO (07)---> Tipo Inválido,   ";
+        retval += "\n" + "\n" + "ERRO (07)---> TIPO Inválido,   ";
     }
+    if(currentToken.image.equals("get")
+            || (currentToken.image.equals("put"))
+            || (currentToken.image.equals("verify"))
+            || (currentToken.image.equals("set"))
+            || (currentToken.image.equals("loop"))
+            || (currentToken.image.equals("while"))
+
+      ){
+        retval += "\n" + "\n" + "ERRO (08)---> COMANDO Inválido,   ";
+    }
+    if(currentToken.image.equals("define")){
+        retval += "\n" + "\n" + "ERRO (09)---> Erro na inicializacao de variaveis,   ";
+    }
+    if(currentToken.image.equals("program")){
+          retval += "\n" + "\n" + "ERRO (10)---> Programa inicializado incorretamente,   ";
+    }
+    if(currentToken.image.equals("execute")){
+          retval += "\n" + "\n" + "ERRO (11)---> Corpo do programa inicializado incorretamente,   ";
+    }
+    if(currentToken.next.image.equals("[")
+              || (currentToken.image.equals("]"))
+    ) {
+          retval += "\n" + "\n" + "ERRO (12)---> Vetor declarado incorretamente,   ";
+      }
+
 
     retval += "\n" + "Encontrado  \" ";
     Token tok = currentToken.next;
