@@ -115,14 +115,14 @@ public class ParseException extends Exception {
     }
     String retval = "";
     if((tokenImage[currentToken.next.kind].equals("<EOF>")) && (currentToken.image.equals("}"))){  //Mensagem programa finalizado incorretamente
-            retval += "\n" + "\n" + "ERRO (04)---> Programa Finalizado Incorretamente. ";
+            retval += "\n" + "\n" + "ERRO (03)---> Programa Finalizado Incorretamente. ";
     }else if(!(tokenImage[currentToken.next.kind].equals("}")) && (currentToken.image.equals("}"))){  //Mensagem funcao finalizada incorretamente
-          retval += "\n" + "\n" + "ERRO (05)---> Função não foi finalizada corretamente,  ";
+          retval += "\n" + "\n" + "ERRO (04)---> Função não foi finalizada corretamente,  ";
     }
-    if(currentToken.next.image.equals("to")){  //Mensagem expressão invalida
-          retval += "\n" + "\n" + "ERRO (06)---> Expressão Inválida,   ";
+    else if(currentToken.next.image.equals("to")){  //Mensagem expressão invalida
+          retval += "\n" + "\n" + "ERRO (05)---> Expressão Inválida,   ";
     }
-      if(currentToken.next.image.equals(")")
+      else if(currentToken.next.image.equals(")")
               || (currentToken.image.equals("+"))
               || (currentToken.image.equals("-"))
               || (currentToken.image.equals("*"))
@@ -134,22 +134,22 @@ public class ParseException extends Exception {
               || (currentToken.image.equals("<"))
 
       ){  //Mensagem expressão invalida
-          retval += "\n" + "\n" + "ERRO (06)---> Expressão Inválida,   ";
+          retval += "\n" + "\n" + "ERRO (05)---> Expressão Inválida,   ";
       }
-    if((currentToken.image.equals("(")) && (currentToken.next.image.equals(")"))){  //Mensagem expressão VAZIA
-          retval += "\n" + "\n" + "ERRO (06)---> Expressão Inválida,   ";
+    else if((currentToken.image.equals("(")) && (currentToken.next.image.equals(")"))){  //Mensagem expressão VAZIA
+          retval += "\n" + "\n" + "ERRO (05)---> Expressão Inválida,   ";
     }
-    if(((!(currentToken.image.equals("<IDENTIFICADOR>")))
+    else if(((!(currentToken.image.equals("<IDENTIFICADOR>")))
             || (!(currentToken.image.equals("<CONSTANTE_NUM_REAL>")))
             || (!(currentToken.image.equals("<CONSTANTE_NUM_INT>")))
             || (!(currentToken.image.equals("<CONSTANTE_LIT>"))))
             && (currentToken.next.image.equals("is"))){  //Mensagem expressão VAZIA
-          retval += "\n" + "\n" + "ERRO (06)---> Expressão Inválida,   ";
+          retval += "\n" + "\n" + "ERRO (05)---> Expressão Inválida,   ";
     }
-    if(currentToken.image.equals("variable")){
-        retval += "\n" + "\n" + "ERRO (07)---> TIPO Inválido,   ";
+    else if(currentToken.image.equals("variable")){
+        retval += "\n" + "\n" + "ERRO (06)---> TIPO Inválido,   ";
     }
-    if(currentToken.image.equals("get")
+    else if(currentToken.image.equals("get")
             || (currentToken.image.equals("put"))
             || (currentToken.image.equals("verify"))
             || (currentToken.image.equals("set"))
@@ -157,33 +157,34 @@ public class ParseException extends Exception {
             || (currentToken.image.equals("while"))
 
       ){
-        retval += "\n" + "\n" + "ERRO (08)---> COMANDO Inválido,   ";
+        retval += "\n" + "\n" + "ERRO (07)---> COMANDO Inválido,   ";
     }
-    if(currentToken.image.equals("define")){
-        retval += "\n" + "\n" + "ERRO (09)---> Erro na inicializacao de variaveis,   ";
+    else if(currentToken.image.equals("define")){
+        retval += "\n" + "\n" + "ERRO (08)---> Erro na inicializacao de variaveis,   ";
     }
-    if(currentToken.image.equals("program")){
-          retval += "\n" + "\n" + "ERRO (10)---> Programa inicializado incorretamente,   ";
+    else if(currentToken.image.equals("program")){
+          retval += "\n" + "\n" + "ERRO (09)---> Programa inicializado incorretamente,   ";
     }
-    if(currentToken.image.equals("execute")){
-          retval += "\n" + "\n" + "ERRO (11)---> Corpo do programa inicializado incorretamente,   ";
+    else if(currentToken.image.equals("execute")){
+          retval += "\n" + "\n" + "ERRO (10)---> Corpo do programa inicializado incorretamente,   ";
     }
-    if(currentToken.next.image.equals("[")
+    else if(currentToken.next.image.equals("[")
               || (currentToken.image.equals("]"))
     ) {
-          retval += "\n" + "\n" + "ERRO (12)---> Vetor declarado incorretamente,   ";
+          retval += "\n" + "\n" + "ERRO (11)---> Vetor declarado incorretamente,   ";
       }
-    if("SET".contains(expected.toString())
-            || ("GET".contains(expected.toString()))
-            || ("PUT".contains(expected.toString()))
-            || ("LOOP".contains(expected.toString()))
-            || ("WHILE".contains(expected.toString()))
-            || ("VERIFY".contains(expected.toString()))
+    else if(expected.toString().contains("SET")
+            || (expected.toString().contains("GET"))
+            || (expected.toString().contains("PUT"))
+            || (expected.toString().contains("LOOP"))
+            || (expected.toString().contains("WHILE"))
+            || (expected.toString().contains("VERIFY"))
+            || (expected.toString().contains("DEFINE"))
     ){
-        retval += "\n" + "\n" + "ERRO (08)---> COMANDO Inválido,   ";
+        retval += "\n" + "\n" + "ERRO (07)---> Comando Inválido,   ";
     }
-    if(".".contains(expected.toString())){
-        retval += "\n" + "\n" + "ERRO (13)---> Comando ou funcao finalizado incorretamente,   ";
+        else if(expected.toString().contains("\".\"")){
+        retval += "\n" + "\n" + "ERRO (12)---> Comando ou funcao finalizado incorretamente,   ";
       }
 
 
