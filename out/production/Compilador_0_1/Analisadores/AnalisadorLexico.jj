@@ -47,6 +47,7 @@ SPECIAL_TOKEN : {
     ,"\f", "&", "|"])+ > {mensagens_erros.append("ERRO(01): ENCONTRADO SIMBOLO INVALIDO -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); countLexError++; }
     | <INVALID_STRG1: "\"" (~["\n","\r", "\"" ])* ["\n","\r"] > {mensagens_erros.append("ERRO(02): STRING NAO FINALIZADA -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); countLexError++; }
     | <INVALID_STRG2: "'" (~["\n","\r", "'" ])* ["\n","\r"] > {mensagens_erros.append("ERRO(02): STRING NAO FINALIZADA -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); countLexError++; }
+    | <INVALID_IDENT: "_""_"(["a"-"z","A"-"Z"] | ["0" - "9"])* | (["a"-"z","A"-"Z"] | ["0" - "9"])* "_""_" | (["a"-"z","A"-"Z"] | ["0" - "9"])*"_""_"(["a"-"z","A"-"Z"] | ["0" - "9"])*   > {mensagens_erros.append("ERRO(03): IDENTIFICADOR INVÁLIDO -> "+image + "; linha: " +input_stream.getEndLine() + "coluna:" +  input_stream.getBeginColumn() +"\r\n"); countLexError++; }
 
 
 
@@ -168,7 +169,35 @@ void program ():
 }
 {
     try{
-        comentario() <PROGRAM>  <ACHAVE> declaracao_variaveis() corpo_do_programa() <FCHAVE> identificador_programa() <EOF>
+        comentario()
+        try{
+            <PROGRAM>
+        } catch(ParseException e){
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
+        try{
+            <ACHAVE>
+        } catch(ParseException e){
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
+        declaracao_variaveis()
+        corpo_do_programa()
+        try{
+           <FCHAVE>
+        } catch(ParseException e){
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
+        identificador_programa()
+        <EOF>
     } catch(ParseException e){
               if(token_source.foundLexError() == 0) {
                   nCountSintaticError += 1;
@@ -192,7 +221,31 @@ void define():
 {}
 {
     try{
-        <DEFINE> <ACHAVE> estrutura_define() <FCHAVE>
+        try{
+            <DEFINE>
+        } catch(ParseException e){
+                      if(token_source.foundLexError() == 0) {
+                          nCountSintaticError += 1;
+                          mensagens_erros_sintatic.append(e.getMessage());
+                      }
+                  }
+        try{
+            <ACHAVE>
+        } catch(ParseException e){
+                      if(token_source.foundLexError() == 0) {
+                          nCountSintaticError += 1;
+                          mensagens_erros_sintatic.append(e.getMessage());
+                      }
+                  }
+         estrutura_define()
+         try{
+            <FCHAVE>
+         } catch(ParseException e){
+                       if(token_source.foundLexError() == 0) {
+                           nCountSintaticError += 1;
+                           mensagens_erros_sintatic.append(e.getMessage());
+                       }
+                   }
     } catch(ParseException e){
               if(token_source.foundLexError() == 0) {
                   nCountSintaticError += 1;
