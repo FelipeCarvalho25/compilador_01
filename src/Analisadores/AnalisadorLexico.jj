@@ -12,8 +12,10 @@ public class AnalisadorLexico {
     }
     public int getSintaticError() {
            return this.nCountSintaticError;
-        }
+    }
+    public void acaoSemantica(String codigo){
 
+    }
     public String getMensagensErros() {
        return this.token_source.getMensagensErros();
     }
@@ -197,6 +199,7 @@ void program ():
             }
         }
         identificador_programa()
+        acaoSemantica("#1");
         <EOF>
     } catch(ParseException e){
         if(token_source.foundLexError() == 0) {
@@ -306,6 +309,7 @@ void variavel():{
 {
     try{
          <VARIABLE>
+         acaoSemantica("#6");
         } catch(ParseException e){
              if(token_source.foundLexError() == 0) {
              nCountSintaticError += 1;
@@ -328,6 +332,7 @@ void constante():{
     }
     try{
          <VARIABLE>
+         acaoSemantica("#3");
         } catch(ParseException e){
              if(token_source.foundLexError() == 0) {
              nCountSintaticError += 1;
@@ -348,7 +353,10 @@ void constantes():
                  mensagens_erros_sintatic.append(e.getMessage());
              }
         }
-        lista_identificadores() valor()
+        lista_identificadores_de_constantes()
+        acaoSemantica("#4");
+        valor()
+        acaoSemantica("#5");
         try{
              <PONTO>
             } catch(ParseException e){
@@ -441,6 +449,7 @@ void variaveis():
         }
     }
     lista_identificadores_variavel()
+    acaoSemantica("#4");
     try{
         <PONTO>
     } catch(ParseException e){
@@ -479,6 +488,7 @@ void tipo():
 {
     try{
          <NATURAL>
+         acaoSemantica("#7");
     } catch(ParseException e){
          if(token_source.foundLexError() == 0) {
              nCountSintaticError += 1;
@@ -488,6 +498,7 @@ void tipo():
     |
     try{
         <REAL>
+        acaoSemantica("#8");
     } catch(ParseException e){
          if(token_source.foundLexError() == 0) {
              nCountSintaticError += 1;
@@ -497,6 +508,7 @@ void tipo():
     |
     try{
         <CHAR>
+        acaoSemantica("#9");
     } catch(ParseException e){
         if(token_source.foundLexError() == 0) {
              nCountSintaticError += 1;
@@ -506,6 +518,7 @@ void tipo():
     |
     try{
          <BOOLEAN>
+         acaoSemantica("#10");
     } catch(ParseException e){
          if(token_source.foundLexError() == 0) {
              nCountSintaticError += 1;
@@ -519,6 +532,7 @@ void get():
 {
     try{
         <GET>
+        acaoSemantica("#17");
     } catch(ParseException e){
          if(token_source.foundLexError() == 0) {
             nCountSintaticError += 1;
@@ -533,7 +547,7 @@ void get():
              mensagens_erros_sintatic.append(e.getMessage());
         }
     }
-    lista_identificadores()
+    lista_identificadores_variavel()
     try{
         <FCHAVE>
     } catch(ParseException e){
@@ -608,7 +622,10 @@ void tipo_constante():
 }
 {
         try{
-            <IDENTIFICADOR> indice()
+            <IDENTIFICADOR>
+            acaoSemantica("#18");
+            indice()
+            acaoSemantica("#20");
         } catch(ParseException e){
             if(token_source.foundLexError() == 0) {
                CountSintaticError += 1;
@@ -619,6 +636,7 @@ void tipo_constante():
         |
         try{
              <CONSTANTE_NUM_REAL>
+             acaoSemantica("#22");
             } catch(ParseException e){
                  if(token_source.foundLexError() == 0) {
                  nCountSintaticError += 1;
@@ -628,6 +646,7 @@ void tipo_constante():
         |
         try{
              <CONSTANTE_LIT>
+             acaoSemantica("#23");
             } catch(ParseException e){
                  if(token_source.foundLexError() == 0) {
                  nCountSintaticError += 1;
@@ -637,6 +656,7 @@ void tipo_constante():
         |
         try{
              <CONSTANTE_NUM_INT>
+             acaoSemantica("#21");
         } catch(ParseException e){
              if(token_source.foundLexError() == 0) {
                  nCountSintaticError += 1;
@@ -673,28 +693,23 @@ void lista_identificadores_variavel():
 {
     try{
         <IDENTIFICADOR>
+        acaoSemantica("#12");
+
     } catch(ParseException e){
         if(token_source.foundLexError() == 0) {
             nCountSintaticError += 1;
             mensagens_erros_sintatic.append(e.getMessage());
         }
     }
+    indice()
+    acaoSemantica("#13");
     lista_identificadores_variavel_recursivo()
 }
 
 void lista_identificadores_variavel_recursivo():
 {}
 {
-    try{
-        <VIRGULA>
-    } catch(ParseException e){
-        if(token_source.foundLexError() == 0) {
-             nCountSintaticError += 1;
-             mensagens_erros_sintatic.append(e.getMessage());
-        }
-    }
-    lista_identificadores_variavel() |
-    indice()
+
     try{
         <VIRGULA>
     } catch(ParseException e){
@@ -715,12 +730,13 @@ void lista_identificadores_variavel_recursivo():
     }
 }
 
-void lista_identificadores():
+void lista_identificadores_de_constantes():
 {
 }
 {
     try{
          <IDENTIFICADOR>
+         acaoSematica("#11");
     } catch(ParseException e){
         if(token_source.foundLexError() == 0) {
              nCountSintaticError += 1;
@@ -741,7 +757,7 @@ void lista_identificadores_recursivo():
              mensagens_erros_sintatic.append(e.getMessage());
          }
     }
-    lista_identificadores() |
+    lista_identificadores_de_constantes() |
     try{
         {}
     }catch(ParseException e){
@@ -839,6 +855,7 @@ void identificador_programa():{
 {
     try{
         <IDENTIFICADOR>
+        acaoSemantica("#2");
     } catch(ParseException e){
         if(token_source.foundLexError() == 0) {
              nCountSintaticError += 1;
@@ -905,6 +922,7 @@ void selecao():
     }
 
     expressao()  isTrueFalse()
+    acaoSemantica("#24");
     try{
         <PONTO>
     } catch(ParseException e){
@@ -933,6 +951,7 @@ void  trueFalse():
 {
     try{
         <TRUE>
+        acaoSemantica("#25");
     } catch(ParseException e){
         if(token_source.foundLexError() == 0) {
             nCountSintaticError += 1;
@@ -960,6 +979,7 @@ void  trueFalse():
     |
     try{
          <FALSE>
+         acaoSemantica("#26");
     } catch(ParseException e){
          if(token_source.foundLexError() == 0) {
              nCountSintaticError += 1;
@@ -999,6 +1019,7 @@ void isTrue():
     }
     try{
          <TRUE>
+         acaoSemantica("#27");
     } catch(ParseException e){
          if(token_source.foundLexError() == 0) {
              nCountSintaticError += 1;
@@ -1045,6 +1066,7 @@ void isFalse():
     }
     try{
         <FALSE>
+        acaoSemantica("#27");
     } catch(ParseException e){
         if(token_source.foundLexError() == 0) {
             nCountSintaticError += 1;
@@ -1085,6 +1107,7 @@ void atribuicao():
 {
     try{
 	    <SET>
+        acaoSemantica("#15");
 	} catch(ParseException e){
         if(token_source.foundLexError() == 0) {
             nCountSintaticError += 1;
@@ -1100,7 +1123,8 @@ void atribuicao():
             mensagens_erros_sintatic.append(e.getMessage());
         }
     }
-    lista_identificadores()
+    lista_identificadores_variavel()
+    acaoSemantica("#16");
     try{
         <PONTO>
     } catch(ParseException e){
@@ -1116,6 +1140,7 @@ void repeticao():
 {
     try{
 	    <LOOP>
+	    acaoSemantica("#28");
 	} catch(ParseException e){
         if(token_source.foundLexError() == 0) {
             nCountSintaticError += 1;
@@ -1148,6 +1173,7 @@ void repeticao():
         }
     }
     expressao()
+    acaoSemantica("#29");
     try{
          <IS>
     } catch(ParseException e){
@@ -1175,6 +1201,7 @@ void repeticao():
     |
     try{
          <WHILE>
+         acaoSemantica("#30");
     } catch(ParseException e){
         if(token_source.foundLexError() == 0) {
             nCountSintaticError += 1;
@@ -1182,6 +1209,7 @@ void repeticao():
         }
     }
     expressao()
+    acaoSemantica("#31");
     try{
          <IS>
     } catch(ParseException e){
@@ -1217,6 +1245,7 @@ void repeticao():
     lista_de_comandos()
     try{
          <FCHAVE>
+         acaoSemantica("#32");
     } catch(ParseException e){
         if(token_source.foundLexError() == 0) {
             nCountSintaticError += 1;
@@ -1261,6 +1290,7 @@ void expressao2():
             }
         }
         expressaoaritmeticaoulogica()
+        acaoSemantica("#33");
 	    |
 	     try{
 	        <DIFERENTE>
@@ -1271,6 +1301,7 @@ void expressao2():
                      }
                  }
 	    expressaoaritmeticaoulogica()
+	     acaoSemantica("#34");
 	    |
 	    try{
 	        <MENOR>
@@ -1281,6 +1312,7 @@ void expressao2():
                              }
                          }
 	    expressaoaritmeticaoulogica()
+	     acaoSemantica("#35");
 	    |
 	    try{
 	        <MAIOR>
@@ -1291,6 +1323,7 @@ void expressao2():
                                      }
                                  }
 	    expressaoaritmeticaoulogica()
+	     acaoSemantica("#36");
 	    |
 	    try{
 	        <MENOROUIGUAL>
@@ -1301,6 +1334,7 @@ void expressao2():
                                              }
                                          }
 	    expressaoaritmeticaoulogica()
+	     acaoSemantica("#37");
 	    |
 	    try{
 	        <MAIOROUIGUAL>
@@ -1311,6 +1345,7 @@ void expressao2():
                                                      }
                                                  }
 	    expressaoaritmeticaoulogica()
+	     acaoSemantica("#38");
 	    |
 	    try{
             {}
@@ -1355,6 +1390,7 @@ void menorprioridade():
                 }
             }
 	    termo2() menorprioridade()
+	     acaoSemantica("#39");
 	    |
 	    try{
 	        <SUBTRACAO>
@@ -1365,6 +1401,7 @@ void menorprioridade():
                         }
                     }
 	    termo2() menorprioridade()
+	     acaoSemantica("#40");
 	    |
 	    try{
 	        <OU>
@@ -1375,6 +1412,7 @@ void menorprioridade():
                                 }
                             }
 	    termo2() menorprioridade()
+	    acaoSemantica("#41");
 	    |
 	    try{
             {}
@@ -1419,6 +1457,7 @@ void mediaprioridade():
                 }
             }
     	termo1() mediaprioridade()
+    	acaoSemantica("#42");
 	    |
 	    try{
 	        <DIVISAO>
@@ -1429,6 +1468,7 @@ void mediaprioridade():
                          }
                      }
 	    termo1() mediaprioridade()
+	    acaoSemantica("#43");
 	    |
 	    try{
 	        <DIVISAOINTEIRA>
@@ -1439,6 +1479,7 @@ void mediaprioridade():
                                  }
                              }
 	    termo1() mediaprioridade()
+	    acaoSemantica("#44");
 	    |
 	    try{
 	        <RESTODIVISAO>
@@ -1449,6 +1490,7 @@ void mediaprioridade():
                                          }
                                      }
 	    termo1() mediaprioridade()
+	    acaoSemantica("#45");
 	    |
 	    try{
 	        <E>
@@ -1459,6 +1501,7 @@ void mediaprioridade():
                                                  }
                                              }
 	    termo1() mediaprioridade()
+	    acaoSemantica("#46");
 	    |
 	    try{
             {}
@@ -1502,6 +1545,7 @@ void maiorprioridade():
                 }
             }
     	elemento() maiorprioridade()
+    	acaoSemantica("#47");
 	    |
 	    try{
             {}
@@ -1525,6 +1569,7 @@ void elemento():
     try{
         try{
 	        <IDENTIFICADOR>
+	        acaoSemantica("#19");
 	    } catch(ParseException e){
                 if(token_source.foundLexError() == 0) {
                     nCountSintaticError += 1;
@@ -1532,9 +1577,11 @@ void elemento():
                 }
             }
 	    indice()
+	    acaoSemantica("#20");
 	    |
 	    try{
 	        <CONSTANTE_NUM_INT>
+	        acaoSemantica("#21");
 	    } catch(ParseException e){
                 if(token_source.foundLexError() == 0) {
                     nCountSintaticError += 1;
@@ -1544,6 +1591,7 @@ void elemento():
 	    |
 	    try{
 	        <CONSTANTE_NUM_REAL>
+	        acaoSemantica("#22");
 	    } catch(ParseException e){
                 if(token_source.foundLexError() == 0) {
                     nCountSintaticError += 1;
@@ -1553,6 +1601,7 @@ void elemento():
 	    |
 	    try{
 	        <CONSTANTE_LIT>
+	        acaoSemantica("#23");
 	    } catch(ParseException e){
                 if(token_source.foundLexError() == 0) {
                     nCountSintaticError += 1;
@@ -1562,6 +1611,7 @@ void elemento():
 	    |
 	    try{
 	        <TRUE>
+	        acaoSemantica("#48");
 	    } catch(ParseException e){
                 if(token_source.foundLexError() == 0) {
                     nCountSintaticError += 1;
@@ -1571,6 +1621,7 @@ void elemento():
 	    |
 	    try{
 	        <FALSE>
+	        acaoSemantica("#49");
 	    } catch(ParseException e){
                 if(token_source.foundLexError() == 0) {
                     nCountSintaticError += 1;
@@ -1615,6 +1666,7 @@ void elemento():
 	     expressao()
 	     try{
 	        <FPARENT>
+	        acaoSemantica("#50");
 	     } catch(ParseException e){
                  if(token_source.foundLexError() == 0) {
                      nCountSintaticError += 1;
@@ -1643,6 +1695,7 @@ void indice():
         }
         try{
 	        <CONSTANTE_NUM_INT>
+            acaoSemantica("#14");
 	    }catch(ParseException e){
             if(token_source.foundLexError() == 0) {
                 nCountSintaticError += 1;
