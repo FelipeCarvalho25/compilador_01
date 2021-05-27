@@ -6,6 +6,7 @@ import Analisadores.ParseException;
 import Analisadores.TokenMgrError;
 import Editor_de_Texto.Area_de_transferencia;
 import Editor_de_Texto.Manipulador_arquivo;
+import VMExecucao.Maquina_Virtual_Execucao;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -52,6 +53,7 @@ public class Tela_principal extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTextArea area_texto;
+    private javax.swing.JTextArea area_Cod_Inter;
     private javax.swing.JTextArea  label_cont;
     private javax.swing.JLabel label_rodape;
     private javax.swing.JToolBar barra_ferramentas;
@@ -66,17 +68,20 @@ public class Tela_principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem item_comp_compilar;
     private javax.swing.JMenuItem item_comp_executar;
     private javax.swing.JScrollPane dentroTab;
+    private javax.swing.JScrollPane dentroTab2;
     private javax.swing.JTabbedPane area_tabs;
     private javax.swing.JFileChooser seletor_aqruivos;
     private File file;
     private String texto_original;
+    private Maquina_Virtual_Execucao tela_de_execucao;
     private boolean abriu_arquivo = false;
     private boolean salvou_arquivo = true;
     private boolean salvando = false;
     private boolean salvar_como = false;
+    private boolean compilado_com_sucesso = false;
     private AnalisadorLexico analisadorLexico;
     int caretPos = 0, rowNum = 1, finale = 0, colNum = 1;
-    String coluna = "1", linha = "1";
+    String coluna = "1", linha = "1", codigoIntermediario = "";
 
     private Integer contlinha;
     // End of variables declaration
@@ -91,6 +96,7 @@ public class Tela_principal extends javax.swing.JFrame {
 
         painel_area_texto = new JScrollPane();
         area_texto = new JTextArea();
+        area_Cod_Inter = new JTextArea();
         label_cont = new JTextArea();
         label_rodape = new JLabel();
         area_mensagem = new JScrollPane();
@@ -125,6 +131,7 @@ public class Tela_principal extends javax.swing.JFrame {
         item_comp_compilar = new JMenuItem();
         item_comp_executar = new JMenuItem();
         dentroTab = new JScrollPane();
+        dentroTab2 = new JScrollPane();
         area_tabs = new JTabbedPane();
         contlinha = new Integer(1);
         seletor_aqruivos =  new JFileChooser();
@@ -352,6 +359,9 @@ public class Tela_principal extends javax.swing.JFrame {
 
         area_texto.addKeyListener(keyAction);
         area_texto.setRows(5);
+        area_Cod_Inter.addKeyListener(keyAction);
+        area_Cod_Inter.setRows(5);
+        dentroTab2.setViewportView(area_Cod_Inter);
         dentroTab.setViewportView(area_texto);
 
         area_cont_linha.setViewportView(label_cont);
@@ -489,6 +499,7 @@ public class Tela_principal extends javax.swing.JFrame {
                 String mensagens_saida = "";
                 int qtdErrosLex = 0;
                 int qtdErrosSint = 0;
+                int qtdErrosSem = 0;
                 try{
 
                     //String initialString = "text";
@@ -511,7 +522,13 @@ public class Tela_principal extends javax.swing.JFrame {
                     else if(qtdErrosSint > 0) {
                         mensagens_saida += analisadorLexico.getMsgSintaticError();
                     }
+                    else if(qtdErrosSem > 0) {
+                        mensagens_saida += "";//implementar aqui o retorno das mensagens de erros semanticos//analisadorLexico.getMsgSintaticError();
+                    }
                     else{
+                        compilado_com_sucesso = true;
+                        codigoIntermediario = "";//implementar o get do código intermediario
+                        area_tabs.addTab("Codigo Intermediario", dentroTab2);
                         mensagens_saida += "Programa compilado com sucesso! \n";
                     }
                 }
@@ -528,8 +545,14 @@ public class Tela_principal extends javax.swing.JFrame {
         executar.setVerticalTextPosition(SwingConstants.BOTTOM);
         executar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                //chama compilador
-                area_text_mensagem.setText("Executando...\nExecutado.");
+                if(!compilado_com_sucesso ){
+                    //chama compilador
+                    area_text_mensagem.setText("Programa não compilado com sucesso, favor compilar!");
+                }else{
+                    tela_de_execucao = new Maquina_Virtual_Execucao(codigoIntermediario);
+                    tela_de_execucao.executa();
+
+                }
             }
         });
         barra_ferramentas.add(executar);
@@ -721,6 +744,7 @@ public class Tela_principal extends javax.swing.JFrame {
                         mensagens_saida += analisadorLexico.getMsgSintaticError();
                     }
                     else{
+                        compilado_com_sucesso = true;
                         mensagens_saida += "Programa compilado com sucesso! \n";
                     }
                 }
@@ -731,8 +755,14 @@ public class Tela_principal extends javax.swing.JFrame {
         item_comp_executar.setText("Executar");
         item_comp_executar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                //chama compilador
-                area_text_mensagem.setText("Executando...\nExecutado.");
+                if(!compilado_com_sucesso ){
+                    //chama compilador
+                    area_text_mensagem.setText("Programa não compilado com sucesso, favor compilar!");
+                }else{
+                    tela_de_execucao = new Maquina_Virtual_Execucao(codigoIntermediario);
+                    tela_de_execucao.executa();
+                }
+
             }
         });
 
