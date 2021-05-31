@@ -17,109 +17,111 @@ public interface AnalisadorLexicoConstants {
   /** RegularExpression Id. */
   int INVALID_STRG2 = 3;
   /** RegularExpression Id. */
-  int PROGRAM = 4;
+  int INVALID_IDENT = 4;
   /** RegularExpression Id. */
-  int DEFINE = 5;
+  int PROGRAM = 5;
   /** RegularExpression Id. */
-  int NOT = 6;
+  int DEFINE = 6;
   /** RegularExpression Id. */
-  int VARIABLE = 7;
+  int NOT = 7;
   /** RegularExpression Id. */
-  int IS = 8;
+  int VARIABLE = 8;
   /** RegularExpression Id. */
-  int BOOLEAN = 9;
+  int IS = 9;
   /** RegularExpression Id. */
-  int CHAR = 10;
+  int BOOLEAN = 10;
   /** RegularExpression Id. */
-  int REAL = 11;
+  int CHAR = 11;
   /** RegularExpression Id. */
-  int NATURAL = 12;
+  int REAL = 12;
   /** RegularExpression Id. */
-  int EXECUTE = 13;
+  int NATURAL = 13;
   /** RegularExpression Id. */
-  int SET = 14;
+  int EXECUTE = 14;
   /** RegularExpression Id. */
-  int GET = 15;
+  int SET = 15;
   /** RegularExpression Id. */
-  int PUT = 16;
+  int GET = 16;
   /** RegularExpression Id. */
-  int LOOP = 17;
+  int PUT = 17;
   /** RegularExpression Id. */
-  int WHILE = 18;
+  int LOOP = 18;
   /** RegularExpression Id. */
-  int TRUE = 19;
+  int WHILE = 19;
   /** RegularExpression Id. */
-  int FALSE = 20;
+  int TRUE = 20;
   /** RegularExpression Id. */
-  int DO = 21;
+  int FALSE = 21;
   /** RegularExpression Id. */
-  int TO = 22;
+  int DO = 22;
   /** RegularExpression Id. */
-  int VERIFY = 23;
+  int TO = 23;
   /** RegularExpression Id. */
-  int IDENTIFICADOR = 24;
+  int VERIFY = 24;
   /** RegularExpression Id. */
-  int CONSTANTE_NUM_REAL = 25;
+  int IDENTIFICADOR = 25;
   /** RegularExpression Id. */
-  int CONSTANTE_NUM_INT = 26;
+  int CONSTANTE_NUM_REAL = 26;
   /** RegularExpression Id. */
-  int CONSTANTE_LIT = 27;
+  int CONSTANTE_NUM_INT = 27;
   /** RegularExpression Id. */
-  int ASCII = 28;
+  int CONSTANTE_LIT = 28;
   /** RegularExpression Id. */
-  int LETTER = 29;
+  int ASCII = 29;
   /** RegularExpression Id. */
-  int APARENT = 30;
+  int LETTER = 30;
   /** RegularExpression Id. */
-  int FPARENT = 31;
+  int APARENT = 31;
   /** RegularExpression Id. */
-  int ACHAVE = 32;
+  int FPARENT = 32;
   /** RegularExpression Id. */
-  int FCHAVE = 33;
+  int ACHAVE = 33;
   /** RegularExpression Id. */
-  int ACOLCH = 34;
+  int FCHAVE = 34;
   /** RegularExpression Id. */
-  int FCOLCH = 35;
+  int ACOLCH = 35;
   /** RegularExpression Id. */
-  int VIRGULA = 36;
+  int FCOLCH = 36;
   /** RegularExpression Id. */
-  int PONTO = 37;
+  int VIRGULA = 37;
   /** RegularExpression Id. */
-  int COMENT = 38;
+  int PONTO = 38;
   /** RegularExpression Id. */
-  int ADICAO = 39;
+  int COMENT = 39;
   /** RegularExpression Id. */
-  int SUBTRACAO = 40;
+  int ADICAO = 40;
   /** RegularExpression Id. */
-  int MULTIPLICACAO = 41;
+  int SUBTRACAO = 41;
   /** RegularExpression Id. */
-  int DIVISAO = 42;
+  int MULTIPLICACAO = 42;
   /** RegularExpression Id. */
-  int POTENCIA = 43;
+  int DIVISAO = 43;
   /** RegularExpression Id. */
-  int DIVISAOINTEIRA = 44;
+  int POTENCIA = 44;
   /** RegularExpression Id. */
-  int RESTODIVISAO = 45;
+  int DIVISAOINTEIRA = 45;
   /** RegularExpression Id. */
-  int IGUAL = 46;
+  int RESTODIVISAO = 46;
   /** RegularExpression Id. */
-  int EQUIVALENTE = 47;
+  int IGUAL = 47;
   /** RegularExpression Id. */
-  int DIFERENTE = 48;
+  int EQUIVALENTE = 48;
   /** RegularExpression Id. */
-  int MENOR = 49;
+  int DIFERENTE = 49;
   /** RegularExpression Id. */
-  int MENOROUIGUAL = 50;
+  int MENOR = 50;
   /** RegularExpression Id. */
-  int MAIOR = 51;
+  int MENOROUIGUAL = 51;
   /** RegularExpression Id. */
-  int MAIOROUIGUAL = 52;
+  int MAIOR = 52;
   /** RegularExpression Id. */
-  int NAO = 53;
+  int MAIOROUIGUAL = 53;
   /** RegularExpression Id. */
-  int OU = 54;
+  int NAO = 54;
   /** RegularExpression Id. */
-  int E = 55;
+  int OU = 55;
+  /** RegularExpression Id. */
+  int E = 56;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -134,6 +136,7 @@ public interface AnalisadorLexicoConstants {
     "<INVALID_LEXICAL>",
     "<INVALID_STRG1>",
     "<INVALID_STRG2>",
+    "<INVALID_IDENT>",
     "<PROGRAM>",
     "<DEFINE>",
     "<NOT>",
@@ -194,10 +197,10 @@ public interface AnalisadorLexicoConstants {
     "\" \"",
     "\"/*\"",
     "\"//\"",
-    "<token of kind 64>",
     "<token of kind 65>",
+    "<token of kind 66>",
     "\"*/\"",
-    "<token of kind 67>",
+    "<token of kind 68>",
   };
 
 }

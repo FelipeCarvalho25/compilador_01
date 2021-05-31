@@ -12,8 +12,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     }
     public int getSintaticError() {
            return this.nCountSintaticError;
-        }
+    }
+    public static void acaoSemantica(String codigo){
 
+    }
     public String getMensagensErros() {
        return this.token_source.getMensagensErros();
     }
@@ -24,18 +26,40 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   static final public void program() throws ParseException {
     try {
       comentario();
-      jj_consume_token(PROGRAM);
-      jj_consume_token(ACHAVE);
+      try {
+        jj_consume_token(PROGRAM);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+      }
+      try {
+        jj_consume_token(ACHAVE);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+      }
       declaracao_variaveis();
       corpo_do_programa();
-      jj_consume_token(FCHAVE);
+      try {
+        jj_consume_token(FCHAVE);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+      }
       identificador_programa();
+         acaoSemantica("#1");
       jj_consume_token(0);
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+        if(token_source.foundLexError() == 0) {
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
   }
 
@@ -59,15 +83,36 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
   static final public void define() throws ParseException {
     try {
-      jj_consume_token(DEFINE);
-      jj_consume_token(ACHAVE);
+      try {
+        jj_consume_token(DEFINE);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+            }
+      }
+      try {
+        jj_consume_token(ACHAVE);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+               nCountSintaticError += 1;
+               mensagens_erros_sintatic.append(e.getMessage());
+            }
+      }
       estrutura_define();
-      jj_consume_token(FCHAVE);
+      try {
+        jj_consume_token(FCHAVE);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+      }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+        if(token_source.foundLexError() == 0) {
+           nCountSintaticError += 1;
+           mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
   }
 
@@ -76,11 +121,11 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case NOT:
         constante();
-        variavel_recursiva();
+        chama_variavel();
         break;
       case VARIABLE:
         variavel();
-        constante_recursiva();
+        chama_constante();
         break;
       default:
         jj_la1[1] = jj_gen;
@@ -88,144 +133,126 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         throw new ParseException();
       }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+        if(token_source.foundLexError() == 0) {
+           nCountSintaticError += 1;
+           mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
   }
 
-  static final public void get() throws ParseException {
-    try {
-      jj_consume_token(GET);
-      jj_consume_token(ACHAVE);
-      lista_identificadores();
-      jj_consume_token(FCHAVE);
-      jj_consume_token(PONTO);
-    } catch (ParseException e) {
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-             }
-    }
-  }
-
-  static final public void put() throws ParseException {
-    try {
-      jj_consume_token(PUT);
-      jj_consume_token(ACHAVE);
-      lista_de_identificadore_constantes();
-      jj_consume_token(FCHAVE);
-      jj_consume_token(PONTO);
-    } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-    }
-  }
-
-  static final public void lista_de_identificadore_constantes() throws ParseException {
+  static final public void chama_variavel() throws ParseException {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case IDENTIFICADOR:
-        jj_consume_token(IDENTIFICADOR);
-        lista_de_identificadore_constantes_recursivo();
-        break;
-      case CONSTANTE_NUM_REAL:
-      case CONSTANTE_NUM_INT:
-      case CONSTANTE_LIT:
-        tipo_constante();
-        lista_de_identificadore_constantes_recursivo();
+      case VARIABLE:
+        variavel();
         break;
       default:
         jj_la1[2] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+
       }
     } catch (ParseException e) {
-                  if(token_source.foundLexError() == 0) {
-                      nCountSintaticError += 1;
-                      mensagens_erros_sintatic.append(e.getMessage());
-                  }
+                   if(token_source.foundLexError() == 0) {
+                       nCountSintaticError += 1;
+                       mensagens_erros_sintatic.append(e.getMessage());
+                   }
     }
   }
 
-  static final public void tipo_constante() throws ParseException {
+  static final public void chama_constante() throws ParseException {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case CONSTANTE_NUM_REAL:
-        jj_consume_token(CONSTANTE_NUM_REAL);
-        break;
-      case CONSTANTE_LIT:
-        jj_consume_token(CONSTANTE_LIT);
-        break;
-      case CONSTANTE_NUM_INT:
-        jj_consume_token(CONSTANTE_NUM_INT);
+      case NOT:
+        constante();
         break;
       default:
         jj_la1[3] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-    } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-    }
-  }
-
-  static final public void lista_de_identificadore_constantes_recursivo() throws ParseException {
-    try {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case VIRGULA:
-        jj_consume_token(VIRGULA);
-        lista_de_identificadore_constantes();
-        break;
-      default:
-        jj_la1[4] = jj_gen;
 
       }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+                       if(token_source.foundLexError() == 0) {
+                           nCountSintaticError += 1;
+                           mensagens_erros_sintatic.append(e.getMessage());
+                       }
     }
   }
 
   static final public void variavel() throws ParseException {
     try {
-      jj_consume_token(VARIABLE);
-      tipo();
-      jj_consume_token(IS);
-      lista_identificadores_variavel();
-      jj_consume_token(PONTO);
-      variavel_recursiva();
+      try {
+        jj_consume_token(VARIABLE);
+              acaoSemantica("#6");
+      } catch (ParseException e) {
+                 if(token_source.foundLexError() == 0) {
+                     nCountSintaticError += 1;
+                     mensagens_erros_sintatic.append(e.getMessage());
+                 }
+      }
+      variaveis();
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+        if(token_source.foundLexError() == 0) {
+             nCountSintaticError += 1;
+             mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
   }
 
   static final public void constante() throws ParseException {
     try {
-      jj_consume_token(NOT);
-      jj_consume_token(VARIABLE);
-      tipo();
-      jj_consume_token(IS);
-      lista_identificadores();
-      valor();
-      jj_consume_token(PONTO);
-      constante_recursiva();
-    } catch (ParseException e) {
-             if(token_source.foundLexError() == 0) {
+      try {
+        jj_consume_token(NOT);
+      } catch (ParseException e) {
+                 if(token_source.foundLexError() == 0) {
                  nCountSintaticError += 1;
                  mensagens_erros_sintatic.append(e.getMessage());
-             }
+              }
+      }
+      try {
+        jj_consume_token(VARIABLE);
+              acaoSemantica("#3");
+      } catch (ParseException e) {
+                 if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+              }
+      }
+      constantes();
+    } catch (ParseException e) {
+                               if(token_source.foundLexError() == 0) {
+                                   nCountSintaticError += 1;
+                                   mensagens_erros_sintatic.append(e.getMessage());
+                               }
+    }
+  }
+
+  static final public void constantes() throws ParseException {
+    try {
+      tipo();
+      try {
+        jj_consume_token(IS);
+      } catch (ParseException e) {
+                 if(token_source.foundLexError() == 0) {
+                     nCountSintaticError += 1;
+                     mensagens_erros_sintatic.append(e.getMessage());
+                 }
+      }
+      lista_identificadores_de_constantes();
+             acaoSemantica("#4");
+      valor();
+             acaoSemantica("#5");
+      try {
+        jj_consume_token(PONTO);
+      } catch (ParseException e) {
+                     if(token_source.foundLexError() == 0) {
+                     nCountSintaticError += 1;
+                     mensagens_erros_sintatic.append(e.getMessage());
+                }
+      }
+      constante_recursiva();
+    } catch (ParseException e) {
+                                   if(token_source.foundLexError() == 0) {
+                                       nCountSintaticError += 1;
+                                       mensagens_erros_sintatic.append(e.getMessage());
+                                   }
     }
   }
 
@@ -233,66 +260,137 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case CONSTANTE_NUM_INT:
-        jj_consume_token(CONSTANTE_NUM_INT);
+        try {
+          jj_consume_token(CONSTANTE_NUM_INT);
+        } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+             }
+        }
         break;
       case CONSTANTE_NUM_REAL:
-        jj_consume_token(CONSTANTE_NUM_REAL);
+        try {
+          jj_consume_token(CONSTANTE_NUM_REAL);
+        } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+             }
+        }
         break;
       case CONSTANTE_LIT:
-        jj_consume_token(CONSTANTE_LIT);
+        try {
+          jj_consume_token(CONSTANTE_LIT);
+        } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+             }
+        }
         break;
       case TRUE:
-        jj_consume_token(TRUE);
-        break;
-      case FALSE:
-        jj_consume_token(FALSE);
-        break;
-      default:
-        jj_la1[5] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-    } catch (ParseException e) {
+        try {
+          jj_consume_token(TRUE);
+        } catch (ParseException e) {
               if(token_source.foundLexError() == 0) {
                   nCountSintaticError += 1;
                   mensagens_erros_sintatic.append(e.getMessage());
               }
+        }
+        break;
+      case FALSE:
+        try {
+          jj_consume_token(FALSE);
+        } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  nCountSintaticError += 1;
+                  mensagens_erros_sintatic.append(e.getMessage());
+              }
+        }
+        break;
+      default:
+        jj_la1[4] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    } catch (ParseException e) {
+                                       if(token_source.foundLexError() == 0) {
+                                           nCountSintaticError += 1;
+                                           mensagens_erros_sintatic.append(e.getMessage());
+                                       }
     }
   }
 
   static final public void constante_recursiva() throws ParseException {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case NOT:
-        constante();
+      case BOOLEAN:
+      case CHAR:
+      case REAL:
+      case NATURAL:
+        constantes();
         break;
       default:
-        jj_la1[6] = jj_gen;
+        jj_la1[5] = jj_gen;
 
       }
     } catch (ParseException e) {
-               if(token_source.foundLexError() == 0) {
-                   nCountSintaticError += 1;
-                   mensagens_erros_sintatic.append(e.getMessage());
-               }
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+             }
+    }
+  }
+
+  static final public void variaveis() throws ParseException {
+    try {
+      tipo();
+      try {
+        jj_consume_token(IS);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+      }
+      lista_identificadores_variavel();
+         acaoSemantica("#4");
+      try {
+        jj_consume_token(PONTO);
+      } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+             }
+      }
+      variavel_recursiva();
+    } catch (ParseException e) {
+                 if(token_source.foundLexError() == 0) {
+                     nCountSintaticError += 1;
+                     mensagens_erros_sintatic.append(e.getMessage());
+                 }
     }
   }
 
   static final public void variavel_recursiva() throws ParseException {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case VARIABLE:
-        variavel();
+      case BOOLEAN:
+      case CHAR:
+      case REAL:
+      case NATURAL:
+        variaveis();
         break;
       default:
-        jj_la1[7] = jj_gen;
+        jj_la1[6] = jj_gen;
 
       }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
     }
   }
 
@@ -300,16 +398,210 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case NATURAL:
-        jj_consume_token(NATURAL);
+        try {
+          jj_consume_token(NATURAL);
+              acaoSemantica("#7");
+        } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+             }
+        }
         break;
       case REAL:
-        jj_consume_token(REAL);
+        try {
+          jj_consume_token(REAL);
+             acaoSemantica("#8");
+        } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+                }
+        }
         break;
       case CHAR:
-        jj_consume_token(CHAR);
+        try {
+          jj_consume_token(CHAR);
+             acaoSemantica("#9");
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
         break;
       case BOOLEAN:
-        jj_consume_token(BOOLEAN);
+        try {
+          jj_consume_token(BOOLEAN);
+              acaoSemantica("#10");
+        } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+             }
+        }
+        break;
+      default:
+        jj_la1[7] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    } catch (ParseException e) {
+                     if(token_source.foundLexError() == 0) {
+                         nCountSintaticError += 1;
+                         mensagens_erros_sintatic.append(e.getMessage());
+                     }
+    }
+  }
+
+  static final public void get() throws ParseException {
+    try {
+      try {
+        jj_consume_token(GET);
+             acaoSemantica("#17");
+      } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+             }
+      }
+      try {
+        jj_consume_token(ACHAVE);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+            }
+      }
+      lista_identificadores_variavel();
+      try {
+        jj_consume_token(FCHAVE);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+            }
+      }
+      try {
+        jj_consume_token(PONTO);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+            }
+      }
+    } catch (ParseException e) {
+                         if(token_source.foundLexError() == 0) {
+                             nCountSintaticError += 1;
+                             mensagens_erros_sintatic.append(e.getMessage());
+                         }
+    }
+  }
+
+  static final public void put() throws ParseException {
+    try {
+      try {
+        jj_consume_token(PUT);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+            }
+      }
+      try {
+        jj_consume_token(ACHAVE);
+      } catch (ParseException e) {
+                 if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+            }
+      }
+      lista_de_identificadore_constantes();
+      try {
+        jj_consume_token(FCHAVE);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+            }
+      }
+      try {
+        jj_consume_token(PONTO);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+            }
+      }
+    } catch (ParseException e) {
+                             if(token_source.foundLexError() == 0) {
+                                 nCountSintaticError += 1;
+                                 mensagens_erros_sintatic.append(e.getMessage());
+                             }
+    }
+  }
+
+  static final public void lista_de_identificadore_constantes() throws ParseException {
+    try {
+      tipo_constante();
+      lista_de_identificadore_constantes_recursivo();
+    } catch (ParseException e) {
+         if(token_source.foundLexError() == 0) {
+             nCountSintaticError += 1;
+             mensagens_erros_sintatic.append(e.getMessage());
+         }
+    }
+  }
+
+  static final public void tipo_constante() throws ParseException {
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case IDENTIFICADOR:
+        try {
+          jj_consume_token(IDENTIFICADOR);
+             acaoSemantica("#18");
+          indice();
+             acaoSemantica("#20");
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+               nCountSintaticError += 1;
+               mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
+        indice();
+        break;
+      case CONSTANTE_NUM_REAL:
+        try {
+          jj_consume_token(CONSTANTE_NUM_REAL);
+              acaoSemantica("#22");
+        } catch (ParseException e) {
+                 if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
+        break;
+      case CONSTANTE_LIT:
+        try {
+          jj_consume_token(CONSTANTE_LIT);
+              acaoSemantica("#23");
+        } catch (ParseException e) {
+                 if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
+        break;
+      case CONSTANTE_NUM_INT:
+        try {
+          jj_consume_token(CONSTANTE_NUM_INT);
+              acaoSemantica("#21");
+        } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
         break;
       default:
         jj_la1[8] = jj_gen;
@@ -317,22 +609,61 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         throw new ParseException();
       }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+                                 if(token_source.foundLexError() == 0) {
+                                     nCountSintaticError += 1;
+                                     mensagens_erros_sintatic.append(e.getMessage());
+                                 }
+    }
+  }
+
+  static final public void lista_de_identificadore_constantes_recursivo() throws ParseException {
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case VIRGULA:
+        try {
+          jj_consume_token(VIRGULA);
+        } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
+        lista_de_identificadore_constantes();
+        break;
+      default:
+        jj_la1[9] = jj_gen;
+
+      }
+    } catch (ParseException e) {
+                                     if(token_source.foundLexError() == 0) {
+                                         nCountSintaticError += 1;
+                                         mensagens_erros_sintatic.append(e.getMessage());
+                                     }
     }
   }
 
   static final public void lista_identificadores_variavel() throws ParseException {
     try {
-      jj_consume_token(IDENTIFICADOR);
+      try {
+        jj_consume_token(IDENTIFICADOR);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+      } finally {
+            acaoSemantica("#12");
+      }
+      indice();
+          acaoSemantica("#13");
       lista_identificadores_variavel_recursivo();
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+          if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+          }
+    } finally {
+           acaoSemantica("#2");
     }
   }
 
@@ -340,35 +671,46 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case VIRGULA:
-        jj_consume_token(VIRGULA);
+        try {
+          jj_consume_token(VIRGULA);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
         lista_identificadores_variavel();
         break;
-      case ACOLCH:
-        jj_consume_token(ACOLCH);
-        jj_consume_token(CONSTANTE_NUM_INT);
-        jj_consume_token(FCOLCH);
-        break;
       default:
-        jj_la1[9] = jj_gen;
+        jj_la1[10] = jj_gen;
 
       }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+                                             if(token_source.foundLexError() == 0) {
+                                                 nCountSintaticError += 1;
+                                                 mensagens_erros_sintatic.append(e.getMessage());
+                                             }
     }
   }
 
-  static final public void lista_identificadores() throws ParseException {
+  static final public void lista_identificadores_de_constantes() throws ParseException {
     try {
-      jj_consume_token(IDENTIFICADOR);
+      try {
+        jj_consume_token(IDENTIFICADOR);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+            }
+      } finally {
+            acaoSemantica("#11");
+      }
       lista_identificadores_recursivo();
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+                                                 if(token_source.foundLexError() == 0) {
+                                                     nCountSintaticError += 1;
+                                                     mensagens_erros_sintatic.append(e.getMessage());
+                                                 }
     }
   }
 
@@ -376,18 +718,25 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case VIRGULA:
-        jj_consume_token(VIRGULA);
-        lista_identificadores();
+        try {
+          jj_consume_token(VIRGULA);
+        } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+             }
+        }
+        lista_identificadores_de_constantes();
         break;
       default:
-        jj_la1[10] = jj_gen;
+        jj_la1[11] = jj_gen;
 
       }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+                                                     if(token_source.foundLexError() == 0) {
+                                                         nCountSintaticError += 1;
+                                                         mensagens_erros_sintatic.append(e.getMessage());
+                                                     }
     }
   }
 
@@ -395,20 +744,41 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case EXECUTE:
-        jj_consume_token(EXECUTE);
-        jj_consume_token(ACHAVE);
+        try {
+          jj_consume_token(EXECUTE);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
+        try {
+          jj_consume_token(ACHAVE);
+        } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+             }
+        }
         lista_de_comandos();
-        jj_consume_token(FCHAVE);
+        try {
+          jj_consume_token(FCHAVE);
+        } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+             }
+        }
         break;
       default:
-        jj_la1[11] = jj_gen;
+        jj_la1[12] = jj_gen;
 
       }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+                                                         if(token_source.foundLexError() == 0) {
+                                                             nCountSintaticError += 1;
+                                                             mensagens_erros_sintatic.append(e.getMessage());
+                                                         }
     }
   }
 
@@ -417,10 +787,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       comando();
       comando_recursivo();
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+        if(token_source.foundLexError() == 0) {
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
   }
 
@@ -444,15 +814,15 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         repeticao();
         break;
       default:
-        jj_la1[12] = jj_gen;
+        jj_la1[13] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+        if(token_source.foundLexError() == 0) {
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
   }
 
@@ -468,77 +838,108 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         lista_de_comandos();
         break;
       default:
-        jj_la1[13] = jj_gen;
-
-      }
-    } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-    }
-  }
-
-  static final public void identificador_programa() throws ParseException {
-    try {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case IDENTIFICADOR:
-        jj_consume_token(IDENTIFICADOR);
-        break;
-      default:
         jj_la1[14] = jj_gen;
 
       }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+        if(token_source.foundLexError() == 0) {
+           nCountSintaticError += 1;
+           mensagens_erros_sintatic.append(e.getMessage());
+        }
+    }
+  }
+
+  static final public void identificador_programa() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case IDENTIFICADOR:
+      try {
+        jj_consume_token(IDENTIFICADOR);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+            }
+      } finally {
+                acaoSemantica("#2");
+      }
+      break;
+    default:
+      jj_la1[15] = jj_gen;
+
     }
   }
 
   static final public void comentario() throws ParseException {
-    try {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case COMENT:
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case COMENT:
+      try {
         jj_consume_token(COMENT);
-        jj_consume_token(CONSTANTE_LIT);
-        break;
-      default:
-        jj_la1[15] = jj_gen;
-
-      }
-    } catch (ParseException e) {
-               if(token_source.foundLexError() == 0) {
+      } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
                    nCountSintaticError += 1;
                    mensagens_erros_sintatic.append(e.getMessage());
-               }
+              }
+      }
+      try {
+        jj_consume_token(CONSTANTE_LIT);
+      } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                   nCountSintaticError += 1;
+                   mensagens_erros_sintatic.append(e.getMessage());
+             }
+      }
+      break;
+    default:
+      jj_la1[16] = jj_gen;
+
     }
   }
 
   static final public void selecao() throws ParseException {
     try {
-      jj_consume_token(VERIFY);
+      try {
+        jj_consume_token(VERIFY);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+      }
       expressao();
       isTrueFalse();
-      jj_consume_token(PONTO);
+         acaoSemantica("#24");
+      try {
+        jj_consume_token(PONTO);
+      } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+             }
+      }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+                if(token_source.foundLexError() == 0) {
+                    nCountSintaticError += 1;
+                    mensagens_erros_sintatic.append(e.getMessage());
+                }
     }
   }
 
   static final public void isTrueFalse() throws ParseException {
     try {
-      jj_consume_token(IS);
+      try {
+        jj_consume_token(IS);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+           }
+      }
       trueFalse();
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+                    if(token_source.foundLexError() == 0) {
+                        nCountSintaticError += 1;
+                        mensagens_erros_sintatic.append(e.getMessage());
+                    }
     }
   }
 
@@ -546,29 +947,73 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case TRUE:
-        jj_consume_token(TRUE);
-        jj_consume_token(ACHAVE);
+        try {
+          jj_consume_token(TRUE);
+             acaoSemantica("#25");
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
+        try {
+          jj_consume_token(ACHAVE);
+        } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+             }
+        }
         lista_de_comandos();
-        jj_consume_token(FCHAVE);
+        try {
+          jj_consume_token(FCHAVE);
+        } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+             }
+        }
         isFalse();
         break;
       case FALSE:
-        jj_consume_token(FALSE);
-        jj_consume_token(ACHAVE);
+        try {
+          jj_consume_token(FALSE);
+              acaoSemantica("#26");
+        } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+             }
+        }
+        try {
+          jj_consume_token(ACHAVE);
+        } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+             }
+        }
         lista_de_comandos();
-        jj_consume_token(FCHAVE);
+        try {
+          jj_consume_token(FCHAVE);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
         isTrue();
         break;
       default:
-        jj_la1[16] = jj_gen;
+        jj_la1[17] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+                        if(token_source.foundLexError() == 0) {
+                            nCountSintaticError += 1;
+                            mensagens_erros_sintatic.append(e.getMessage());
+                        }
     }
   }
 
@@ -576,21 +1021,50 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case IS:
-        jj_consume_token(IS);
-        jj_consume_token(TRUE);
-        jj_consume_token(ACHAVE);
+        try {
+          jj_consume_token(IS);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
+        try {
+          jj_consume_token(TRUE);
+              acaoSemantica("#27");
+        } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+             }
+        }
+        try {
+          jj_consume_token(ACHAVE);
+        } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+             }
+        }
         lista_de_comandos();
-        jj_consume_token(FCHAVE);
+        try {
+          jj_consume_token(FCHAVE);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
         break;
       default:
-        jj_la1[17] = jj_gen;
+        jj_la1[18] = jj_gen;
 
       }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+                            if(token_source.foundLexError() == 0) {
+                                nCountSintaticError += 1;
+                                mensagens_erros_sintatic.append(e.getMessage());
+                            }
     }
   }
 
@@ -598,36 +1072,88 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case IS:
-        jj_consume_token(IS);
-        jj_consume_token(FALSE);
-        jj_consume_token(ACHAVE);
+        try {
+          jj_consume_token(IS);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
+        try {
+          jj_consume_token(FALSE);
+             acaoSemantica("#27");
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
+        try {
+          jj_consume_token(ACHAVE);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
         lista_de_comandos();
-        jj_consume_token(FCHAVE);
+        try {
+          jj_consume_token(FCHAVE);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
         break;
       default:
-        jj_la1[18] = jj_gen;
+        jj_la1[19] = jj_gen;
 
       }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+                                if(token_source.foundLexError() == 0) {
+                                    nCountSintaticError += 1;
+                                    mensagens_erros_sintatic.append(e.getMessage());
+                                }
     }
   }
 
   static final public void atribuicao() throws ParseException {
     try {
-      jj_consume_token(SET);
+      try {
+        jj_consume_token(SET);
+             acaoSemantica("#15");
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+      }
       expressao();
-      jj_consume_token(TO);
-      lista_identificadores();
-      jj_consume_token(PONTO);
+      try {
+        jj_consume_token(TO);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+      }
+      lista_identificadores_variavel();
+         acaoSemantica("#16");
+      try {
+        jj_consume_token(PONTO);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+      }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+                                    if(token_source.foundLexError() == 0) {
+                                        nCountSintaticError += 1;
+                                        mensagens_erros_sintatic.append(e.getMessage());
+                                    }
     }
   }
 
@@ -635,37 +1161,140 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case LOOP:
-        jj_consume_token(LOOP);
-        jj_consume_token(ACHAVE);
+        try {
+          jj_consume_token(LOOP);
+             acaoSemantica("#28");
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
+        try {
+          jj_consume_token(ACHAVE);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
         lista_de_comandos();
-        jj_consume_token(FCHAVE);
-        jj_consume_token(WHILE);
+        try {
+          jj_consume_token(FCHAVE);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
+        try {
+          jj_consume_token(WHILE);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
         expressao();
-        jj_consume_token(IS);
-        jj_consume_token(TRUE);
-        jj_consume_token(PONTO);
+         acaoSemantica("#29");
+        try {
+          jj_consume_token(IS);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
+        try {
+          jj_consume_token(TRUE);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
+        try {
+          jj_consume_token(PONTO);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
         break;
       case WHILE:
-        jj_consume_token(WHILE);
+        try {
+          jj_consume_token(WHILE);
+              acaoSemantica("#30");
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
         expressao();
-        jj_consume_token(IS);
-        jj_consume_token(TRUE);
-        jj_consume_token(DO);
-        jj_consume_token(ACHAVE);
+         acaoSemantica("#31");
+        try {
+          jj_consume_token(IS);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
+        try {
+          jj_consume_token(TRUE);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
+        try {
+          jj_consume_token(DO);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
+        try {
+          jj_consume_token(ACHAVE);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
         lista_de_comandos();
-        jj_consume_token(FCHAVE);
-        jj_consume_token(PONTO);
+        try {
+          jj_consume_token(FCHAVE);
+              acaoSemantica("#32");
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
+        try {
+          jj_consume_token(PONTO);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
         break;
       default:
-        jj_la1[19] = jj_gen;
+        jj_la1[20] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+                                        if(token_source.foundLexError() == 0) {
+                                            nCountSintaticError += 1;
+                                            mensagens_erros_sintatic.append(e.getMessage());
+                                        }
     }
   }
 
@@ -674,10 +1303,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       expressaoaritmeticaoulogica();
       expressao2();
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+        if(token_source.foundLexError() == 0) {
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
   }
 
@@ -685,38 +1314,86 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case EQUIVALENTE:
-        jj_consume_token(EQUIVALENTE);
+        try {
+          jj_consume_token(EQUIVALENTE);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+            }
+        }
         expressaoaritmeticaoulogica();
+         acaoSemantica("#33");
         break;
       case DIFERENTE:
-        jj_consume_token(DIFERENTE);
+        try {
+          jj_consume_token(DIFERENTE);
+        } catch (ParseException e) {
+                     if(token_source.foundLexError() == 0) {
+                         nCountSintaticError += 1;
+                         mensagens_erros_sintatic.append(e.getMessage());
+                     }
+        }
         expressaoaritmeticaoulogica();
+              acaoSemantica("#34");
         break;
       case MENOR:
-        jj_consume_token(MENOR);
+        try {
+          jj_consume_token(MENOR);
+        } catch (ParseException e) {
+                             if(token_source.foundLexError() == 0) {
+                                 nCountSintaticError += 1;
+                                 mensagens_erros_sintatic.append(e.getMessage());
+                             }
+        }
         expressaoaritmeticaoulogica();
+              acaoSemantica("#35");
         break;
       case MAIOR:
-        jj_consume_token(MAIOR);
+        try {
+          jj_consume_token(MAIOR);
+        } catch (ParseException e) {
+                                     if(token_source.foundLexError() == 0) {
+                                         nCountSintaticError += 1;
+                                         mensagens_erros_sintatic.append(e.getMessage());
+                                     }
+        }
         expressaoaritmeticaoulogica();
+              acaoSemantica("#36");
         break;
       case MENOROUIGUAL:
-        jj_consume_token(MENOROUIGUAL);
+        try {
+          jj_consume_token(MENOROUIGUAL);
+        } catch (ParseException e) {
+                                             if(token_source.foundLexError() == 0) {
+                                                 nCountSintaticError += 1;
+                                                 mensagens_erros_sintatic.append(e.getMessage());
+                                             }
+        }
         expressaoaritmeticaoulogica();
+              acaoSemantica("#37");
         break;
       case MAIOROUIGUAL:
-        jj_consume_token(MAIOROUIGUAL);
+        try {
+          jj_consume_token(MAIOROUIGUAL);
+        } catch (ParseException e) {
+                                                     if(token_source.foundLexError() == 0) {
+                                                         nCountSintaticError += 1;
+                                                         mensagens_erros_sintatic.append(e.getMessage());
+                                                     }
+        }
         expressaoaritmeticaoulogica();
+              acaoSemantica("#38");
         break;
       default:
-        jj_la1[20] = jj_gen;
+        jj_la1[21] = jj_gen;
 
       }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+        if(token_source.foundLexError() == 0) {
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
   }
 
@@ -725,10 +1402,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       termo2();
       menorprioridade();
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+        if(token_source.foundLexError() == 0) {
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
   }
 
@@ -736,29 +1413,53 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case ADICAO:
-        jj_consume_token(ADICAO);
+        try {
+          jj_consume_token(ADICAO);
+        } catch (ParseException e) {
+                if(token_source.foundLexError() == 0) {
+                    nCountSintaticError += 1;
+                    mensagens_erros_sintatic.append(e.getMessage());
+                }
+        }
         termo2();
         menorprioridade();
+              acaoSemantica("#39");
         break;
       case SUBTRACAO:
-        jj_consume_token(SUBTRACAO);
+        try {
+          jj_consume_token(SUBTRACAO);
+        } catch (ParseException e) {
+                        if(token_source.foundLexError() == 0) {
+                            nCountSintaticError += 1;
+                            mensagens_erros_sintatic.append(e.getMessage());
+                        }
+        }
         termo2();
         menorprioridade();
+              acaoSemantica("#40");
         break;
       case OU:
-        jj_consume_token(OU);
+        try {
+          jj_consume_token(OU);
+        } catch (ParseException e) {
+                                if(token_source.foundLexError() == 0) {
+                                    nCountSintaticError += 1;
+                                    mensagens_erros_sintatic.append(e.getMessage());
+                                }
+        }
         termo2();
         menorprioridade();
+             acaoSemantica("#41");
         break;
       default:
-        jj_la1[21] = jj_gen;
+        jj_la1[22] = jj_gen;
 
       }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+        if(token_source.foundLexError() == 0) {
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
   }
 
@@ -767,10 +1468,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       termo1();
       mediaprioridade();
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+        if(token_source.foundLexError() == 0) {
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
   }
 
@@ -778,39 +1479,79 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case MULTIPLICACAO:
-        jj_consume_token(MULTIPLICACAO);
+        try {
+          jj_consume_token(MULTIPLICACAO);
+        } catch (ParseException e) {
+                if(token_source.foundLexError() == 0) {
+                    nCountSintaticError += 1;
+                    mensagens_erros_sintatic.append(e.getMessage());
+                }
+        }
         termo1();
         mediaprioridade();
+         acaoSemantica("#42");
         break;
       case DIVISAO:
-        jj_consume_token(DIVISAO);
+        try {
+          jj_consume_token(DIVISAO);
+        } catch (ParseException e) {
+                         if(token_source.foundLexError() == 0) {
+                             nCountSintaticError += 1;
+                             mensagens_erros_sintatic.append(e.getMessage());
+                         }
+        }
         termo1();
         mediaprioridade();
+             acaoSemantica("#43");
         break;
       case DIVISAOINTEIRA:
-        jj_consume_token(DIVISAOINTEIRA);
+        try {
+          jj_consume_token(DIVISAOINTEIRA);
+        } catch (ParseException e) {
+                                 if(token_source.foundLexError() == 0) {
+                                     nCountSintaticError += 1;
+                                     mensagens_erros_sintatic.append(e.getMessage());
+                                 }
+        }
         termo1();
         mediaprioridade();
+             acaoSemantica("#44");
         break;
       case RESTODIVISAO:
-        jj_consume_token(RESTODIVISAO);
+        try {
+          jj_consume_token(RESTODIVISAO);
+        } catch (ParseException e) {
+                                         if(token_source.foundLexError() == 0) {
+                                             nCountSintaticError += 1;
+                                             mensagens_erros_sintatic.append(e.getMessage());
+                                         }
+        }
         termo1();
         mediaprioridade();
+             acaoSemantica("#45");
         break;
       case E:
-        jj_consume_token(E);
+        try {
+          jj_consume_token(E);
+        } catch (ParseException e) {
+                                                 if(token_source.foundLexError() == 0) {
+                                                     nCountSintaticError += 1;
+                                                     mensagens_erros_sintatic.append(e.getMessage());
+                                                 }
+        }
         termo1();
         mediaprioridade();
+             acaoSemantica("#46");
         break;
       default:
-        jj_la1[22] = jj_gen;
+        jj_la1[23] = jj_gen;
 
       }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+        if(token_source.foundLexError() == 0) {
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
   }
 
@@ -819,10 +1560,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       elemento();
       maiorprioridade();
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+        if(token_source.foundLexError() == 0) {
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
   }
 
@@ -830,19 +1571,27 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case POTENCIA:
-        jj_consume_token(POTENCIA);
+        try {
+          jj_consume_token(POTENCIA);
+        } catch (ParseException e) {
+                if(token_source.foundLexError() == 0) {
+                    nCountSintaticError += 1;
+                    mensagens_erros_sintatic.append(e.getMessage());
+                }
+        }
         elemento();
         maiorprioridade();
+         acaoSemantica("#47");
         break;
       default:
-        jj_la1[23] = jj_gen;
+        jj_la1[24] = jj_gen;
 
       }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+        if(token_source.foundLexError() == 0) {
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
   }
 
@@ -850,65 +1599,173 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case IDENTIFICADOR:
-        jj_consume_token(IDENTIFICADOR);
+        try {
+          jj_consume_token(IDENTIFICADOR);
+        } catch (ParseException e) {
+                if(token_source.foundLexError() == 0) {
+                    nCountSintaticError += 1;
+                    mensagens_erros_sintatic.append(e.getMessage());
+                }
+        } finally {
+                acaoSemantica("#19");
+        }
         indice();
         break;
       case CONSTANTE_NUM_INT:
-        jj_consume_token(CONSTANTE_NUM_INT);
+        try {
+          jj_consume_token(CONSTANTE_NUM_INT);
+        } catch (ParseException e) {
+                if(token_source.foundLexError() == 0) {
+                    nCountSintaticError += 1;
+                    mensagens_erros_sintatic.append(e.getMessage());
+                }
+        } finally {
+                     acaoSemantica("#21");
+        }
         break;
       case CONSTANTE_NUM_REAL:
-        jj_consume_token(CONSTANTE_NUM_REAL);
+        try {
+          jj_consume_token(CONSTANTE_NUM_REAL);
+        } catch (ParseException e) {
+                if(token_source.foundLexError() == 0) {
+                    nCountSintaticError += 1;
+                    mensagens_erros_sintatic.append(e.getMessage());
+                }
+        } finally {
+                    acaoSemantica("#22");
+        }
         break;
       case CONSTANTE_LIT:
-        jj_consume_token(CONSTANTE_LIT);
+        try {
+          jj_consume_token(CONSTANTE_LIT);
+        } catch (ParseException e) {
+                if(token_source.foundLexError() == 0) {
+                    nCountSintaticError += 1;
+                    mensagens_erros_sintatic.append(e.getMessage());
+                }
+        } finally {
+                    acaoSemantica("#23");
+        }
         break;
       case TRUE:
-        jj_consume_token(TRUE);
+        try {
+          jj_consume_token(TRUE);
+        } catch (ParseException e) {
+                if(token_source.foundLexError() == 0) {
+                    nCountSintaticError += 1;
+                    mensagens_erros_sintatic.append(e.getMessage());
+                }
+        } finally {
+                        acaoSemantica("#48");
+        }
         break;
       case FALSE:
-        jj_consume_token(FALSE);
+        try {
+          jj_consume_token(FALSE);
+        } catch (ParseException e) {
+                if(token_source.foundLexError() == 0) {
+                    nCountSintaticError += 1;
+                    mensagens_erros_sintatic.append(e.getMessage());
+                }
+        } finally {
+              acaoSemantica("#49");
+        }
         break;
       case APARENT:
-        jj_consume_token(APARENT);
+        try {
+          jj_consume_token(APARENT);
+        } catch (ParseException e) {
+                if(token_source.foundLexError() == 0) {
+                    nCountSintaticError += 1;
+                    mensagens_erros_sintatic.append(e.getMessage());
+                }
+        }
         expressao();
-        jj_consume_token(FPARENT);
+        try {
+          jj_consume_token(FPARENT);
+        } catch (ParseException e) {
+                if(token_source.foundLexError() == 0) {
+                    nCountSintaticError += 1;
+                    mensagens_erros_sintatic.append(e.getMessage());
+                }
+        }
         break;
       case NAO:
-        jj_consume_token(NAO);
-        jj_consume_token(APARENT);
+        try {
+          jj_consume_token(NAO);
+        } catch (ParseException e) {
+                 if(token_source.foundLexError() == 0) {
+                     nCountSintaticError += 1;
+                     mensagens_erros_sintatic.append(e.getMessage());
+                 }
+        }
+        try {
+          jj_consume_token(APARENT);
+        } catch (ParseException e) {
+                 if(token_source.foundLexError() == 0) {
+                     nCountSintaticError += 1;
+                     mensagens_erros_sintatic.append(e.getMessage());
+                 }
+        }
         expressao();
-        jj_consume_token(FPARENT);
+        try {
+          jj_consume_token(FPARENT);
+                 acaoSemantica("#50");
+        } catch (ParseException e) {
+                 if(token_source.foundLexError() == 0) {
+                     nCountSintaticError += 1;
+                     mensagens_erros_sintatic.append(e.getMessage());
+                 }
+        }
         break;
       default:
-        jj_la1[24] = jj_gen;
+        jj_la1[25] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
     } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+        if(token_source.foundLexError() == 0) {
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
   }
 
   static final public void indice() throws ParseException {
-    try {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case ACOLCH:
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case ACOLCH:
+      try {
         jj_consume_token(ACOLCH);
-        jj_consume_token(CONSTANTE_NUM_INT);
-        jj_consume_token(FCOLCH);
-        break;
-      default:
-        jj_la1[25] = jj_gen;
-
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+               nCountSintaticError += 1;
+               mensagens_erros_sintatic.append(e.getMessage());
+            }
       }
-    } catch (ParseException e) {
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
+      try {
+        jj_consume_token(CONSTANTE_NUM_INT);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                nCountSintaticError += 1;
+                mensagens_erros_sintatic.append(e.getMessage());
+
+            }
+      } finally {
+            acaoSemantica("#14");
+      }
+      try {
+        jj_consume_token(FCOLCH);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                 nCountSintaticError += 1;
+                 mensagens_erros_sintatic.append(e.getMessage());
+            }
+      }
+      break;
+    default:
+      jj_la1[26] = jj_gen;
+
+         acaoSemantica("#20");
     }
   }
 
@@ -916,10 +1773,10 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       program();
     } catch (ParseException e) {
-               if(token_source.foundLexError() == 0) {
-                   nCountSintaticError += 1;
-                   mensagens_erros_sintatic.append(e.getMessage());
-               }
+        if(token_source.foundLexError() == 0) {
+            nCountSintaticError += 1;
+            mensagens_erros_sintatic.append(e.getMessage());
+        }
     }
   }
 
@@ -933,7 +1790,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   static public Token jj_nt;
   static private int jj_ntk;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[26];
+  static final private int[] jj_la1 = new int[27];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static private int[] jj_la1_2;
@@ -943,13 +1800,13 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       jj_la1_init_2();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x20,0xc0,0xf000000,0xe000000,0x0,0xe180000,0x40,0x80,0x1e00,0x0,0x0,0x2000,0x87c000,0x87c000,0x1000000,0x0,0x180000,0x100,0x100,0x60000,0x0,0x0,0x0,0x0,0x4f180000,0x0,};
+      jj_la1_0 = new int[] {0x40,0x180,0x100,0x80,0x1c300000,0x3c00,0x3c00,0x3c00,0x1e000000,0x0,0x0,0x0,0x4000,0x10f8000,0x10f8000,0x2000000,0x0,0x300000,0x200,0x200,0xc0000,0x0,0x0,0x0,0x0,0x9e300000,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x10,0x0,0x0,0x0,0x0,0x14,0x10,0x0,0x0,0x0,0x0,0x40,0x0,0x0,0x0,0x0,0x1f8000,0x400180,0x803600,0x800,0x200000,0x4,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x20,0x20,0x20,0x0,0x0,0x0,0x0,0x80,0x0,0x0,0x0,0x0,0x3f0000,0x800300,0x1006c00,0x1000,0x400000,0x8,};
    }
    private static void jj_la1_init_2() {
-      jj_la1_2 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_2 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
 
   /** Constructor with InputStream. */
@@ -970,7 +1827,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -986,7 +1843,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -1003,7 +1860,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -1013,7 +1870,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -1029,7 +1886,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -1038,13 +1895,13 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
     Token oldToken;
-      if(token_source.foundLexError() >  0) throw generateParseException();
-          if ((oldToken = token).next != null) token = token.next;
+    if(token_source.foundLexError() >  0) throw generateParseException();
+    if ((oldToken = token).next != null) token = token.next;
     else token = token.next = token_source.getNextToken();
     jj_ntk = -1;
     if (token.kind == kind) {
@@ -1078,7 +1935,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
   static private int jj_ntk() {
       if(token_source.foundLexError() >  0) return -1;
-          if ((jj_nt=token.next) == null)
+    if ((jj_nt=token.next) == null)
       return (jj_ntk = (token.next=token_source.getNextToken()).kind);
     else
       return (jj_ntk = jj_nt.kind);
@@ -1091,12 +1948,12 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   /** Generate ParseException. */
   static public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[68];
+    boolean[] la1tokens = new boolean[69];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 26; i++) {
+    for (int i = 0; i < 27; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -1111,7 +1968,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         }
       }
     }
-    for (int i = 0; i < 68; i++) {
+    for (int i = 0; i < 69; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
