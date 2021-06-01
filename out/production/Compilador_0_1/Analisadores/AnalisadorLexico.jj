@@ -22,6 +22,28 @@ public class AnalisadorLexico {
    public String getMsgSintaticError() {
           return this.mensagens_erros_sintatic.toString();
        }
+
+   public void consumeUntil(RecoverySet g, ParseException e, String met){
+        Token tok;
+        if(g == null) throw e;
+        tok = getToken(1);
+        while(!eof){
+            if(g.contains(tok.kind){
+
+            }
+        }
+   }
+   public String im(int x){
+        int k;
+        String s;
+
+        s = tokenImage[x];
+        k = s.lastIndexOf("\"");
+        try{s = s.substring(1,k);}
+        catch (StringIndexOutOfBoundsException e){ }
+        return s;
+   }
+}}
 }
 PARSER_END(AnalisadorLexico)
 
