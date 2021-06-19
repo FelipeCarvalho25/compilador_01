@@ -15,7 +15,7 @@ public class AnalisadorSemantico {
     private static int tipo = 0;
     private static int ponteiro = 1;
     private static boolean var_indexada;
-    private Pilha pilha_de_desvios ;
+    private static Pilha pilha_de_desvios ;
     private static ArrayList<Tabela> tabela_simbolos;
     private static ArrayList<AreaInstrucao> area_instrucao;
     private static Pilha pilhaAuxiliar;
@@ -139,7 +139,7 @@ public class AnalisadorSemantico {
                 }
                 break;
             case "#13":
-                if(contexto == "varivável"){
+                if(contexto == "variável"){
                     if(var_indexada == false){
                         VT = VT+1;
                         VP = VP+1;
@@ -192,6 +192,15 @@ public class AnalisadorSemantico {
                 contexto = "atribuição";
                 break;
             case "#16":
+                /*gerar instrução: (ponteiro, STR, "atributo"), para cada atributo armazenado na lista de atributos pela ação #13
+                ponteiro  ponteiro + 1, para cada instrução STR gerada
+                (o valor do topo NÃO deverá ser decrementado para cada instrução STR gerada, exceto para a última)
+                */
+                while (!pilhaAuxiliar.pilhaVazia()){
+                    area_instrucao.add(new AreaInstrucao(ponteiro, "STR", (int)pilhaAuxiliar.desempilhar()));
+                    ponteiro += 1;
+                }
+
                 break;
             case "#17":
                 contexto = "entrada de dados";
@@ -201,8 +210,40 @@ public class AnalisadorSemantico {
                 ponteiro = ponteiro + 1;
                 break;
             case "#19":
+                /*ação #19: reconhecimento de identificador em comando de saída ou em expressão
+                SE (identificador existe na tabela de símbolos) E (identificador é identificador de constante ou de variável)
+                ENTÃO
+                variável indexada  falso
+                armazenar o identificador reconhecido
+                SENÃO
+                erro: “identificador não declarado”
+                FIMSE*/
+                if((tabela_simbolos.indexOf(valor) != -1) &&
+                        tabela_simbolos.get(tabela_simbolos.indexOf(valor)).categoria == 1){
+                    var_indexada = false;
+                    pilhaAuxiliar.empilhar(valor);
+                }else{
+                    System.out.println("identificador não declarado");
+                }
                 break;
             case "#20":
+                char atr1 = tabela_simbolos.get(tabela_simbolos.indexOf(valor)).atributo1;
+                char atr2 = tabela_simbolos.get(tabela_simbolos.indexOf(valor)).atributo2;
+                if(var_indexada == false){
+                    if(atr2 == '-'){
+                        area_instrucao.add(new AreaInstrucao(ponteiro, "LDV", (int)atr1));
+                        ponteiro += 1;
+                    }
+                }
+                else{
+                    if(atr2 != '-'){
+                        area_instrucao.add(new AreaInstrucao(ponteiro, "LDV", (int)atr1 + (int)pilhaAuxiliar.desempilhar() - 1));
+                        ponteiro += 1;
+                    }
+                    else{
+                        System.out.println("identificador de constante ou de variável não indexada”");
+                    }
+                }
                 break;
             case "#21":
                  area_instrucao.add(new AreaInstrucao(ponteiro, "LDI", Integer.parseInt(valor)));
@@ -217,19 +258,53 @@ public class AnalisadorSemantico {
                 ponteiro = ponteiro + 1;
                 break;
             case "#24":
+                int endereço = (int) pilha_de_desvios.desempilhar();
+                int index = 0;
+                for (AreaInstrucao area:area_instrucao) {
+                    if(area.numero == endereço){
+                        area.iParametro = ponteiro;
+                        AreaInstrucao temp = area_instrucao.get(index);
+                        area_instrucao.remove(index);
+                        area_instrucao.add(index, temp);
+                    }
+                    index += 1;
+                }
                  break;
             case "#25":
+                area_instrucao.add(new AreaInstrucao(ponteiro, "JMF", '?'));
+                pilha_de_desvios.empilhar(ponteiro);
+                ponteiro = ponteiro + 1;
                  break;
             case "#26":
+                area_instrucao.add(new AreaInstrucao(ponteiro, "JMT", '?'));
+                pilha_de_desvios.empilhar(ponteiro);
+                ponteiro = ponteiro + 1;
                 break;
             case "#27":
+                endereço = (int) pilha_de_desvios.desempilhar();
+                index = 0;
+                for (AreaInstrucao area:area_instrucao) {
+                    if(area.numero == endereço){
+                        area.iParametro = ponteiro + 1;
+                        AreaInstrucao temp = area_instrucao.get(index);
+                        area_instrucao.remove(index);
+                        area_instrucao.add(index, temp);
+                    }
+                    index += 1;
+                }
+                area_instrucao.add(new AreaInstrucao(ponteiro, "JMP", '?'));
+                pilha_de_desvios.empilhar(ponteiro);
+                ponteiro = ponteiro + 1;
                 break;
             case "#28":
+            case "#30":
+                pilha_de_desvios.empilhar(ponteiro);
                  break;
             case "#29":
+                endereço = (int) pilha_de_desvios.desempilhar();
+                area_instrucao.add(new AreaInstrucao(ponteiro, "JMT", endereço));
+                ponteiro = ponteiro + 1;
                  break;
-            case "#30":
-                break;
             case "#31":
                 break;
             case "#32":
