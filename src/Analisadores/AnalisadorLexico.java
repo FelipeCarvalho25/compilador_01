@@ -16,11 +16,12 @@ import EstruturasDados.First;import EstruturasDados.RecoverySet;public class Ana
            return this.nCountSintaticError;
     }
     public static void acaoSemantica(String codigo){
-        try {
-            AnalisadorSemantico.analisarSemantica(codigo);
-        }catch (StringIndexOutOfBounds e){
-            System.out.println("Erro na análise semântica");
-        }
+        String argumento = "";
+       // try {
+            AnalisadorSemantico.analisarSemantica(codigo, argumento);
+       // }catch (StringIndexOutOfBounds e){
+            //System.out.println("Erro na análise semântica");
+       // }
 
     }
     public String getMensagensErros() {

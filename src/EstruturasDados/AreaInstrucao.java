@@ -3,11 +3,23 @@ package EstruturasDados;
 public class AreaInstrucao {
     int numero ;
     String codigo;
-    int parametro;
+    float fParametro;
+    int iParametro;
+    String sParametro;
 
-    public AreaInstrucao(int numeroPar, String codigoPar, int parPar){
+    public AreaInstrucao(int numeroPar, String codigoPar, int parInt){
         numero = numeroPar;
         codigo  = codigoPar;
-        parametro = parPar;
+        iParametro = parInt;
+    }
+    public AreaInstrucao(int numeroPar, String codigoPar, float parReal){
+        numero = numeroPar;
+        codigo  = codigoPar;
+        fParametro = parReal;
+    }
+    public AreaInstrucao(int numeroPar, String codigoPar, String parString){
+        numero = numeroPar;
+        codigo  = codigoPar;
+        sParametro = parString;
     }
 }
