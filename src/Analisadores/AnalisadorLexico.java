@@ -7,6 +7,7 @@ import EstruturasDados.First;import EstruturasDados.RecoverySet;public class Ana
     public String getMessages() {
         return this.token_source.getMensagesManhosas();
      }
+    public boolean isSucesso;
 
     public int getLexError() {
        return this.token_source.foundLexError();
@@ -15,7 +16,7 @@ import EstruturasDados.First;import EstruturasDados.RecoverySet;public class Ana
            return this.nCountSintaticError;
     }
     public static void acaoSemantica(String codigo){
-
+        isSucesso = AnalisadorSemantico.analisarSemantica(codigo);
     }
     public String getMensagensErros() {
        return this.token_source.getMensagensErros();

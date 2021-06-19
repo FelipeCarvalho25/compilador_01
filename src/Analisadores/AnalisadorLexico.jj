@@ -15,7 +15,7 @@ import EstruturasDados.First;import EstruturasDados.RecoverySet;public class Ana
            return this.nCountSintaticError;
     }
     public static void acaoSemantica(String codigo){
-
+            return codigo;
     }
     public String getMensagensErros() {
        return this.token_source.getMensagensErros();
