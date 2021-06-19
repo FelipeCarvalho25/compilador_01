@@ -271,6 +271,7 @@ public class AnalisadorSemantico {
                 }
                  break;
             case "#25":
+            case "#31":
                 area_instrucao.add(new AreaInstrucao(ponteiro, "JMF", '?'));
                 pilha_de_desvios.empilhar(ponteiro);
                 ponteiro = ponteiro + 1;
@@ -305,9 +306,21 @@ public class AnalisadorSemantico {
                 area_instrucao.add(new AreaInstrucao(ponteiro, "JMT", endereço));
                 ponteiro = ponteiro + 1;
                  break;
-            case "#31":
-                break;
             case "#32":
+                int endereço1 = (int) pilha_de_desvios.desempilhar();
+                int endereço2 = (int) pilha_de_desvios.desempilhar();
+                index = 0;
+                for (AreaInstrucao area:area_instrucao) {
+                    if(area.numero == endereço1){
+                        area.iParametro = ponteiro + 1;
+                        AreaInstrucao temp = area_instrucao.get(index);
+                        area_instrucao.remove(index);
+                        area_instrucao.add(index, temp);
+                    }
+                    index += 1;
+                }
+                area_instrucao.add(new AreaInstrucao(ponteiro, "JMP", endereço2));
+                ponteiro = ponteiro + 1;
                 break;
             case "#33":
                 area_instrucao.add(new AreaInstrucao(ponteiro, "EQL", 0));
