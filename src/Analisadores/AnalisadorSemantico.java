@@ -4,6 +4,7 @@ import EstruturasDados.AreaInstrucao;
 import EstruturasDados.Tabela;
 import EstruturasDados.Pilha;
 
+import java.awt.geom.Area;
 import java.util.ArrayList;
 
 public class AnalisadorSemantico {
@@ -25,11 +26,11 @@ public class AnalisadorSemantico {
         tabela_simbolos =  new ArrayList<>();
         tupla = new ArrayList<>();
     }
-    public static boolean analisarSemantica(String codigo) {
+    public boolean analisarSemantica(String codigo) {
         boolean sucesso = true;
         switch (codigo) {
             case "#1":
-                area_instrucao.add(ponteiro, "STP", 0);
+                area_instrucao.add(new AreaInstrucao(ponteiro, "STP", 0));
                 break;
             case "#2":
                 tabela_simbolos = tupla.add(identificador, "0", "-");
@@ -40,23 +41,21 @@ public class AnalisadorSemantico {
                 break;
             case 4:
                 VP = VP + VIT;
-                switch (tipo){
-                    case 1,5:
-                        area_instrucao.add(ponteiro, "ALI", VP);
-                        ponteiro = ponteiro + 1;
-                        break;
-                    case 2,6:
-                        area_instrucao.add(ponteiro, "ALR", VP);
-                        ponteiro = ponteiro + 1;
-                        break;
-                    case 3,7:
-                        area_instrucao.add(ponteiro, "ALS", VP);
-                        ponteiro = ponteiro + 1;
-                        break;
-                    case 4:
-                        area_instrucao.add(ponteiro, "ALB", VP);
-                        ponteiro = ponteiro + 1;
-                        break;
+                if(tipo==1 | tipo==5){
+                    area_instrucao.add(new AreaInstrucao(ponteiro, "ALI", VP));
+                    ponteiro = ponteiro + 1;
+                }
+                if(tipo==2 | tipo==6){
+                    area_instrucao.add(new AreaInstrucao(ponteiro, "ALR", VP));
+                    ponteiro = ponteiro + 1;
+                }
+                if(tipo==3 | tipo==7){
+                    area_instrucao.add(new AreaInstrucao(ponteiro, "ALS", VP));
+                    ponteiro = ponteiro + 1;
+                }
+                if(tipo==4){
+                    area_instrucao.add(new AreaInstrucao(ponteiro, "ALB", VP));
+                    ponteiro = ponteiro + 1;
                 }
                 if(tipo==1 | tipo==2 | tipo==3 | tipo==4){
                     VP = 0;
@@ -64,21 +63,19 @@ public class AnalisadorSemantico {
                 }
                 break;
             case 5:
-                switch (tipo){
-                    case 5:
-                        area_instrucao.add(ponteiro, "LDI", valor);
-                        ponteiro = ponteiro + 1;
-                        break;
-                    case 6:
-                        area_instrucao.add(ponteiro, "LDR", valor);
-                        ponteiro = ponteiro + 1;
-                        break;
-                    case 7:
-                        area_instrucao.add(ponteiro, "LDS", valor);
-                        ponteiro = ponteiro + 1;
-                        break;
+                if(tipo==5){
+                    area_instrucao.add(new AreaInstrucao(ponteiro, "LDI", valor));
+                    ponteiro = ponteiro + 1;
                 }
-                area_instrucao.add(ponteiro, "STC", VP);
+                if(tipo==6){
+                    area_instrucao.add(new AreaInstrucao(ponteiro, "LDR", valor));
+                    ponteiro = ponteiro + 1;
+                }
+                if(tipo==7){
+                    area_instrucao.add(new AreaInstrucao(ponteiro, "LDS", valor));
+                    ponteiro = ponteiro + 1;
+                }
+                area_instrucao.add(new AreaInstrucao(ponteiro, "STC", VP));
                 ponteiro = ponteiro + 1;
                 VP = 0;
                 break;
@@ -94,10 +91,10 @@ public class AnalisadorSemantico {
 
                 break;
             case 8:
-                if(contexto == "variável"){
-                    tipo = 2;
-                }else{
+                if (contexto == "variável") {
                     tipo = 6;
+                } else {
+                    tipo = 2;
                 }
                 break;
             case 9:
@@ -192,7 +189,7 @@ public class AnalisadorSemantico {
                 contexto = "entrada de dados";
                 break;
             case 18:
-                area_instrucao.add(ponteiro, "WRT", 0);
+                area_instrucao.add(new AreaInstrucao(ponteiro, "WRT", 0));
                 ponteiro = ponteiro + 1;
                 break;
             case 19:
@@ -200,15 +197,15 @@ public class AnalisadorSemantico {
             case 20:
                 break;
             case 21:
-                 area_instrucao.add(ponteiro, "LDI", const_inteira);
+                 area_instrucao.add(new AreaInstrucao(ponteiro, "LDI", const_inteira));
                 ponteiro = ponteiro + 1;
                 break;
             case 22:
-                area_instrucao.add(ponteiro, "LDR", const_real);
+                area_instrucao.add(new AreaInstrucao(ponteiro, "LDR", const_real));
                 ponteiro = ponteiro + 1;
                 break;
             case 23:
-                area_instrucao.add(ponteiro, "LDS", const_literal);
+                area_instrucao.add(new AreaInstrucao(ponteiro, "LDS", const_literal));
                 ponteiro = ponteiro + 1;
                 break;
             case 24:
@@ -230,79 +227,79 @@ public class AnalisadorSemantico {
             case 32:
                 break;
             case 33:
-                area_instrucao.add(ponteiro, "EQL", 0);
+                area_instrucao.add(new AreaInstrucao(ponteiro, "EQL", 0));
                 ponteiro = ponteiro + 1;
                 break;
             case 34:
-                area_instrucao.add(ponteiro, "DIF", 0);
+                area_instrucao.add(new AreaInstrucao(ponteiro, "DIF", 0));
                 ponteiro = ponteiro + 1;
                 break;
             case 35:
-                area_instrucao.add(ponteiro, "SMR", 0);
+                area_instrucao.add(new AreaInstrucao(ponteiro, "SMR", 0));
                 ponteiro = ponteiro + 1;
                 break;
             case 36:
-                area_instrucao.add(ponteiro, "BGR", 0);
+                area_instrucao.add(new AreaInstrucao(ponteiro, "BGR", 0));
                 ponteiro = ponteiro + 1;
                 break;
             case 37:
-                area_instrucao.add(ponteiro, "SME", 0);
+                area_instrucao.add(new AreaInstrucao(ponteiro, "SME", 0));
                 ponteiro = ponteiro + 1;
                 break;
             case 38:
-                area_instrucao.add(ponteiro, "BGE", 0);
+                area_instrucao.add(new AreaInstrucao(ponteiro, "BGE", 0));
                 ponteiro = ponteiro + 1;
                 break;
             case 39:
-                area_instrucao.add(ponteiro, "ADD", 0);
+                area_instrucao.add(new AreaInstrucao(ponteiro, "ADD", 0));
                 ponteiro = ponteiro + 1;
                 break;
             case 40:
-                area_instrucao.add(ponteiro, "SUB", 0);
+                area_instrucao.add(new AreaInstrucao(ponteiro, "SUB", 0));
                 ponteiro = ponteiro + 1;
                 break;
             case 41:
-                area_instrucao.add(ponteiro, "OR", 0);
+                area_instrucao.add(new AreaInstrucao(ponteiro, "OR", 0));
                 ponteiro = ponteiro + 1;
                 break;
             case 42:
-                area_instrucao.add(ponteiro, "MUL", 0);
+                area_instrucao.add(new AreaInstrucao(ponteiro, "MUL", 0));
                 ponteiro = ponteiro + 1;
                 break;
             case 43:
-                area_instrucao.add(ponteiro, "DIV", 0);
+                area_instrucao.add(new AreaInstrucao(ponteiro, "DIV", 0));
                 ponteiro = ponteiro + 1;
                 break;
             case 44:
                 if(tipo == 1) {
-                    area_instrucao.add(ponteiro, "DIVIR", 0);
+                    area_instrucao.add(new AreaInstrucao(ponteiro, "DIVIR", 0));
                     ponteiro = ponteiro + 1;
                 }
                 break;
             case 45:
                 if(tipo == 1) {
-                    area_instrucao.add(ponteiro, "MOD", 0);
+                    area_instrucao.add(new AreaInstrucao(ponteiro, "MOD", 0));
                     ponteiro = ponteiro + 1;
                 }
                 break;
             case 46:
-                area_instrucao.add(ponteiro, "AND", 0);
+                area_instrucao.add(new AreaInstrucao(ponteiro, "AND", 0));
                 ponteiro = ponteiro + 1;
                 break;
             case 47:
-                area_instrucao.add(ponteiro, "POT", 0);
+                area_instrucao.add(new AreaInstrucao(ponteiro, "POT", 0));
                 ponteiro = ponteiro + 1;
                 break;
             case 48:
-                area_instrucao.add(ponteiro, "LDB", "TRUE");
+                area_instrucao.add(new AreaInstrucao(ponteiro, "LDB", "TRUE"));
                 ponteiro = ponteiro + 1;
                 break;
             case 49:
-                area_instrucao.add(ponteiro, "LDB", "FALSE");
+                area_instrucao.add(new AreaInstrucao(ponteiro, "LDB", "FALSE"));
                 ponteiro = ponteiro + 1;
                 break;
             case 50:
-                area_instrucao.add(ponteiro, "NOT", 0);
+                area_instrucao.add(new AreaInstrucao(ponteiro, "NOT", 0));
                 ponteiro = ponteiro + 1;
                 break;
         }
