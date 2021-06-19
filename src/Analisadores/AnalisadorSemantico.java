@@ -8,32 +8,30 @@ import java.awt.geom.Area;
 import java.util.ArrayList;
 
 public class AnalisadorSemantico {
-    private String contexto = "";
+    private static String contexto = "";
     private static int VT = 0;
     private static int VP = 0;
     private static int VIT = 0;
     private static int tipo = 0;
-    private static String var_indexada = "";
-    private Pilha pilha_de_desvios ;
-    private static ArrayList<AreaInstrucao> area_instrucao;
     private static int ponteiro = 1;
+    private static boolean var_indexada;
+    private Pilha pilha_de_desvios ;
     private static ArrayList<Tabela> tabela_simbolos;
-    private ArrayList<Tabela> tupla;
+    private static ArrayList<AreaInstrucao> area_instrucao;
 
     public AnalisadorSemantico(){
         pilha_de_desvios = new Pilha();
         area_instrucao = new ArrayList<>();
         tabela_simbolos =  new ArrayList<>();
-        tupla = new ArrayList<>();
     }
-    public boolean analisarSemantica(String codigo) {
+    public static boolean analisarSemantica(String codigo) {
         boolean sucesso = true;
         switch (codigo) {
             case "#1":
                 area_instrucao.add(new AreaInstrucao(ponteiro, "STP", 0));
                 break;
             case "#2":
-                tabela_simbolos = tupla.add(identificador, "0", "-");
+                tabela_simbolos.add(new Tabela("identificador", 0,'-','-'));
                 break;
             case "#3":
                 contexto = "constante";
@@ -114,11 +112,13 @@ public class AnalisadorSemantico {
                 break;
             case 11:
                 if(tabela_simbolos.indexOf(identificador) != -1){
+                    //ajustar o if acima
                     System.out.println("ERRO: identificador já declarado");
                 }else{
                     VT = VT + 1;
                     VP = VP + 1;
-                    tabela_simbolos = tupla.add(identificador, tipo, VT, "-");
+                    //ajustar VT ESTÁ COMO INT, PRECISA REVER
+                    tabela_simbolos = (new Tabela(identificador, tipo, VT, "-"));
                 }
                 break;
             case 12:
@@ -126,59 +126,60 @@ public class AnalisadorSemantico {
                     if (tabela_simbolos.indexOf(identificador) != -1) {
                         System.out.println("ERRO: identificador já declarado");
                     } else {
-                        var_indexada = "falso";
-                        tabela_simbolos.add(identificador);
+                        var_indexada = false;
+                        //ajustar
+                        tabela_simbolos.add(new Tabela(identificador);
                     }
                 }else{
-                    var_indexada = "falso";
-                    tabela_simbolos.add(identificador);
+                    var_indexada = false;
+                    //ajustar
+                    tabela_simbolos.add(new Tabela(identificador));
                 }
                 break;
             case 13:
-                switch(contexto){
-                    case "variável":
-                        if(var_indexada == "falso"){
-                            VT = VT+1;
-                            VP = VP+1;
-                            tabela_simbolos = tupla.add(identificador, tipo, VT, "-");
-                        }else{
-                            VIT = VIT + constante_inteira;
-                            tabela_simbolos = tupla.add(identificador, tipo, VT, constante_inteira);
-                            VT = VT + constante_inteira;
-                        }
-                        break;
-                    case "atribuição":
-                        //preciso ajustar a tabela de simbolos
-                        if((tabela_simbolos.indexOf(identificador) != -1) &&
-                                tabela_simbolos[tabela_simbolos.indexOf(identificador)].tipo == 1){
-                            String atr1 = tabela_simbolos[tabela_simbolos.indexOf(identificador)].atr1;
-                            String atr2 = tabela_simbolos[tabela_simbolos.indexOf(identificador)].atr2;
-
-                            if(atr2 == "-"){
-                                if(var_indexada == "falso"){
-                                    //armazenar o "atributo 1" em uma lista de atributos
-                                }else{
-                                    //erro
-                                }
-                            }else{
-                                if(var_indexada == "verdadeiro"){
-                                    //armazenar o "atributo 1" + constante inteira – 1 em uma lista de atributos
-                                }else{
-                                    //erro: “identificador de variável indexada exige índice”
-                                }
-                            }
-
-                        }else{
-                            //erro: “identificador não declarado ou de constante”
-                        }
-                        break;
-                    case "entrada dados":
-                        break;
+                if(contexto == "varivável"){
+                    if(var_indexada == false){
+                        VT = VT+1;
+                        VP = VP+1;
+                        tabela_simbolos.add = (new Tabela(identificador, tipo, VT, "-"));
+                    }else{
+                        VIT = VIT + constante_inteira;
+                        tabela_simbolos.add = (new Tabela(identificador, tipo, VT, constante_inteira));
+                        VT = VT + constante_inteira;
+                    }
                 }
-                break;
+
+                if(contexto == "atribuição"){
+                    //preciso ajustar a tabela de simbolos
+                    if((tabela_simbolos.indexOf(identificador) != -1) &&
+                            tabela_simbolos[tabela_simbolos.indexOf(identificador)].tipo == 1){
+                        String atr1 = tabela_simbolos[tabela_simbolos.indexOf(identificador)].atr1;
+                        String atr2 = tabela_simbolos[tabela_simbolos.indexOf(identificador)].atr2;
+
+                        if(atr2 == "-"){
+                            if(var_indexada == false){
+                                //armazenar o "atributo 1" em uma lista de atributos
+                            }else{
+                                //erro
+                            }
+                        }else{
+                            if(var_indexada == true){
+                                //armazenar o "atributo 1" + constante inteira – 1 em uma lista de atributos
+                            }else{
+                                //erro: “identificador de variável indexada exige índice”
+                            }
+                        }
+
+                    }else{
+                        //erro: “identificador não declarado ou de constante”
+                    }
+                }
+
+                if(contexto == "entrada dados"){}
+
             case 14:
-                tabela_simbolos = tupla.add(identificador, tipo, VT, constante_inteira);
-                var_indexada = "verdadeiro";
+                tabela_simbolos.add = (new Tabela(identificador, tipo, VT, constante_inteira));
+                var_indexada = true;
                 break;
             case 15:
                 contexto = "atribuição";
@@ -291,11 +292,13 @@ public class AnalisadorSemantico {
                 ponteiro = ponteiro + 1;
                 break;
             case 48:
-                area_instrucao.add(new AreaInstrucao(ponteiro, "LDB", "TRUE"));
+                //true = 1
+                area_instrucao.add(new AreaInstrucao(ponteiro, "LDB", 1));
                 ponteiro = ponteiro + 1;
                 break;
             case 49:
-                area_instrucao.add(new AreaInstrucao(ponteiro, "LDB", "FALSE"));
+                //false = 0
+                area_instrucao.add(new AreaInstrucao(ponteiro, "LDB", 0));
                 ponteiro = ponteiro + 1;
                 break;
             case 50:
