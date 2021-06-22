@@ -4,7 +4,6 @@ import EstruturasDados.AreaInstrucao;
 import EstruturasDados.Tabela;
 import EstruturasDados.Pilha;
 
-import java.awt.geom.Area;
 import java.util.ArrayList;
 
 public class AnalisadorSemantico {
@@ -19,6 +18,8 @@ public class AnalisadorSemantico {
     private static ArrayList<Tabela> tabela_simbolos;
     private static ArrayList<AreaInstrucao> area_instrucao;
     private static Pilha pilhaAuxiliar;
+    private static int numErrSemantico = 0;
+    private static String mensagensErros = "";
 
     public AnalisadorSemantico(){
         pilha_de_desvios = new Pilha();
@@ -113,13 +114,15 @@ public class AnalisadorSemantico {
                 if(contexto == "variável"){
                     tipo = 4;
                 }else{
-                    System.out.println("ERRO: tipo inválido para constante");
+                    numErrSemantico += 1;
+                    mensagensErros += "ERRO: tipo inválido para constante";
                 }
                 break;
             case "#11":
                 if(tabela_simbolos.indexOf(valor) != -1){
                     //ajustar o if acima
-                    System.out.println("ERRO: identificador já declarado");
+                    numErrSemantico += 1;
+                    mensagensErros += "ERRO: identificador já declarado";
                 }else{
                     VT = VT + 1;
                     VP = VP + 1;
@@ -130,7 +133,8 @@ public class AnalisadorSemantico {
             case "#12":
                 if(contexto == "variável") {
                     if (tabela_simbolos.indexOf(valor) != -1) {
-                        System.out.println("ERRO: identificador já declarado");
+                        numErrSemantico += 1;
+                        mensagensErros +="ERRO: identificador já declarado";
                     } else {
                         var_indexada = false;
                         //ajustar
@@ -167,7 +171,8 @@ public class AnalisadorSemantico {
                             if(var_indexada == false){
                                 pilhaAuxiliar.empilhar(atr1);
                             }else{
-                                System.out.println("ERRO: identificador de variável não indexada");
+                                numErrSemantico += 1;
+                                mensagensErros +="ERRO: identificador de variável não indexada";
                             }
                         }else{
                             if(var_indexada == true){
@@ -175,13 +180,15 @@ public class AnalisadorSemantico {
                                 //armazenar o "atributo 1" + constante inteira – 1 em uma lista de atributos
                             }else{
                                 //erro: “identificador de variável indexada exige índice”
-                                System.out.println("ERRO: identificador de variável indexada exige índice");
+                                numErrSemantico += 1;
+                                mensagensErros +="ERRO: identificador de variável indexada exige índice";
                             }
                         }
 
                     }else{
+                        numErrSemantico += 1;
                         //erro: “identificador não declarado ou de constante”
-                        System.out.println("ERRO: identificador não declarado ou de constante");
+                        mensagensErros +="ERRO: identificador não declarado ou de constante";
                     }
                 }
 
@@ -227,7 +234,8 @@ public class AnalisadorSemantico {
                     var_indexada = false;
                     pilhaAuxiliar.empilhar(valor);
                 }else{
-                    System.out.println("identificador não declarado");
+                    numErrSemantico += 1;
+                    mensagensErros +="identificador não declarado";
                 }
                 break;
             case "#20":
@@ -245,7 +253,8 @@ public class AnalisadorSemantico {
                         ponteiro += 1;
                     }
                     else{
-                        System.out.println("identificador de constante ou de variável não indexada”");
+                        numErrSemantico += 1;
+                       mensagensErros +="identificador de constante ou de variável não indexada”";
                     }
                 }
                 break;
@@ -265,7 +274,7 @@ public class AnalisadorSemantico {
                 int endereço = (int) pilha_de_desvios.desempilhar();
                 int index = 0;
                 for (AreaInstrucao area:area_instrucao) {
-                    if(area.numero == endereço){
+                    if(area.ponteiro == endereço){
                         area.iParametro = ponteiro;
                         AreaInstrucao temp = area_instrucao.get(index);
                         area_instrucao.remove(index);
@@ -289,7 +298,7 @@ public class AnalisadorSemantico {
                 endereço = (int) pilha_de_desvios.desempilhar();
                 index = 0;
                 for (AreaInstrucao area:area_instrucao) {
-                    if(area.numero == endereço){
+                    if(area.ponteiro == endereço){
                         area.iParametro = ponteiro + 1;
                         AreaInstrucao temp = area_instrucao.get(index);
                         area_instrucao.remove(index);
@@ -315,7 +324,7 @@ public class AnalisadorSemantico {
                 int endereço2 = (int) pilha_de_desvios.desempilhar();
                 index = 0;
                 for (AreaInstrucao area:area_instrucao) {
-                    if(area.numero == endereço1){
+                    if(area.ponteiro == endereço1){
                         area.iParametro = ponteiro + 1;
                         AreaInstrucao temp = area_instrucao.get(index);
                         area_instrucao.remove(index);
@@ -407,5 +416,13 @@ public class AnalisadorSemantico {
         }
 
         return sucesso;
+    }
+
+    public int getNumErrSemantico(){
+        return numErrSemantico;
+    }
+
+    public String getMensagensErros(){
+        return mensagensErros;
     }
 }

@@ -1,35 +1,35 @@
 package EstruturasDados;
 
 public class AreaInstrucao {
-    public int numero ;
-    public String codigo;
+    public int ponteiro;
+    public String comando;
     public float fParametro;
     public int iParametro;
     public String sParametro;
 
     public AreaInstrucao(int numeroPar, String codigoPar, int parInt){
-        numero = numeroPar;
-        codigo  = codigoPar;
+        ponteiro = numeroPar;
+        comando = codigoPar;
         iParametro = parInt;
     }
     public AreaInstrucao(int numeroPar, String codigoPar, float parReal){
-        numero = numeroPar;
-        codigo  = codigoPar;
+        ponteiro = numeroPar;
+        comando = codigoPar;
         fParametro = parReal;
     }
     public AreaInstrucao(int numeroPar, String codigoPar, String parString){
-        numero = numeroPar;
-        codigo  = codigoPar;
+        ponteiro = numeroPar;
+        comando = codigoPar;
         sParametro = parString;
     }
-    public String getCodigo(){
+    public String getComando(){
         if(sParametro != null  &&  sParametro != "?"){
-            return " " + numero + " " + codigo + " " + sParametro;
+            return " " + ponteiro + " " + comando + " " + sParametro;
         }
         else if(fParametro > 0){
-            return " " + numero + " " + codigo + " " + fParametro;
+            return " " + ponteiro + " " + comando + " " + fParametro;
         }else {
-            return " " + numero + " " + codigo + " " + iParametro;
+            return " " + ponteiro + " " + comando + " " + iParametro;
         }
 
     }

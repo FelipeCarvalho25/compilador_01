@@ -116,9 +116,9 @@ public class ParseException extends Exception {
     String retval = "";
     if((tokenImage[currentToken.next.kind].equals("<EOF>")) && (currentToken.image.equals("}"))){  //Mensagem programa finalizado incorretamente
             retval += "\n" + "\n" + "ERRO (03)---> Programa Finalizado Incorretamente. ";
-    }else if(!(tokenImage[currentToken.next.kind].equals("}")) && (currentToken.image.equals("}"))){  //Mensagem funcao finalizada incorretamente
+    }/*else if(!(tokenImage[currentToken.next.kind].equals("}")) && (currentToken.image.equals("}"))){  //Mensagem funcao finalizada incorretamente
           retval += "\n" + "\n" + "ERRO (04)---> Função não foi finalizada corretamente,  ";
-    }
+    }*/
     else if(currentToken.next.image.equals("to")){  //Mensagem expressão invalida
           retval += "\n" + "\n" + "ERRO (05)---> Expressão Inválida,   ";
     }

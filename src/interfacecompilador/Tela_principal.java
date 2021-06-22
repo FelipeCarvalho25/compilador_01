@@ -20,8 +20,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -518,8 +516,10 @@ public class Tela_principal extends javax.swing.JFrame {
                 finally {
                     qtdErrosLex = analisadorLexico.getLexError();
                     qtdErrosSint = analisadorLexico.getSintaticError();
+                    qtdErrosSem = analisadorLexico.getNumErrSemantic();
                     mensagens_saida += "Foram encontrados " + qtdErrosLex + " erros léxicos \n";
                     mensagens_saida += "Foram encontrados " + qtdErrosSint + " erros sintáticos \n";
+                    mensagens_saida += "Foram encontrados " + qtdErrosSem + " erros semânticos \n";
                     if(qtdErrosLex > 0) {
                         mensagens_saida += analisadorLexico.getMensagensErros();
                     }
@@ -527,7 +527,7 @@ public class Tela_principal extends javax.swing.JFrame {
                         mensagens_saida += analisadorLexico.getMsgSintaticError();
                     }
                     else if(qtdErrosSem > 0) {
-                        mensagens_saida += "";//implementar aqui o retorno das mensagens de erros semanticos//analisadorLexico.getMsgSintaticError();
+                        mensagens_saida += analisadorLexico.getMsgErrSemantic();//implementar aqui o retorno das mensagens de erros semanticos//analisadorLexico.getMsgSintaticError();
                     }
                     else{
                         compilado_com_sucesso = true;
@@ -535,7 +535,7 @@ public class Tela_principal extends javax.swing.JFrame {
                         area_tabs.addTab("Codigo Intermediario", dentroTab2);
                         String cod = "";
                         for(AreaInstrucao aI: codigoIntermediario){
-                            cod += aI.getCodigo();
+                            cod += aI.getComando();
                         }
                         area_Cod_Inter.setText(cod);
                         mensagens_saida += "Programa compilado com sucesso! \n";

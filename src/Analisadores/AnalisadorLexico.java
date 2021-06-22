@@ -33,6 +33,15 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     public ArrayList<AreaInstrucao> getCodInter(){
         return analisadorSemantico.getCodIntermed();
     }
+
+    public int  getNumErrSemantic(){
+        return analisadorSemantico.getNumErrSemantico();
+    }
+
+    public String getMsgErrSemantic(){
+        String retorno = analisadorSemantico.getMensagensErros();
+        return retorno;
+    }
     public String getMensagensErros() {
        return this.token_source.getMensagensErros();
     }

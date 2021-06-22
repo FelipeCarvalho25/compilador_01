@@ -1,7 +1,8 @@
 PARSER_BEGIN(AnalisadorLexico)
 package Analisadores;
-public class AnalisadorLexico {
+import EstruturasDados.First;import EstruturasDados.RecoverySet;public class AnalisadorLexico {
     static int nCountSintaticError = 0;
+    private static boolean eof = false;
     private static StringBuffer mensagens_erros_sintatic = new StringBuffer();
     public String getMessages() {
         return this.token_source.getMensagesManhosas();
@@ -14,7 +15,7 @@ public class AnalisadorLexico {
            return this.nCountSintaticError;
     }
     public static void acaoSemantica(String codigo){
-
+            return codigo;
     }
     public String getMensagensErros() {
        return this.token_source.getMensagensErros();
@@ -23,17 +24,23 @@ public class AnalisadorLexico {
           return this.mensagens_erros_sintatic.toString();
        }
 
-   public void consumeUntil(RecoverySet g, ParseException e, String met){
+   public static void consumeUntil(RecoverySet g, ParseException e, String met)throws ParseException{
         Token tok;
         if(g == null) throw e;
         tok = getToken(1);
         while(!eof){
-            if(g.contains(tok.kind){
-
+            if(g.contains(tok.kind)){
+                break;
             }
+            getNextToken();
+            tok = getToken(1);
+            if(tok.kind == EOF && !g.contains(EOF)) eof = true;
         }
+        nCountSintaticError += 1;
+        mensagens_erros_sintatic.append(e.getMessage());
+        if(eof) throw  new ParseException("EOF encontrado prematuramente!");
    }
-   public String im(int x){
+   public static String im(int x){
         int k;
         String s;
 
@@ -43,8 +50,9 @@ public class AnalisadorLexico {
         catch (StringIndexOutOfBoundsException e){ }
         return s;
    }
-}}
 }
+
+
 PARSER_END(AnalisadorLexico)
 
 TOKEN_MGR_DECLS:
@@ -190,93 +198,46 @@ SKIP: // IGNORAR
 
 void program ():
 {
+    RecoverySet g = First.program;
 }
 {
     try{
         comentario()
-        try{
-            <PROGRAM>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        try{
-            <ACHAVE>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
+        <PROGRAM>
+        <ACHAVE>
         declaracao_variaveis()
         corpo_do_programa()
-        try{
-           <FCHAVE>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
+         <FCHAVE>
         identificador_programa()
         {acaoSemantica("#1");}
         <EOF>
     } catch(ParseException e){
         if(token_source.foundLexError() == 0) {
-            nCountSintaticError += 1;
-            mensagens_erros_sintatic.append(e.getMessage());
+            consumeUntil(g, e, "program");
         }
     }
 }
 void declaracao_variaveis():
 {}
 {
-    try{
-        define()
+    define()
         |
-        {}
-    } catch(ParseException e){
-        if(token_source.foundLexError() == 0) {
-            nCountSintaticError += 1;
-            mensagens_erros_sintatic.append(e.getMessage());
-        }
-    }
+    {}
+
 }
 void define():
-{}
+{
+    RecoverySet g = First.define;
+}
 {
     try{
-        try{
-            <DEFINE>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        try{
-            <ACHAVE>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-               nCountSintaticError += 1;
-               mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
+        <DEFINE>
+        <ACHAVE>
         estrutura_define()
-        try{
-            <FCHAVE>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
+        <FCHAVE>
     } catch(ParseException e){
         if(token_source.foundLexError() == 0) {
-           nCountSintaticError += 1;
-           mensagens_erros_sintatic.append(e.getMessage());
+           consumeUntil(g, e, "program");
         }
     }
 }
@@ -284,495 +245,252 @@ void define():
 void estrutura_define():
 {}
 {
-    try{
-        constante() chama_variavel() | variavel() chama_constante()
-    } catch(ParseException e){
-        if(token_source.foundLexError() == 0) {
-           nCountSintaticError += 1;
-           mensagens_erros_sintatic.append(e.getMessage());
-        }
-    }
+    constante() chama_variavel() | variavel() chama_constante()
 }
 void chama_variavel():
 {}
 {
-    try{
-        variavel() |
-        {}
-    }catch(ParseException e){
-                   if(token_source.foundLexError() == 0) {
-                       nCountSintaticError += 1;
-                       mensagens_erros_sintatic.append(e.getMessage());
-                   }
-               }
+    variavel()
+        |
+    {}
 }
 void chama_constante():
 {}
 {
-    try{
-        constante() |
-        {}
-    }catch(ParseException e){
-                       if(token_source.foundLexError() == 0) {
-                           nCountSintaticError += 1;
-                           mensagens_erros_sintatic.append(e.getMessage());
-                       }
-                   }
+    constante()
+        |
+    {}
 }
-void variavel():{
+void variavel():
+{
+    RecoverySet g = First.variable;
 }
 {
     try{
-        try{
-             <VARIABLE>
-             {acaoSemantica("#6");}
-            } catch(ParseException e){
-                 if(token_source.foundLexError() == 0) {
-                     nCountSintaticError += 1;
-                     mensagens_erros_sintatic.append(e.getMessage());
-                 }
-            }
+        <VARIABLE>
+        {acaoSemantica("#6");}
         variaveis()
     }catch(ParseException e){
         if(token_source.foundLexError() == 0) {
-             nCountSintaticError += 1;
-             mensagens_erros_sintatic.append(e.getMessage());
+             consumeUntil(g, e, "program");
         }
     }
 
 }
-void constante():{
+void constante():
+{
+    RecoverySet g = First.constante;
 }
 {
     try{
-        try{
-             <NOT>
-            } catch(ParseException e){
-                 if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-              }
-        }
-        try{
-             <VARIABLE>
-             {acaoSemantica("#3");}
-            } catch(ParseException e){
-                 if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-              }
-        }
+        <NOT>
+        <VARIABLE>
+        {acaoSemantica("#3");}
         constantes()
     }catch(ParseException e){
-                               if(token_source.foundLexError() == 0) {
-                                   nCountSintaticError += 1;
-                                   mensagens_erros_sintatic.append(e.getMessage());
-                               }
-                           }
+        if(token_source.foundLexError() == 0) {
+              consumeUntil(g, e, "constante");
+        }
+    }
 }
 void constantes():
-{}
+{
+    RecoverySet g = First.tipo;
+ }
 {
     try{
         tipo()
-            try{
-                 <IS>
-            } catch(ParseException e){
-                 if(token_source.foundLexError() == 0) {
-                     nCountSintaticError += 1;
-                     mensagens_erros_sintatic.append(e.getMessage());
-                 }
-            }
-            lista_identificadores_de_constantes()
-            {acaoSemantica("#4");}
-            valor()
-            {acaoSemantica("#5");}
-            try{
-                 <PONTO>
-                } catch(ParseException e){
-                     if(token_source.foundLexError() == 0) {
-                     nCountSintaticError += 1;
-                     mensagens_erros_sintatic.append(e.getMessage());
-                }
-            }
-            constante_recursiva()
+        <IS>
+        lista_identificadores_de_constantes()
+        {acaoSemantica("#4");}
+        valor()
+        {acaoSemantica("#5");}
+        <PONTO>
+        constante_recursiva()
     }catch(ParseException e){
-                                   if(token_source.foundLexError() == 0) {
-                                       nCountSintaticError += 1;
-                                       mensagens_erros_sintatic.append(e.getMessage());
-                                   }
-                               }
+        if(token_source.foundLexError() == 0) {
+             consumeUntil(g, e, "constante");
+        }
+    }
 }
-void valor():{
+void valor():
+{
+    RecoverySet g = First.valor;
 }
 {
     try{
-        try{
-            <CONSTANTE_NUM_INT>
-        } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-             }
-        }
+        <CONSTANTE_NUM_INT>
         |
-        try{
-             <CONSTANTE_NUM_REAL>
-        } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-             }
-        }
+        <CONSTANTE_NUM_REAL>
         |
-        try{
-             <CONSTANTE_LIT>
-        } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-             }
-        }
+        <CONSTANTE_LIT>
         |
-        try{
-             <TRUE>
-        } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-        }
+        <TRUE>
         |
-        try{
-             <FALSE>
-        } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                  nCountSintaticError += 1;
-                  mensagens_erros_sintatic.append(e.getMessage());
-              }
-        }
+        <FALSE>
     }catch(ParseException e){
-                                       if(token_source.foundLexError() == 0) {
-                                           nCountSintaticError += 1;
-                                           mensagens_erros_sintatic.append(e.getMessage());
-                                       }
-                                   }
+        if(token_source.foundLexError() == 0) {
+              consumeUntil(g, e, "valor");
+        }
+    }
 }
 void constante_recursiva():
 {
 }
 {
-     try{
-        constantes() |
-        {}
-     } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-             }
-     }
+     constantes()
+     |
+     {}
 }
 void variaveis():
-{}
+{
+    RecoverySet g = First.tipo;
+ }
 {
     try{
         tipo()
-        try{
-            <IS>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
+        <IS>
         lista_identificadores_variavel()
         {acaoSemantica("#4");}
-        try{
-            <PONTO>
-        } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-             }
-        }
+        <PONTO>
         variavel_recursiva()
     }catch(ParseException e){
-                 if(token_source.foundLexError() == 0) {
-                     nCountSintaticError += 1;
-                     mensagens_erros_sintatic.append(e.getMessage());
-                 }
-            }
+        if(token_source.foundLexError() == 0) {
+            consumeUntil(g, e, "valor");
+        }
+    }
 }
 void variavel_recursiva():
 {
 }
 {
-    try{
-        variaveis() |
-        {}
-    } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-    }
+     variaveis()
+     |
+     {}
 }
 
 void tipo():
 {
+    RecoverySet g = First.tipo;
 }
 {
     try{
-        try{
-             <NATURAL>
-             {acaoSemantica("#7");}
-        } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-             }
-        }
+        <NATURAL>
+        {acaoSemantica("#7");}
         |
-        try{
-            <REAL>
-            {acaoSemantica("#8");}
-        } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-                }
-        }
+        <REAL>
+        {acaoSemantica("#8");}
         |
-        try{
-            <CHAR>
-            {acaoSemantica("#9");}
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
+        <CHAR>
+        {acaoSemantica("#9");}
         |
-        try{
-             <BOOLEAN>
-             {acaoSemantica("#10");}
-        } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-             }
-        }
+        <BOOLEAN>
+         {acaoSemantica("#10");}
     }catch(ParseException e){
-                     if(token_source.foundLexError() == 0) {
-                         nCountSintaticError += 1;
-                         mensagens_erros_sintatic.append(e.getMessage());
-                     }
-                }
+         if(token_source.foundLexError() == 0) {
+               consumeUntil(g, e, "valor");
+         }
+    }
 }
 void get():
 {
+    RecoverySet g = First.get;
 }
 {
     try{
-        try{
-            <GET>
-            {acaoSemantica("#17");}
-        } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-             }
-        }
-        try{
-            <ACHAVE>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
+        <GET>
+        {acaoSemantica("#17");}
+        <ACHAVE>
         lista_identificadores_variavel()
-        try{
-            <FCHAVE>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        try{
-            <PONTO>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
+        <FCHAVE>
+        <PONTO>
     }catch(ParseException e){
-                         if(token_source.foundLexError() == 0) {
-                             nCountSintaticError += 1;
-                             mensagens_erros_sintatic.append(e.getMessage());
-                         }
-                    }
+        if(token_source.foundLexError() == 0) {
+           consumeUntil(g, e, "valor");
+        }
+    }
 }
 void put():
 {
+    RecoverySet g = First.put;
 }
 {
     try{
-        try{
-            <PUT>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        try{
-             <ACHAVE>
-            } catch(ParseException e){
-                 if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
+        <PUT>
+        <ACHAVE>
         lista_de_identificadore_constantes()
-        try{
-            <FCHAVE>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        try{
-            <PONTO>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
+        <FCHAVE>
+        <PONTO>
     }catch(ParseException e){
-                             if(token_source.foundLexError() == 0) {
-                                 nCountSintaticError += 1;
-                                 mensagens_erros_sintatic.append(e.getMessage());
-                             }
-                        }
+        if(token_source.foundLexError() == 0) {
+            consumeUntil(g, e, "valor");
+        }
+    }
 }
 void lista_de_identificadore_constantes():
 {
 }
 {
-    try{
-         tipo_constante() lista_de_identificadore_constantes_recursivo()
-    } catch(ParseException e){
-         if(token_source.foundLexError() == 0) {
-             nCountSintaticError += 1;
-             mensagens_erros_sintatic.append(e.getMessage());
-         }
-    }
+    tipo_constante() lista_de_identificadore_constantes_recursivo()
 
 }
 void tipo_constante():
 {
+    RecoverySet g = First.tipo_const;
 }
 {
     try{
-        try{
-            <IDENTIFICADOR>
-            {acaoSemantica("#18");}
-            indice()
-            {acaoSemantica("#20");}
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-               nCountSintaticError += 1;
-               mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-            indice()
+        <IDENTIFICADOR>
+        {acaoSemantica("#18");}
+        indice()
+        {acaoSemantica("#20");}
         |
-        try{
-             <CONSTANTE_NUM_REAL>
-             {acaoSemantica("#22");}
-            } catch(ParseException e){
-                 if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
+        <CONSTANTE_NUM_REAL>
+        {acaoSemantica("#22");}
         |
-        try{
-             <CONSTANTE_LIT>
-             {acaoSemantica("#23");}
-            } catch(ParseException e){
-                 if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
+        <CONSTANTE_LIT>
+        {acaoSemantica("#23");}
         |
-        try{
-             <CONSTANTE_NUM_INT>
-             {acaoSemantica("#21");}
-        } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
+        <CONSTANTE_NUM_INT>
+        {acaoSemantica("#21");}
     }catch(ParseException e){
-                                 if(token_source.foundLexError() == 0) {
-                                     nCountSintaticError += 1;
-                                     mensagens_erros_sintatic.append(e.getMessage());
-                                 }
-                            }
+        if(token_source.foundLexError() == 0) {
+              consumeUntil(g, e, "valor");
+        }
+    }
 }
 void lista_de_identificadore_constantes_recursivo():
 {
+    RecoverySet g = First.list_ident_const_rec;
 }
 {
     try{
-        try{
-             <VIRGULA>
-        } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        lista_de_identificadore_constantes() |
+        <VIRGULA>
+        lista_de_identificadore_constantes()
+        |
         {}
     }catch(ParseException e){
-                                     if(token_source.foundLexError() == 0) {
-                                         nCountSintaticError += 1;
-                                         mensagens_erros_sintatic.append(e.getMessage());
-                                     }
-                                }
+          if(token_source.foundLexError() == 0) {
+                 consumeUntil(g, e, "valor");
+          }
+    }
 }
 
 void lista_identificadores_variavel():
 {
+    RecoverySet g = First.list_ident_const_rec;
 }
 {
     try{
-        try{
-            <IDENTIFICADOR>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        } finally{
-            acaoSemantica("#12");
-        }
+        <IDENTIFICADOR>
+        {acaoSemantica("#12");}
         indice()
+        {acaoSemantica("#20");}
         { acaoSemantica("#13");}
         lista_identificadores_variavel_recursivo()
     }catch(ParseException e){
           if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
+               consumeUntil(g, e, "valor");
           }
     }finally{
            acaoSemantica("#2");
@@ -781,152 +499,93 @@ void lista_identificadores_variavel():
 }
 
 void lista_identificadores_variavel_recursivo():
-{}
+{
+    RecoverySet g = First.list_ident_const_rec;
+ }
 {
     try{
-        try{
-            <VIRGULA>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
+        <VIRGULA>
         lista_identificadores_variavel()
         |
         {}
     }catch(ParseException e){
-                                             if(token_source.foundLexError() == 0) {
-                                                 nCountSintaticError += 1;
-                                                 mensagens_erros_sintatic.append(e.getMessage());
-                                             }
-                                        }
+          if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "valor");
+          }
+    }
 }
 
 void lista_identificadores_de_constantes():
 {
+    RecoverySet g = First.list_ident_const_rec;
 }
 {
     try{
-        try{
-             <IDENTIFICADOR>
-
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }finally{
-            acaoSemantica("#11");
-        }
-
+        <IDENTIFICADOR>
+        {acaoSemantica("#11");}
         lista_identificadores_recursivo()
     }catch(ParseException e){
-                                                 if(token_source.foundLexError() == 0) {
-                                                     nCountSintaticError += 1;
-                                                     mensagens_erros_sintatic.append(e.getMessage());
-                                                 }
-                                            }
+         if(token_source.foundLexError() == 0) {
+              consumeUntil(g, e, "valor");
+         }
+    }
 }
 
 void lista_identificadores_recursivo():
-{}
+{
+    RecoverySet g = First.list_ident_const_rec;
+ }
 {
     try{
-        try{
-             <VIRGULA>
-        } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-             }
-        }
-        lista_identificadores_de_constantes() |
-        {}
-    }catch(ParseException e){
-                                                     if(token_source.foundLexError() == 0) {
-                                                         nCountSintaticError += 1;
-                                                         mensagens_erros_sintatic.append(e.getMessage());
-                                                     }
-                                                }
-}
-void corpo_do_programa():
-{}
-{
-    try{
-        try{
-            <EXECUTE>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        try{
-             <ACHAVE>
-        } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-             }
-        }
-        lista_de_comandos()
-        try{
-             <FCHAVE>
-        } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-             }
-        }
+        <VIRGULA>
+        lista_identificadores_de_constantes()
         |
         {}
     }catch(ParseException e){
-                                                         if(token_source.foundLexError() == 0) {
-                                                             nCountSintaticError += 1;
-                                                             mensagens_erros_sintatic.append(e.getMessage());
-                                                         }
-                                                    }
+          if(token_source.foundLexError() == 0) {
+               consumeUntil(g, e, "valor");
+          }
+    }
+}
+void corpo_do_programa():
+{
+    RecoverySet g = First.corp_prog;
+ }
+{
+    try{
+        <EXECUTE>
+        <ACHAVE>
+        lista_de_comandos()
+        <FCHAVE>
+        |
+        {}
+    }catch(ParseException e){
+        if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "valor");
+        }
+    }
 }
 
 void lista_de_comandos():{
 }
 {
-    try{
-        comando() comando_recursivo()
-    } catch(ParseException e){
-        if(token_source.foundLexError() == 0) {
-            nCountSintaticError += 1;
-            mensagens_erros_sintatic.append(e.getMessage());
-        }
-    }
+    comando() comando_recursivo()
 }
 void comando():{
 }
 {
-    try{
-        get() | put() | selecao() | atribuicao() | repeticao()
-    } catch(ParseException e){
-        if(token_source.foundLexError() == 0) {
-            nCountSintaticError += 1;
-            mensagens_erros_sintatic.append(e.getMessage());
-        }
-    }
+    get() | put() | selecao() | atribuicao() | repeticao()
 }
 void comando_recursivo():{
 }
 {
-    try{
-        lista_de_comandos() |
-        {}
-    } catch(ParseException e){
-        if(token_source.foundLexError() == 0) {
-           nCountSintaticError += 1;
-           mensagens_erros_sintatic.append(e.getMessage());
-        }
-    }
+    lista_de_comandos()
+     |
+    {}
 }
-void identificador_programa():{
+void identificador_programa():
+{
+    RecoverySet g = First.list_ident_const_rec;
 }
 {
 
@@ -934,35 +593,28 @@ void identificador_programa():{
             <IDENTIFICADOR>
         } catch(ParseException e){
             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
+                consumeUntil(g, e, "valor");
             }
         }finally{
                 acaoSemantica("#2");
         }
-
         |
         {}
 
 }
 
-void comentario():{
-}{
+void comentario():
+{
+    RecoverySet g = First.coment_prog;
+}
+{
         try{
              <COMENT>
-        } catch(ParseException e){
-              if(token_source.foundLexError() == 0) {
-                   nCountSintaticError += 1;
-                   mensagens_erros_sintatic.append(e.getMessage());
-              }
-        }
-        try{
              <CONSTANTE_LIT>
         } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                   nCountSintaticError += 1;
-                   mensagens_erros_sintatic.append(e.getMessage());
-             }
+              if(token_source.foundLexError() == 0) {
+                   consumeUntil(g, e, "valor");
+              }
         }
         |
         {}
@@ -970,473 +622,196 @@ void comentario():{
 }
 
 void selecao():
-{}
+{
+    RecoverySet g = First.verify;
+ }
 {
     try{
-        try{
-            <VERIFY>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-
+        <VERIFY>
         expressao()  isTrueFalse()
         {acaoSemantica("#24");}
-        try{
-            <PONTO>
-        } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-             }
-        }
+        <PONTO>
     } catch(ParseException e){
-                if(token_source.foundLexError() == 0) {
-                    nCountSintaticError += 1;
-                    mensagens_erros_sintatic.append(e.getMessage());
-                }
-            }
+         if(token_source.foundLexError() == 0) {
+              consumeUntil(g, e, "valor");
+         }
+    }
 }
 
 void isTrueFalse():
-{}
+{
+    RecoverySet g = First.is;
+ }
 {
     try{
-        try{
-            <IS>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-           }
-        }
+        <IS>
         trueFalse()
     } catch(ParseException e){
-                    if(token_source.foundLexError() == 0) {
-                        nCountSintaticError += 1;
-                        mensagens_erros_sintatic.append(e.getMessage());
-                    }
-                }
+        if(token_source.foundLexError() == 0) {
+            consumeUntil(g, e, "valor");
+        }
+   }
 }
 void  trueFalse():
-{}
+{
+    RecoverySet g = First.truefalse;
+ }
 {
     try{
-        try{
-            <TRUE>
-            {acaoSemantica("#25");}
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        try{
-             <ACHAVE>
-        } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-             }
-        }
+        <TRUE>
+        {acaoSemantica("#25");}
+        <ACHAVE>
         lista_de_comandos()
-        try{
-             <FCHAVE>
-        } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-             }
-        }
+        <FCHAVE>
         isFalse()
         |
-        try{
-             <FALSE>
-             {acaoSemantica("#26");}
-        } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-             }
-        }
-        try{
-             <ACHAVE>
-        } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-             }
-        }
+        <FALSE>
+        {acaoSemantica("#26");}
+        <ACHAVE>
         lista_de_comandos()
-        try{
-            <FCHAVE>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
+        <FCHAVE>
         isTrue()
     } catch(ParseException e){
-                        if(token_source.foundLexError() == 0) {
-                            nCountSintaticError += 1;
-                            mensagens_erros_sintatic.append(e.getMessage());
-                        }
-                    }
-}
-
-void isTrue():
-{}
-{
-    try{
-        try{
-            <IS>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        try{
-             <TRUE>
-             {acaoSemantica("#27");}
-        } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-             }
-        }
-        try{
-             <ACHAVE>
-        } catch(ParseException e){
-             if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-             }
-        }
-        lista_de_comandos()
-        try{
-            <FCHAVE>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        |
-        {}
-    } catch(ParseException e){
-                            if(token_source.foundLexError() == 0) {
-                                nCountSintaticError += 1;
-                                mensagens_erros_sintatic.append(e.getMessage());
-                            }
-                        }
-}
-void isFalse():
-{}
-{
-    try{
-        try{
-            <IS>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        try{
-            <FALSE>
-            {acaoSemantica("#27");}
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        try{
-             <ACHAVE>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        lista_de_comandos()
-        try{
-            <FCHAVE>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        |
-        {}
-    } catch(ParseException e){
-                                if(token_source.foundLexError() == 0) {
-                                    nCountSintaticError += 1;
-                                    mensagens_erros_sintatic.append(e.getMessage());
-                                }
-                            }
-}
-
-void atribuicao():
-{}
-{
-    try{
-        try{
-            <SET>
-            {acaoSemantica("#15");}
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        expressao()
-        try{
-            <TO>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        lista_identificadores_variavel()
-        {acaoSemantica("#16");}
-        try{
-            <PONTO>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-    } catch(ParseException e){
-                                    if(token_source.foundLexError() == 0) {
-                                        nCountSintaticError += 1;
-                                        mensagens_erros_sintatic.append(e.getMessage());
-                                    }
-                                }
-}
-
-void repeticao():
-{}
-{
-    try{
-        try{
-            <LOOP>
-            {acaoSemantica("#28");}
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        try{
-            <ACHAVE>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        lista_de_comandos()
-        try{
-            <FCHAVE>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        try{
-            <WHILE>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        expressao()
-        {acaoSemantica("#29");}
-        try{
-             <IS>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        try{
-             <TRUE>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        try{
-            <PONTO>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        |
-        try{
-             <WHILE>
-             {acaoSemantica("#30");}
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        expressao()
-        {acaoSemantica("#31");}
-        try{
-             <IS>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        try{
-             <TRUE>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        try{
-            <DO>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        try{
-             <ACHAVE>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        lista_de_comandos()
-        try{
-             <FCHAVE>
-             {acaoSemantica("#32");}
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        try{
-             <PONTO>
-        } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-    } catch(ParseException e){
-                                        if(token_source.foundLexError() == 0) {
-                                            nCountSintaticError += 1;
-                                            mensagens_erros_sintatic.append(e.getMessage());
-                                        }
-                                    }
-}
-
-
-void expressao():
-{}
-{
-    try{
-	    expressaoaritmeticaoulogica() expressao2()
-	} catch(ParseException e){
         if(token_source.foundLexError() == 0) {
-            nCountSintaticError += 1;
-            mensagens_erros_sintatic.append(e.getMessage());
+             consumeUntil(g, e, "valor");
         }
     }
 }
 
-void expressao2():
-{}
+void isTrue():
+{
+    RecoverySet g = First.is;
+ }
 {
     try{
-        try{
-	        <EQUIVALENTE>
-	    } catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-            }
+        <IS>
+        <TRUE>
+        {acaoSemantica("#27");}
+        <ACHAVE>
+        lista_de_comandos()
+        <FCHAVE>
+        |
+        {}
+    } catch(ParseException e){
+        if(token_source.foundLexError() == 0) {
+            consumeUntil(g, e, "valor");
         }
+    }
+}
+void isFalse():
+{
+    RecoverySet g = First.is;
+ }
+{
+    try{
+        <IS>
+        <FALSE>
+        {acaoSemantica("#27");}
+        <ACHAVE>
+        lista_de_comandos()
+        <FCHAVE>
+        |
+        {}
+    } catch(ParseException e){
+        if(token_source.foundLexError() == 0) {
+            consumeUntil(g, e, "valor");
+        }
+    }
+}
+
+void atribuicao():
+{
+    RecoverySet g = First.set;
+ }
+{
+    try{
+        <SET>
+        {acaoSemantica("#15");}
+        expressao()
+        <TO>
+        lista_identificadores_variavel()
+        {acaoSemantica("#16");}
+        <PONTO>
+    } catch(ParseException e){
+        if(token_source.foundLexError() == 0) {
+            consumeUntil(g, e, "valor");
+        }
+    }
+}
+
+void repeticao():
+{
+    RecoverySet g = First.repet;
+ }
+{
+    try{
+        <LOOP>
+        {acaoSemantica("#28");}
+        <ACHAVE>
+        lista_de_comandos()
+        <FCHAVE>
+        <WHILE>
+        expressao()
+        {acaoSemantica("#29");}
+        <IS>
+        <TRUE>
+        <PONTO>
+        |
+        <WHILE>
+        {acaoSemantica("#30");}
+        expressao()
+        {acaoSemantica("#31");}
+        <IS>
+        <TRUE>
+        <DO>
+        <ACHAVE>
+        lista_de_comandos()
+        <FCHAVE>
+        {acaoSemantica("#32");}
+        <PONTO>
+    } catch(ParseException e){
+        if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "valor");
+        }
+    }
+}
+
+
+void expressao():
+{
+
+ }
+{
+	  expressaoaritmeticaoulogica() expressao2()
+}
+
+void expressao2():
+{
+    RecoverySet g = First.exp_logic;
+}
+{
+    try{
+	    <EQUIVALENTE>
         expressaoaritmeticaoulogica()
         {acaoSemantica("#33");}
 	    |
-	     try{
-	        <DIFERENTE>
-	     } catch(ParseException e){
-                     if(token_source.foundLexError() == 0) {
-                         nCountSintaticError += 1;
-                         mensagens_erros_sintatic.append(e.getMessage());
-                     }
-                 }
+	     <DIFERENTE>
 	    expressaoaritmeticaoulogica()
 	     {acaoSemantica("#34");}
 	    |
-	    try{
-	        <MENOR>
-	    } catch(ParseException e){
-                             if(token_source.foundLexError() == 0) {
-                                 nCountSintaticError += 1;
-                                 mensagens_erros_sintatic.append(e.getMessage());
-                             }
-                         }
+	    <MENOR>
 	    expressaoaritmeticaoulogica()
 	     {acaoSemantica("#35");}
 	    |
-	    try{
-	        <MAIOR>
-	    } catch(ParseException e){
-                                     if(token_source.foundLexError() == 0) {
-                                         nCountSintaticError += 1;
-                                         mensagens_erros_sintatic.append(e.getMessage());
-                                     }
-                                 }
+	    <MAIOR>
 	    expressaoaritmeticaoulogica()
 	     {acaoSemantica("#36");}
 	    |
-	    try{
-	        <MENOROUIGUAL>
-	    } catch(ParseException e){
-                                             if(token_source.foundLexError() == 0) {
-                                                 nCountSintaticError += 1;
-                                                 mensagens_erros_sintatic.append(e.getMessage());
-                                             }
-                                         }
+	    <MENOROUIGUAL>
 	    expressaoaritmeticaoulogica()
 	     {acaoSemantica("#37");}
 	    |
-	    try{
-	        <MAIOROUIGUAL>
-	    } catch(ParseException e){
-                                                     if(token_source.foundLexError() == 0) {
-                                                         nCountSintaticError += 1;
-                                                         mensagens_erros_sintatic.append(e.getMessage());
-                                                     }
-                                                 }
+	    <MAIOROUIGUAL>
 	    expressaoaritmeticaoulogica()
 	     {acaoSemantica("#38");}
 	    |
@@ -1444,8 +819,7 @@ void expressao2():
 
 	} catch(ParseException e){
         if(token_source.foundLexError() == 0) {
-            nCountSintaticError += 1;
-            mensagens_erros_sintatic.append(e.getMessage());
+            consumeUntil(g, e, "valor");
         }
     }
 }
@@ -1453,59 +827,32 @@ void expressao2():
 void expressaoaritmeticaoulogica():
 {}
 {
-    try{
-	    termo2() menorprioridade()
-	} catch(ParseException e){
-        if(token_source.foundLexError() == 0) {
-            nCountSintaticError += 1;
-            mensagens_erros_sintatic.append(e.getMessage());
-        }
-    }
+	termo2() menorprioridade()
 }
 
 void menorprioridade():
-{}
+{
+    RecoverySet g = First.menor_prio;
+ }
 {
     try{
-	    try{
-	        <ADICAO>
-	    } catch(ParseException e){
-                if(token_source.foundLexError() == 0) {
-                    nCountSintaticError += 1;
-                    mensagens_erros_sintatic.append(e.getMessage());
-                }
-            }
+	    <ADICAO>
 	    termo2() menorprioridade()
 	     {acaoSemantica("#39");}
 	    |
-	    try{
-	        <SUBTRACAO>
-	    } catch(ParseException e){
-                        if(token_source.foundLexError() == 0) {
-                            nCountSintaticError += 1;
-                            mensagens_erros_sintatic.append(e.getMessage());
-                        }
-                    }
+	   <SUBTRACAO>
 	    termo2() menorprioridade()
 	     {acaoSemantica("#40");}
 	    |
-	    try{
-	        <OU>
-	    } catch(ParseException e){
-                                if(token_source.foundLexError() == 0) {
-                                    nCountSintaticError += 1;
-                                    mensagens_erros_sintatic.append(e.getMessage());
-                                }
-                            }
+	    <OU>
 	    termo2() menorprioridade()
 	    {acaoSemantica("#41");}
 	    |
-            {}
+        {}
 
 	} catch(ParseException e){
         if(token_source.foundLexError() == 0) {
-            nCountSintaticError += 1;
-            mensagens_erros_sintatic.append(e.getMessage());
+            consumeUntil(g, e, "valor");
         }
     }
 
@@ -1514,80 +861,39 @@ void menorprioridade():
 void termo2():
 {}
 {
-    try{
-	    termo1() mediaprioridade()
-	} catch(ParseException e){
-        if(token_source.foundLexError() == 0) {
-            nCountSintaticError += 1;
-            mensagens_erros_sintatic.append(e.getMessage());
-        }
-    }
+    termo1() mediaprioridade()
 }
 
 void mediaprioridade():
-{}
+{
+    RecoverySet g = First.media_prio;
+ }
 {
     try{
-        try{
-    	    <MULTIPLICACAO>
-    	} catch(ParseException e){
-                if(token_source.foundLexError() == 0) {
-                    nCountSintaticError += 1;
-                    mensagens_erros_sintatic.append(e.getMessage());
-                }
-            }
+        <MULTIPLICACAO>
     	termo1() mediaprioridade()
     	{acaoSemantica("#42");}
 	    |
-	    try{
-	        <DIVISAO>
-	     } catch(ParseException e){
-                         if(token_source.foundLexError() == 0) {
-                             nCountSintaticError += 1;
-                             mensagens_erros_sintatic.append(e.getMessage());
-                         }
-                     }
+	    <DIVISAO>
 	    termo1() mediaprioridade()
 	    {acaoSemantica("#43");}
 	    |
-	    try{
-	        <DIVISAOINTEIRA>
-	    } catch(ParseException e){
-                                 if(token_source.foundLexError() == 0) {
-                                     nCountSintaticError += 1;
-                                     mensagens_erros_sintatic.append(e.getMessage());
-                                 }
-                             }
+	    <DIVISAOINTEIRA>
 	    termo1() mediaprioridade()
 	    {acaoSemantica("#44");}
 	    |
-	    try{
-	        <RESTODIVISAO>
-	    } catch(ParseException e){
-                                         if(token_source.foundLexError() == 0) {
-                                             nCountSintaticError += 1;
-                                             mensagens_erros_sintatic.append(e.getMessage());
-                                         }
-                                     }
+	    <RESTODIVISAO>
 	    termo1() mediaprioridade()
 	    {acaoSemantica("#45");}
 	    |
-	    try{
-	        <E>
-	    } catch(ParseException e){
-                                                 if(token_source.foundLexError() == 0) {
-                                                     nCountSintaticError += 1;
-                                                     mensagens_erros_sintatic.append(e.getMessage());
-                                                 }
-                                             }
+	    <E>
 	    termo1() mediaprioridade()
 	    {acaoSemantica("#46");}
 	    |
 	    {}
 	} catch(ParseException e){
         if(token_source.foundLexError() == 0) {
-            nCountSintaticError += 1;
-            mensagens_erros_sintatic.append(e.getMessage());
+            consumeUntil(g, e, "valor");
         }
     }
 }
@@ -1595,213 +901,95 @@ void mediaprioridade():
 void termo1():
 {}
 {
-    try{
-	    elemento() maiorprioridade()
-	} catch(ParseException e){
-        if(token_source.foundLexError() == 0) {
-            nCountSintaticError += 1;
-            mensagens_erros_sintatic.append(e.getMessage());
-        }
-    }
+    elemento() maiorprioridade()
 }
 
 void maiorprioridade():
-{}
+{
+    RecoverySet g = First.maior_prio;
+ }
 {
     try{
-        try{
-    	    <POTENCIA>
-    	} catch(ParseException e){
-                if(token_source.foundLexError() == 0) {
-                    nCountSintaticError += 1;
-                    mensagens_erros_sintatic.append(e.getMessage());
-                }
-            }
+        <POTENCIA>
     	elemento() maiorprioridade()
     	{acaoSemantica("#47");}
 	    |
 	    {}
 	} catch(ParseException e){
         if(token_source.foundLexError() == 0) {
-            nCountSintaticError += 1;
-            mensagens_erros_sintatic.append(e.getMessage());
+            consumeUntil(g, e, "valor");
         }
     }
 }
 
 void elemento():
-{}
+{
+    RecoverySet g = First.elemento;
+ }
 {
     try{
-        try{
-	        <IDENTIFICADOR>
-	    } catch(ParseException e){
-                if(token_source.foundLexError() == 0) {
-                    nCountSintaticError += 1;
-                    mensagens_erros_sintatic.append(e.getMessage());
-                }
-        }finally{
-                acaoSemantica("#19");
-        }
+        <IDENTIFICADOR>
+        {acaoSemantica("#19");}
 	    indice()
+	    {acaoSemantica("#20");}
 	    |
-	    try{
-	        <CONSTANTE_NUM_INT>
+	    <CONSTANTE_NUM_INT>
+        {acaoSemantica("#21");}
 
-	    } catch(ParseException e){
-                if(token_source.foundLexError() == 0) {
-                    nCountSintaticError += 1;
-                    mensagens_erros_sintatic.append(e.getMessage());
-                }
-            }finally{
-                     acaoSemantica("#21");
-            }
 	    |
-	    try{
-	        <CONSTANTE_NUM_REAL>
-	    } catch(ParseException e){
-                if(token_source.foundLexError() == 0) {
-                    nCountSintaticError += 1;
-                    mensagens_erros_sintatic.append(e.getMessage());
-                }
-            }finally{
-                    acaoSemantica("#22");
-            }
+	    <CONSTANTE_NUM_REAL>
+	    {acaoSemantica("#22");}
 	    |
-	    try{
-	        <CONSTANTE_LIT>
-	    } catch(ParseException e){
-                if(token_source.foundLexError() == 0) {
-                    nCountSintaticError += 1;
-                    mensagens_erros_sintatic.append(e.getMessage());
-                }
-            }finally{
-                    acaoSemantica("#23");
-            }
+	    <CONSTANTE_LIT>
+	    {acaoSemantica("#23");}
+
 	    |
-	    try{
-	        <TRUE>
-	    } catch(ParseException e){
-                if(token_source.foundLexError() == 0) {
-                    nCountSintaticError += 1;
-                    mensagens_erros_sintatic.append(e.getMessage());
-                }
-            }finally{
-                        acaoSemantica("#48");
-                     }
+	    <TRUE>
+	    {acaoSemantica("#48");}
+
 	    |
-	    try{
-	        <FALSE>
-	    } catch(ParseException e){
-                if(token_source.foundLexError() == 0) {
-                    nCountSintaticError += 1;
-                    mensagens_erros_sintatic.append(e.getMessage());
-                }
-        }finally{
-              acaoSemantica("#49");
-        }
+	    <FALSE>
+	    {acaoSemantica("#49");}
 	    |
-	    try{
-	        <APARENT>
-	    } catch(ParseException e){
-                if(token_source.foundLexError() == 0) {
-                    nCountSintaticError += 1;
-                    mensagens_erros_sintatic.append(e.getMessage());
-                }
-            }
+	    <APARENT>
 	    expressao()
-	     try{
-	        <FPARENT>
-	    } catch(ParseException e){
-                if(token_source.foundLexError() == 0) {
-                    nCountSintaticError += 1;
-                    mensagens_erros_sintatic.append(e.getMessage());
-                }
-            }
+	    <FPARENT>
 	    |
-	     try{
-	        <NAO>
-	     } catch(ParseException e){
-                 if(token_source.foundLexError() == 0) {
-                     nCountSintaticError += 1;
-                     mensagens_erros_sintatic.append(e.getMessage());
-                 }
-             }
-         try{
-	        <APARENT>
-	     } catch(ParseException e){
-                 if(token_source.foundLexError() == 0) {
-                     nCountSintaticError += 1;
-                     mensagens_erros_sintatic.append(e.getMessage());
-                 }
-             }
+	     <NAO>
+         <APARENT>
 	     expressao()
-	     try{
-	        <FPARENT>
-	        {acaoSemantica("#50");}
-	     } catch(ParseException e){
-                 if(token_source.foundLexError() == 0) {
-                     nCountSintaticError += 1;
-                     mensagens_erros_sintatic.append(e.getMessage());
-                 }
-             }
+	     <FPARENT>
+	     {acaoSemantica("#50");}
 	} catch(ParseException e){
         if(token_source.foundLexError() == 0) {
-            nCountSintaticError += 1;
-            mensagens_erros_sintatic.append(e.getMessage());
+            consumeUntil(g, e, "valor");
         }
     }
 }
 
 void indice():
-{}
 {
-
-        try{
-	        <ACOLCH>
-	    }catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-               nCountSintaticError += 1;
-               mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
-        try{
-	        <CONSTANTE_NUM_INT>
-	    }catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                nCountSintaticError += 1;
-                mensagens_erros_sintatic.append(e.getMessage());
-
-            }
-        }
-        finally{
-            acaoSemantica("#14");
-        }
-	    try{
-	        <FCOLCH>
-	    }catch(ParseException e){
-            if(token_source.foundLexError() == 0) {
-                 nCountSintaticError += 1;
-                 mensagens_erros_sintatic.append(e.getMessage());
-            }
-        }
+    RecoverySet g = First.indice;
+}
+{
+    try{
+        <ACOLCH>
+        <CONSTANTE_NUM_INT>
+       {acaoSemantica("#14");}
+        <FCOLCH>
 	    |
 	    {}
-
-        {acaoSemantica("#20");}
+    } catch(ParseException e){
+        if(token_source.foundLexError() == 0) {
+             consumeUntil(g, e, "valor");
+         }
+    }
 }
 
 void Programa():
 { }
 {
-    try{
-	  program()
-    } catch(ParseException e){
-        if(token_source.foundLexError() == 0) {
-            nCountSintaticError += 1;
-            mensagens_erros_sintatic.append(e.getMessage());
-        }
-    }
+    program()
 	  /*((
 	    <PROGRAM>|<DEFINE>|<NOT>|<VARIABLE>|<IS>|<BOOLEAN>|<CHAR>|<REAL>|<NATURAL>|<EXECUTE>|<VERIFY>|<SET>|<GET>|<PUT>|<LOOP>|<WHILE>|<TRUE>|<FALSE>|<DO>|<TO>|
 	<APARENT>|<FPARENT>|<ACHAVE>|<FCHAVE>|<ACOLCH>|<FCOLCH>|<VIRGULA>|<PONTO>|<ADICAO>|<SUBTRACAO>|<MULTIPLICACAO>|<DIVISAO>|
