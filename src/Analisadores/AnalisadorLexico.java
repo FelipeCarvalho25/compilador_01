@@ -63,7 +63,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         }
         nCountSintaticError += 1;
         mensagens_erros_sintatic.append(e.getMessage());
-        if(eof) throw  new ParseException("EOF encontrado prematuramente!");
+        if(eof) throw  new ParseException("\nERRO (04)---> Programa não foi finalizado corretamente\nEncontrado EOF na linha " + tok.beginLine + " coluna " + tok.beginColumn + " \n" );
    }
    public static String im(int x){
         int k;

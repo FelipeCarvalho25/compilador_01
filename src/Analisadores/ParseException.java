@@ -100,6 +100,7 @@ public class ParseException extends Exception {
       return super.getMessage();
     }
     StringBuffer expected = new StringBuffer();
+    String esperado = "";
     int maxSize = 0;
     for (int i = 0; i < expectedTokenSequences.length; i++) {
       if (maxSize < expectedTokenSequences[i].length) {
@@ -114,13 +115,49 @@ public class ParseException extends Exception {
       expected.append(", ").append("    ");
     }
     String retval = "";
-    if((tokenImage[currentToken.next.kind].equals("<EOF>")) && (currentToken.image.equals("}"))){  //Mensagem programa finalizado incorretamente
+
+    if((tokenImage[currentToken.next.kind].equals("<EOF>")) && (expected.indexOf("}") >= 0) && (currentToken.image.equals("{"))){  //Mensagem programa finalizado incorretamente
             retval += "\n" + "\n" + "ERRO (03)---> Programa Finalizado Incorretamente. ";
-    }/*else if(!(tokenImage[currentToken.next.kind].equals("}")) && (currentToken.image.equals("}"))){  //Mensagem funcao finalizada incorretamente
-          retval += "\n" + "\n" + "ERRO (04)---> Função não foi finalizada corretamente,  ";
-    }*/
+            esperado += "}" ;
+    }else if(expected.indexOf("{") >= 0 && tokenImage[currentToken.next.kind].contains("}") ){  //Mensagem funcao finalizada incorretamente
+          retval += "\n" + "\n" + "ERRO (04)---> Programa ou função não foi iniciada corretamente,  ";
+            esperado += "{" ;
+    }
+    else if(expected.indexOf("<PROGRAM>") >= 0 && tokenImage[currentToken.next.kind].contains("<IDENTIFICADOR>") ){
+        retval += "\n" + "\n" + "ERRO (05)---> Programa inicializado incorretamente,   ";
+        esperado += "Program" ;
+    }
+
+    else if(currentToken.image.equals("define")) {
+        retval += "\n" + "\n" + "ERRO (10)---> Erro na inicializacao de variaveis,   ";
+        esperado += " not, variable";
+
+      }
+     else if(expected.indexOf("<VARIABLE>") >= 0 && expected.indexOf("<NOT>") >= 0){
+        retval += "\n" + "\n" + "ERRO (10)---> Erro na inicializacao de variaveis,   ";
+        esperado += " not, variable";
+    }
+    else if(currentToken.image.equals("variable") &&  (expected.indexOf("<BOOLEAN>") >= 0 && expected.indexOf("<CHAR>") >= 0)){
+        retval += "\n" + "\n" + "ERRO (10)---> Erro na inicializacao de variaveis,   ";
+        esperado += " tipo (natural, char,..)";
+    }
+    else if(currentToken.image.equals("not") && expected.indexOf("<VARIABLE>") >= 0 ){
+        retval += "\n" + "\n" + "ERRO (10)---> Erro na inicializacao de variaveis,   ";
+        esperado += "variable";
+    }
+    else if(expected.indexOf("<IS>") >= 0  ){
+        retval += "\n" + "\n" + "ERRO (10)---> Erro na inicializacao de variaveis,   ";
+        esperado += "is" ;
+    }
+    else if(currentToken.image.equals("is") && expected.indexOf("<IDENTIFICADOR>") >= 0 ){
+        retval += "\n" + "\n" + "ERRO (10)---> Erro na inicializacao de variaveis,   ";
+        esperado += "identificador" ;
+    }
+    else if(currentToken.image.equals("execute")){
+        retval += "\n" + "\n" + "ERRO (06)---> Corpo do programa inicializado incorretamente,   ";
+    }
     else if(currentToken.next.image.equals("to")){  //Mensagem expressão invalida
-          retval += "\n" + "\n" + "ERRO (05)---> Expressão Inválida,   ";
+          retval += "\n" + "\n" + "ERRO (07)---> Expressão Inválida,   ";
     }
       else if(currentToken.next.image.equals(")")
               || (currentToken.image.equals("+"))
@@ -134,20 +171,20 @@ public class ParseException extends Exception {
               || (currentToken.image.equals("<"))
 
       ){  //Mensagem expressão invalida
-          retval += "\n" + "\n" + "ERRO (05)---> Expressão Inválida,   ";
+          retval += "\n" + "\n" + "ERRO (07)---> Expressão Inválida,   ";
       }
     else if((currentToken.image.equals("(")) && (currentToken.next.image.equals(")"))){  //Mensagem expressão VAZIA
-          retval += "\n" + "\n" + "ERRO (05)---> Expressão Inválida,   ";
+          retval += "\n" + "\n" + "ERRO (07)---> Expressão Inválida,   ";
     }
     else if(((!(currentToken.image.equals("<IDENTIFICADOR>")))
             || (!(currentToken.image.equals("<CONSTANTE_NUM_REAL>")))
             || (!(currentToken.image.equals("<CONSTANTE_NUM_INT>")))
             || (!(currentToken.image.equals("<CONSTANTE_LIT>"))))
             && (currentToken.next.image.equals("is"))){  //Mensagem expressão VAZIA
-          retval += "\n" + "\n" + "ERRO (05)---> Expressão Inválida,   ";
+          retval += "\n" + "\n" + "ERRO (07)---> Expressão Inválida,   ";
     }
     else if(currentToken.image.equals("variable")){
-        retval += "\n" + "\n" + "ERRO (06)---> TIPO Inválido,   ";
+        retval += "\n" + "\n" + "ERRO (08)---> TIPO Inválido,   ";
     }
     else if(currentToken.image.equals("get")
             || (currentToken.image.equals("put"))
@@ -157,22 +194,8 @@ public class ParseException extends Exception {
             || (currentToken.image.equals("while"))
 
       ){
-        retval += "\n" + "\n" + "ERRO (07)---> COMANDO Inválido,   ";
+        retval += "\n" + "\n" + "ERRO (09)---> COMANDO Inválido,   ";
     }
-    else if(currentToken.image.equals("define")){
-        retval += "\n" + "\n" + "ERRO (08)---> Erro na inicializacao de variaveis,   ";
-    }
-    else if(currentToken.image.equals("program")){
-          retval += "\n" + "\n" + "ERRO (09)---> Programa inicializado incorretamente,   ";
-    }
-    else if(currentToken.image.equals("execute")){
-          retval += "\n" + "\n" + "ERRO (10)---> Corpo do programa inicializado incorretamente,   ";
-    }
-    else if(currentToken.next.image.equals("[")
-              || (currentToken.image.equals("]"))
-    ) {
-          retval += "\n" + "\n" + "ERRO (11)---> Vetor declarado incorretamente,   ";
-      }
     else if(expected.toString().contains("SET")
             || (expected.toString().contains("GET"))
             || (expected.toString().contains("PUT"))
@@ -181,10 +204,19 @@ public class ParseException extends Exception {
             || (expected.toString().contains("VERIFY"))
             || (expected.toString().contains("DEFINE"))
     ){
-        retval += "\n" + "\n" + "ERRO (07)---> Comando Inválido,   ";
+        retval += "\n" + "\n" + "ERRO (09)---> Comando Inválido,   ";
     }
+
+
+    else if(currentToken.next.image.equals("[")
+              || (currentToken.image.equals("]"))
+    ) {
+          retval += "\n" + "\n" + "ERRO (11)---> Vetor declarado incorretamente,   ";
+      }
+
         else if(expected.toString().contains("\".\"")){
         retval += "\n" + "\n" + "ERRO (12)---> Comando ou funcao finalizado incorretamente,   ";
+        esperado += "'.'";
       }
 
 
@@ -210,7 +242,7 @@ public class ParseException extends Exception {
     } else {
       retval += "Estava sendo esperado um: " + eol + "   ";
     }
-    retval += expected.toString();
+    retval += esperado;
     return retval;
   }
 

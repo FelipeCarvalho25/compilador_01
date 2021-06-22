@@ -32,6 +32,10 @@ public class AnalisadorSemantico {
         return area_instrucao;
     }
     public static boolean analisarSemantica(String codigo, String valor) {
+        if(true){
+            return  true;
+        }
+
         boolean sucesso = true;
         switch (codigo) {
             case "#1":
