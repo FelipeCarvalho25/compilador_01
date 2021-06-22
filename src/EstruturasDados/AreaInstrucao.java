@@ -22,4 +22,15 @@ public class AreaInstrucao {
         codigo  = codigoPar;
         sParametro = parString;
     }
+    public String getCodigo(){
+        if(sParametro != null  &&  sParametro != "?"){
+            return " " + numero + " " + codigo + " " + sParametro;
+        }
+        else if(fParametro > 0){
+            return " " + numero + " " + codigo + " " + fParametro;
+        }else {
+            return " " + numero + " " + codigo + " " + iParametro;
+        }
+
+    }
 }

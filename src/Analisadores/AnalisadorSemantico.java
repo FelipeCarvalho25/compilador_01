@@ -14,7 +14,7 @@ public class AnalisadorSemantico {
     private static int VIT = 0;
     private static int tipo = 0;
     private static int ponteiro = 1;
-    private static boolean var_indexada;
+    private static boolean var_indexada = false;
     private static Pilha pilha_de_desvios ;
     private static ArrayList<Tabela> tabela_simbolos;
     private static ArrayList<AreaInstrucao> area_instrucao;
@@ -25,6 +25,10 @@ public class AnalisadorSemantico {
         area_instrucao = new ArrayList<>();
         tabela_simbolos =  new ArrayList<>();
         pilhaAuxiliar = new Pilha();
+    }
+
+    public ArrayList<AreaInstrucao> getCodIntermed(){
+        return area_instrucao;
     }
     public static boolean analisarSemantica(String codigo, String valor) {
         boolean sucesso = true;

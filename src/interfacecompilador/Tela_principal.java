@@ -6,6 +6,7 @@ import Analisadores.ParseException;
 import Analisadores.TokenMgrError;
 import Editor_de_Texto.Area_de_transferencia;
 import Editor_de_Texto.Manipulador_arquivo;
+import EstruturasDados.AreaInstrucao;
 import VMExecucao.Maquina_Virtual_Execucao;
 
 import javax.swing.*;
@@ -23,6 +24,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 /**
  *
@@ -81,7 +83,8 @@ public class Tela_principal extends javax.swing.JFrame {
     private boolean compilado_com_sucesso = false;
     private AnalisadorLexico analisadorLexico;
     int caretPos = 0, rowNum = 1, finale = 0, colNum = 1;
-    String coluna = "1", linha = "1", codigoIntermediario = "";
+    String coluna = "1", linha = "1";
+    private ArrayList<AreaInstrucao>  codigoIntermediario ;
 
     private Integer contlinha;
     // End of variables declaration
@@ -136,6 +139,7 @@ public class Tela_principal extends javax.swing.JFrame {
         contlinha = new Integer(1);
         seletor_aqruivos =  new JFileChooser();
         area_text_mensagem = new javax.swing.JTextArea();
+        codigoIntermediario = new ArrayList<>();
 
 
 
@@ -527,8 +531,13 @@ public class Tela_principal extends javax.swing.JFrame {
                     }
                     else{
                         compilado_com_sucesso = true;
-                        codigoIntermediario = "";//implementar o get do código intermediario
+                        codigoIntermediario = analisadorLexico.getCodInter();
                         area_tabs.addTab("Codigo Intermediario", dentroTab2);
+                        String cod = "";
+                        for(AreaInstrucao aI: codigoIntermediario){
+                            cod += aI.getCodigo();
+                        }
+                        area_Cod_Inter.setText(cod);
                         mensagens_saida += "Programa compilado com sucesso! \n";
                     }
                 }
