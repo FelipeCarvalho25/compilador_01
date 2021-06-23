@@ -29,10 +29,13 @@ public class First {
     static public final RecoverySet indice = new RecoverySet();
     static {
         program.add(new Integer(AnalisadorLexicoConstants.PROGRAM));
+        program.add(new Integer(AnalisadorLexicoConstants.ACHAVE));
 
         define.add(new Integer(AnalisadorLexicoConstants.DEFINE));
+        define.add(new Integer(AnalisadorLexicoConstants.ACHAVE));
 
         constante.add(new Integer(AnalisadorLexicoConstants.NOT));
+        constante.add(new Integer(AnalisadorLexicoConstants.VARIABLE));
 
         variable.add(new Integer(AnalisadorLexicoConstants.VARIABLE));
 

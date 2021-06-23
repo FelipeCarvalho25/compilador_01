@@ -21,8 +21,8 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     public int getSintaticError() {
            return this.nCountSintaticError;
     }
-    public static void acaoSemantica(String codigo){
-        String argumento = "";
+
+    public static void acaoSemantica(String codigo, String argumento ){
        // try {
         analisadorSemantico.analisarSemantica(codigo, argumento);
        // }catch (StringIndexOutOfBounds e){
@@ -78,21 +78,39 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
   static final public void program() throws ParseException {
     RecoverySet g = First.program;
-    try {
+    g = g.union(First.coment_prog);
+    g = g.union(First.define);
+    g = g.union(First.corp_prog);
+
+
       comentario();
-      jj_consume_token(PROGRAM);
-      jj_consume_token(ACHAVE);
+      try {
+            jj_consume_token(PROGRAM);
+      } catch (ParseException e) {
+          if(token_source.foundLexError() == 0) {
+              consumeUntil(g, e, "program");
+          }
+      }
+      try {
+        jj_consume_token(ACHAVE);
+      } catch (ParseException e) {
+          if(token_source.foundLexError() == 0) {
+              consumeUntil(g, e, "program");
+          }
+      }
       declaracao_variaveis();
       corpo_do_programa();
-      jj_consume_token(FCHAVE);
+      try {
+        jj_consume_token(FCHAVE);
+      } catch (ParseException e) {
+          if(token_source.foundLexError() == 0) {
+              consumeUntil(g, e, "program");
+          }
+      }
       identificador_programa();
-         acaoSemantica("#1");
+         acaoSemantica("#1", "");
       jj_consume_token(0);
-    } catch (ParseException e) {
-        if(token_source.foundLexError() == 0) {
-            consumeUntil(g, e, "program");
-        }
-    }
+
   }
 
   static final public void declaracao_variaveis() throws ParseException {
@@ -108,16 +126,37 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
   static final public void define() throws ParseException {
     RecoverySet g = First.define;
+    g = g.union(First.variable);
+    g = g.union(First.constante);
     try {
       jj_consume_token(DEFINE);
-      jj_consume_token(ACHAVE);
-      estrutura_define();
-      jj_consume_token(FCHAVE);
     } catch (ParseException e) {
         if(token_source.foundLexError() == 0) {
-           consumeUntil(g, e, "program");
+            consumeUntil(g, e, "define");
         }
     }
+      try {
+        jj_consume_token(ACHAVE);
+      } catch (ParseException e) {
+          if(token_source.foundLexError() == 0) {
+              consumeUntil(g, e, "define");
+          }
+      }
+      try {
+        estrutura_define();
+      } catch (ParseException e) {
+          if(token_source.foundLexError() == 0) {
+              consumeUntil(g, e, "define");
+          }
+      }
+      try {
+         jj_consume_token(FCHAVE);
+      } catch (ParseException e) {
+          if(token_source.foundLexError() == 0) {
+              consumeUntil(g, e, "define");
+          }
+      }
+
   }
 
   static final public void estrutura_define() throws ParseException {
@@ -163,11 +202,11 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     RecoverySet g = First.variable;
     try {
       jj_consume_token(VARIABLE);
-         acaoSemantica("#6");
+         acaoSemantica("#6", "");
       variaveis();
     } catch (ParseException e) {
         if(token_source.foundLexError() == 0) {
-             consumeUntil(g, e, "program");
+             consumeUntil(g, e, "variavel");
         }
     }
   }
@@ -177,7 +216,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       jj_consume_token(NOT);
       jj_consume_token(VARIABLE);
-         acaoSemantica("#3");
+         acaoSemantica("#3", "");
       constantes();
     } catch (ParseException e) {
         if(token_source.foundLexError() == 0) {
@@ -192,9 +231,9 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       tipo();
       jj_consume_token(IS);
       lista_identificadores_de_constantes();
-         acaoSemantica("#4");
+         acaoSemantica("#4", "");
       valor();
-         acaoSemantica("#5");
+         acaoSemantica("#5", token.image);
       jj_consume_token(PONTO);
       constante_recursiva();
     } catch (ParseException e) {
@@ -255,7 +294,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       tipo();
       jj_consume_token(IS);
       lista_identificadores_variavel();
-         acaoSemantica("#4");
+         acaoSemantica("#4", "");
       jj_consume_token(PONTO);
       variavel_recursiva();
     } catch (ParseException e) {
@@ -285,19 +324,19 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case NATURAL:
         jj_consume_token(NATURAL);
-         acaoSemantica("#7");
+         acaoSemantica("#7", "");
         break;
       case REAL:
         jj_consume_token(REAL);
-         acaoSemantica("#8");
+         acaoSemantica("#8", "");
         break;
       case CHAR:
         jj_consume_token(CHAR);
-         acaoSemantica("#9");
+         acaoSemantica("#9", "");
         break;
       case BOOLEAN:
         jj_consume_token(BOOLEAN);
-          acaoSemantica("#10");
+          acaoSemantica("#10", "");
         break;
       default:
         jj_la1[7] = jj_gen;
@@ -315,7 +354,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     RecoverySet g = First.get;
     try {
       jj_consume_token(GET);
-         acaoSemantica("#17");
+         acaoSemantica("#17", "");
       jj_consume_token(ACHAVE);
       lista_identificadores_variavel();
       jj_consume_token(FCHAVE);
@@ -353,21 +392,21 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case IDENTIFICADOR:
         jj_consume_token(IDENTIFICADOR);
-         acaoSemantica("#18");
+         acaoSemantica("#19", token.image);
         indice();
-         acaoSemantica("#20");
+         acaoSemantica("#20", "");
         break;
       case CONSTANTE_NUM_REAL:
         jj_consume_token(CONSTANTE_NUM_REAL);
-         acaoSemantica("#22");
+         acaoSemantica("#22", token.image);
         break;
       case CONSTANTE_LIT:
         jj_consume_token(CONSTANTE_LIT);
-         acaoSemantica("#23");
+         acaoSemantica("#23",token.image);
         break;
       case CONSTANTE_NUM_INT:
         jj_consume_token(CONSTANTE_NUM_INT);
-         acaoSemantica("#21");
+         acaoSemantica("#21", token.image);
         break;
       default:
         jj_la1[8] = jj_gen;
@@ -404,17 +443,15 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     RecoverySet g = First.list_ident_const_rec;
     try {
       jj_consume_token(IDENTIFICADOR);
-         acaoSemantica("#12");
+         acaoSemantica("#12", token.image);
       indice();
-         acaoSemantica("#20");
-          acaoSemantica("#13");
+         acaoSemantica("#14", token.image);
+          acaoSemantica("#13", "");
       lista_identificadores_variavel_recursivo();
     } catch (ParseException e) {
           if(token_source.foundLexError() == 0) {
                consumeUntil(g, e, "valor");
           }
-    } finally {
-           acaoSemantica("#2");
     }
   }
 
@@ -441,7 +478,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     RecoverySet g = First.list_ident_const_rec;
     try {
       jj_consume_token(IDENTIFICADOR);
-         acaoSemantica("#11");
+         acaoSemantica("#11", token.image);
       lista_identificadores_recursivo();
     } catch (ParseException e) {
          if(token_source.foundLexError() == 0) {
@@ -547,7 +584,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
                 consumeUntil(g, e, "valor");
             }
       } finally {
-                acaoSemantica("#2");
+                acaoSemantica("#2", token.image);
       }
       break;
     default:
@@ -581,7 +618,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       jj_consume_token(VERIFY);
       expressao();
       isTrueFalse();
-         acaoSemantica("#24");
+         acaoSemantica("#24", "");
       jj_consume_token(PONTO);
     } catch (ParseException e) {
          if(token_source.foundLexError() == 0) {
@@ -608,7 +645,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case TRUE:
         jj_consume_token(TRUE);
-         acaoSemantica("#25");
+         acaoSemantica("#25", "");
         jj_consume_token(ACHAVE);
         lista_de_comandos();
         jj_consume_token(FCHAVE);
@@ -616,7 +653,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         break;
       case FALSE:
         jj_consume_token(FALSE);
-         acaoSemantica("#26");
+         acaoSemantica("#26", "");
         jj_consume_token(ACHAVE);
         lista_de_comandos();
         jj_consume_token(FCHAVE);
@@ -641,7 +678,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       case IS:
         jj_consume_token(IS);
         jj_consume_token(TRUE);
-         acaoSemantica("#27");
+         acaoSemantica("#27", "");
         jj_consume_token(ACHAVE);
         lista_de_comandos();
         jj_consume_token(FCHAVE);
@@ -664,7 +701,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       case IS:
         jj_consume_token(IS);
         jj_consume_token(FALSE);
-         acaoSemantica("#27");
+         acaoSemantica("#27", "");
         jj_consume_token(ACHAVE);
         lista_de_comandos();
         jj_consume_token(FCHAVE);
@@ -684,11 +721,11 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     RecoverySet g = First.set;
     try {
       jj_consume_token(SET);
-         acaoSemantica("#15");
+         acaoSemantica("#15", "");
       expressao();
       jj_consume_token(TO);
       lista_identificadores_variavel();
-         acaoSemantica("#16");
+         acaoSemantica("#16", "");
       jj_consume_token(PONTO);
     } catch (ParseException e) {
         if(token_source.foundLexError() == 0) {
@@ -703,29 +740,29 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case LOOP:
         jj_consume_token(LOOP);
-         acaoSemantica("#28");
+         acaoSemantica("#28", "");
         jj_consume_token(ACHAVE);
         lista_de_comandos();
         jj_consume_token(FCHAVE);
         jj_consume_token(WHILE);
         expressao();
-         acaoSemantica("#29");
+         acaoSemantica("#29", "");
         jj_consume_token(IS);
         jj_consume_token(TRUE);
         jj_consume_token(PONTO);
         break;
       case WHILE:
         jj_consume_token(WHILE);
-         acaoSemantica("#30");
+         acaoSemantica("#30", "");
         expressao();
-         acaoSemantica("#31");
+         acaoSemantica("#31", "");
         jj_consume_token(IS);
         jj_consume_token(TRUE);
         jj_consume_token(DO);
         jj_consume_token(ACHAVE);
         lista_de_comandos();
         jj_consume_token(FCHAVE);
-         acaoSemantica("#32");
+         acaoSemantica("#32", "");
         jj_consume_token(PONTO);
         break;
       default:
@@ -752,32 +789,32 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       case EQUIVALENTE:
         jj_consume_token(EQUIVALENTE);
         expressaoaritmeticaoulogica();
-         acaoSemantica("#33");
+         acaoSemantica("#33", "");
         break;
       case DIFERENTE:
         jj_consume_token(DIFERENTE);
         expressaoaritmeticaoulogica();
-              acaoSemantica("#34");
+              acaoSemantica("#34", "");
         break;
       case MENOR:
         jj_consume_token(MENOR);
         expressaoaritmeticaoulogica();
-              acaoSemantica("#35");
+              acaoSemantica("#35", "");
         break;
       case MAIOR:
         jj_consume_token(MAIOR);
         expressaoaritmeticaoulogica();
-              acaoSemantica("#36");
+              acaoSemantica("#36", "");
         break;
       case MENOROUIGUAL:
         jj_consume_token(MENOROUIGUAL);
         expressaoaritmeticaoulogica();
-              acaoSemantica("#37");
+              acaoSemantica("#37", "");
         break;
       case MAIOROUIGUAL:
         jj_consume_token(MAIOROUIGUAL);
         expressaoaritmeticaoulogica();
-              acaoSemantica("#38");
+              acaoSemantica("#38", "");
         break;
       default:
         jj_la1[21] = jj_gen;
@@ -803,19 +840,19 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         jj_consume_token(ADICAO);
         termo2();
         menorprioridade();
-              acaoSemantica("#39");
+              acaoSemantica("#39", "");
         break;
       case SUBTRACAO:
         jj_consume_token(SUBTRACAO);
         termo2();
         menorprioridade();
-              acaoSemantica("#40");
+              acaoSemantica("#40", "");
         break;
       case OU:
         jj_consume_token(OU);
         termo2();
         menorprioridade();
-             acaoSemantica("#41");
+             acaoSemantica("#41", "");
         break;
       default:
         jj_la1[22] = jj_gen;
@@ -841,31 +878,31 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         jj_consume_token(MULTIPLICACAO);
         termo1();
         mediaprioridade();
-         acaoSemantica("#42");
+         acaoSemantica("#42", "");
         break;
       case DIVISAO:
         jj_consume_token(DIVISAO);
         termo1();
         mediaprioridade();
-             acaoSemantica("#43");
+             acaoSemantica("#43", "");
         break;
       case DIVISAOINTEIRA:
         jj_consume_token(DIVISAOINTEIRA);
         termo1();
         mediaprioridade();
-             acaoSemantica("#44");
+             acaoSemantica("#44", "");
         break;
       case RESTODIVISAO:
         jj_consume_token(RESTODIVISAO);
         termo1();
         mediaprioridade();
-             acaoSemantica("#45");
+             acaoSemantica("#45", "");
         break;
       case E:
         jj_consume_token(E);
         termo1();
         mediaprioridade();
-             acaoSemantica("#46");
+             acaoSemantica("#46", "");
         break;
       default:
         jj_la1[23] = jj_gen;
@@ -891,7 +928,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         jj_consume_token(POTENCIA);
         elemento();
         maiorprioridade();
-         acaoSemantica("#47");
+         acaoSemantica("#47", "");
         break;
       default:
         jj_la1[24] = jj_gen;
@@ -910,29 +947,29 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case IDENTIFICADOR:
         jj_consume_token(IDENTIFICADOR);
-         acaoSemantica("#19");
+         acaoSemantica("#19", token.image);
         indice();
-             acaoSemantica("#20");
+             acaoSemantica("#20", "");
         break;
       case CONSTANTE_NUM_INT:
         jj_consume_token(CONSTANTE_NUM_INT);
-         acaoSemantica("#21");
+         acaoSemantica("#21", token.image);
         break;
       case CONSTANTE_NUM_REAL:
         jj_consume_token(CONSTANTE_NUM_REAL);
-             acaoSemantica("#22");
+             acaoSemantica("#22", token.image);
         break;
       case CONSTANTE_LIT:
         jj_consume_token(CONSTANTE_LIT);
-             acaoSemantica("#23");
+             acaoSemantica("#23",token.image);
         break;
       case TRUE:
         jj_consume_token(TRUE);
-             acaoSemantica("#48");
+             acaoSemantica("#48", token.image);
         break;
       case FALSE:
         jj_consume_token(FALSE);
-             acaoSemantica("#49");
+             acaoSemantica("#49", token.image);
         break;
       case APARENT:
         jj_consume_token(APARENT);
@@ -944,7 +981,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         jj_consume_token(APARENT);
         expressao();
         jj_consume_token(FPARENT);
-              acaoSemantica("#50");
+              acaoSemantica("#50", "");
         break;
       default:
         jj_la1[25] = jj_gen;
@@ -965,7 +1002,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
       case ACOLCH:
         jj_consume_token(ACOLCH);
         jj_consume_token(CONSTANTE_NUM_INT);
-        acaoSemantica("#14");
+        acaoSemantica("#14", token.image);
         jj_consume_token(FCOLCH);
         break;
       default:

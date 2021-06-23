@@ -127,6 +127,11 @@ public class ParseException extends Exception {
         retval += "\n" + "\n" + "ERRO (05)---> Programa inicializado incorretamente,   ";
         esperado += "Program" ;
     }
+    else if(expected.toString().contains("DEFINE") || expected.toString().contains("EXECUTE") ) {
+        retval += "\n" + "\n" + "ERRO (14)---> Erro no corpo do programa,   ";
+        esperado += " define, execute";
+
+    }
 
     else if(currentToken.image.equals("define")) {
         retval += "\n" + "\n" + "ERRO (10)---> Erro na inicializacao de variaveis,   ";
@@ -202,7 +207,6 @@ public class ParseException extends Exception {
             || (expected.toString().contains("LOOP"))
             || (expected.toString().contains("WHILE"))
             || (expected.toString().contains("VERIFY"))
-            || (expected.toString().contains("DEFINE"))
     ){
         retval += "\n" + "\n" + "ERRO (09)---> Comando Inválido,   ";
     }
@@ -218,6 +222,10 @@ public class ParseException extends Exception {
         retval += "\n" + "\n" + "ERRO (12)---> Comando ou funcao finalizado incorretamente,   ";
         esperado += "'.'";
       }
+    else if(expected.toString().contains("EXECUTE")){
+        retval += "\n" + "\n" + "ERRO (13)---> Erro em corpo do programa,   ";
+        esperado += "execute";
+    }
 
 
     retval += "\n" + "Encontrado  \" ";
