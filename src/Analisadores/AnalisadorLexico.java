@@ -215,8 +215,20 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     RecoverySet g = First.constante;
     try {
       jj_consume_token(NOT);
+    } catch (ParseException e) {
+        if(token_source.foundLexError() == 0) {
+            consumeUntil(g, e, "constante");
+        }
+    }
+    try{
       jj_consume_token(VARIABLE);
-         acaoSemantica("#3", "");
+    } catch (ParseException e) {
+        if(token_source.foundLexError() == 0) {
+            consumeUntil(g, e, "constante");
+        }
+    }
+      acaoSemantica("#3", "");
+    try{
       constantes();
     } catch (ParseException e) {
         if(token_source.foundLexError() == 0) {
@@ -227,14 +239,30 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
   static final public void constantes() throws ParseException {
     RecoverySet g = First.tipo;
+    g = g.union(First.constantes);
+    g = g.union(First.list_const);
+    g = g.union(First.valor);
+
     try {
       tipo();
-      jj_consume_token(IS);
+      try {
+        jj_consume_token(IS);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "constante");
+            }
+      }
       lista_identificadores_de_constantes();
          acaoSemantica("#4", "");
       valor();
          acaoSemantica("#5", token.image);
-      jj_consume_token(PONTO);
+         try {
+         jj_consume_token(PONTO);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "constante");
+            }
+        }
       constante_recursiva();
     } catch (ParseException e) {
         if(token_source.foundLexError() == 0) {

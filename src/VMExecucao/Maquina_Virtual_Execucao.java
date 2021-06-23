@@ -187,7 +187,7 @@ public class Maquina_Virtual_Execucao {
 
     public void ALR(AreaInstrucao instrucao){
         //only float - review this one
-        (float)deslocamento = instrucao.fParametro;
+        deslocamento = (int)instrucao.fParametro;
         for(int i = topo+1; i <= topo+deslocamento; i++ ){
             pilhaAuxiliar.empilhar(0.0);
         };
@@ -198,9 +198,9 @@ public class Maquina_Virtual_Execucao {
 
     public void ALS(AreaInstrucao instrucao){
         // valores em cadeia - revisar
-        (String)deslocamento = instrucao.sParametro;
+        deslocamento = Integer.parseInt(instrucao.sParametro);
         for(int i = topo+1; i <= topo+deslocamento; i++ ){
-            pilhaAuxiliar.empilhar('');
+            pilhaAuxiliar.empilhar(" ");
         };
 
         topo += deslocamento;

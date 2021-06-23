@@ -6,13 +6,16 @@ public class First {
     static public final RecoverySet program = new RecoverySet();
     static public final RecoverySet define = new RecoverySet();
     static public final RecoverySet constante = new RecoverySet();
+    static public final RecoverySet constantes = new RecoverySet();
     static public final RecoverySet variable = new RecoverySet();
+    static public final RecoverySet variaveis = new RecoverySet();
     static public final RecoverySet valor = new RecoverySet();
     static public final RecoverySet tipo = new RecoverySet();
     static public final RecoverySet get = new RecoverySet();
     static public final RecoverySet put = new RecoverySet();
     static public final RecoverySet tipo_const = new RecoverySet();
     static public final RecoverySet list_ident_const_rec = new RecoverySet();
+    static public final RecoverySet list_const = new RecoverySet();
     static public final RecoverySet list_ident_var = new RecoverySet();
     static public final RecoverySet corp_prog = new RecoverySet();
     static public final RecoverySet coment_prog = new RecoverySet();
@@ -37,7 +40,13 @@ public class First {
         constante.add(new Integer(AnalisadorLexicoConstants.NOT));
         constante.add(new Integer(AnalisadorLexicoConstants.VARIABLE));
 
+        constantes.add(new Integer(AnalisadorLexicoConstants.IS));
+        constantes.add(new Integer(AnalisadorLexicoConstants.PONTO));
+
         variable.add(new Integer(AnalisadorLexicoConstants.VARIABLE));
+
+        variaveis.add(new Integer(AnalisadorLexicoConstants.IS));
+        variaveis.add(new Integer(AnalisadorLexicoConstants.PONTO));
 
         tipo.add(new Integer(AnalisadorLexicoConstants.NATURAL));
         tipo.add(new Integer(AnalisadorLexicoConstants.REAL));
@@ -51,8 +60,10 @@ public class First {
         valor.add(new Integer(AnalisadorLexicoConstants.FALSE));
 
         get.add(new Integer(AnalisadorLexicoConstants.GET));
+        get.add(new Integer(AnalisadorLexicoConstants.ACHAVE));
 
         put.add(new Integer(AnalisadorLexicoConstants.PUT));
+        put.add(new Integer(AnalisadorLexicoConstants.ACHAVE));
 
         tipo_const.add(new Integer(AnalisadorLexicoConstants.IDENTIFICADOR));
         tipo_const.add(new Integer(AnalisadorLexicoConstants.CONSTANTE_NUM_REAL));
@@ -61,9 +72,12 @@ public class First {
 
         list_ident_const_rec.add(new Integer(AnalisadorLexicoConstants.VIRGULA));
 
+        list_const.add(new Integer(AnalisadorLexicoConstants.IDENTIFICADOR));
+
         list_ident_var.add(new Integer(AnalisadorLexicoConstants.VARIABLE));
 
         corp_prog.add(new Integer(AnalisadorLexicoConstants.EXECUTE));
+        corp_prog.add(new Integer(AnalisadorLexicoConstants.ACHAVE));
 
         coment_prog.add(new Integer(AnalisadorLexicoConstants.COMENT));
 
