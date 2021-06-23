@@ -124,13 +124,11 @@ public class AnalisadorSemantico {
                 break;
             case "#11":
                 if(tabela_simbolos.indexOf(valor) != -1){
-                    //ajustar o if acima
                     numErrSemantico += 1;
                     mensagensErros += "ERRO: identificador já declarado";
                 }else{
                     VT = VT + 1;
                     VP = VP + 1;
-                    //ajustar VT ESTÁ COMO INT, PRECISA REVER
                     tabela_simbolos.add (new Tabela(valor, tipo, (char)VT, '-'));
                 }
                 break;
@@ -141,12 +139,10 @@ public class AnalisadorSemantico {
                         mensagensErros +="ERRO: identificador já declarado";
                     } else {
                         var_indexada = false;
-                        //ajustar
                         pilhaAuxiliar.empilhar(valor);
                     }
                 }else{
                     var_indexada = false;
-                    //ajustar
                     pilhaAuxiliar.empilhar(valor);
                 }
                 break;
