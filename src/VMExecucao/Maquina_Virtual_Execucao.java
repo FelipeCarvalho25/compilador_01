@@ -159,7 +159,7 @@ public class Maquina_Virtual_Execucao {
         int int2 = (int)pilhaAuxiliar.desempilhar();
         int somaInt = 0;
         somaInt = int1 + int2;
-        pilhaAuxiliar.empilhar(somaInt);
+        pilhaAuxiliar.empilhar(somaInt + "");
 
         topo += -1;
         ponteiro += 1;

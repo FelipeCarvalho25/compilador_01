@@ -641,7 +641,6 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
         }
          acaoSemantica("#12", token.image);
       indice();
-         acaoSemantica("#14", token.image);
           acaoSemantica("#13", "");
       lista_identificadores_variavel_recursivo();
     } catch (ParseException e) {

@@ -5,6 +5,7 @@ import EstruturasDados.Tabela;
 import EstruturasDados.Pilha;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class AnalisadorSemantico {
     private static String contexto = "";
@@ -14,18 +15,20 @@ public class AnalisadorSemantico {
     private static int tipo = 0;
     private static int ponteiro = 1;
     private static boolean var_indexada = false;
-    private static Pilha pilha_de_desvios ;
+    private static Stack pilha_de_desvios ;
     private static ArrayList<Tabela> tabela_simbolos;
     private static ArrayList<AreaInstrucao> area_instrucao;
     private static Pilha pilhaAuxiliar;
     private static int numErrSemantico = 0;
     private static String mensagensErros = "";
+    private  static Stack pilha2;
 
     public AnalisadorSemantico(){
-        pilha_de_desvios = new Pilha();
+        pilha_de_desvios = new Stack();
         area_instrucao = new ArrayList<>();
         tabela_simbolos =  new ArrayList<>();
         pilhaAuxiliar = new Pilha();
+        pilha2 = new Stack();
     }
 
     public ArrayList<AreaInstrucao> getCodIntermed(){
@@ -126,7 +129,7 @@ public class AnalisadorSemantico {
                 }else{
                     VT = VT + 1;
                     VP = VP + 1;
-                    tabela_simbolos.add (new Tabela(valor, tipo, (char)VT, '-'));
+                    tabela_simbolos.add (new Tabela(valor, tipo, String.valueOf(VT).charAt(0), '-'));
                 }
                 break;
             case "#12":
@@ -136,46 +139,53 @@ public class AnalisadorSemantico {
                         mensagensErros +="ERRO: identificador já declarado";
                     } else {
                         var_indexada = false;
-                        pilhaAuxiliar.empilhar(valor);
+                        //pilhaAuxiliar.empilhar(valor);
+                        pilha2.push(valor);
                     }
                 }else{
                     var_indexada = false;
-                    pilhaAuxiliar.empilhar(valor);
+                    //pilhaAuxiliar.empilhar(valor);
+                    pilha2.push(valor);
                 }
                 break;
+
             case "#13":
-                valor = pilhaAuxiliar.desempilhar().toString();
+                valor = pilha2.pop().toString();
                 if(contexto == "variável"){
                     if(var_indexada == false){
                         VT = VT+1;
                         VP = VP+1;
-                        tabela_simbolos.add (new Tabela(valor, tipo, (char)VT, '-'));
+                        tabela_simbolos.add (new Tabela(valor, tipo, String.valueOf(VT).charAt(0), '-'));
                     }else{
-                        int contante_int = Integer.parseInt(pilhaAuxiliar.desempilhar().toString());
+                        int contante_int = Integer.parseInt(pilha2.pop().toString());
                         VIT = VIT + contante_int;
-                        tabela_simbolos.add (new Tabela(valor, tipo, (char)VT, (char)contante_int));
+                        tabela_simbolos.add (new Tabela(valor, tipo, String.valueOf(VT).charAt(0), (char)contante_int));
                         VT = VT + contante_int;
                     }
                 }else
 
                 if(contexto == "atribuição"){
                     //preciso ajustar a tabela de simbolos
+                    int index = indexTabela(valor);
                     if((containsTabela(valor) ) &&
 
-                            tabela_simbolos.get(tabela_simbolos.indexOf(valor)).categoria == 1){
-                        char atr1 = tabela_simbolos.get(tabela_simbolos.indexOf(valor)).atributo1;
-                        char atr2 = tabela_simbolos.get(tabela_simbolos.indexOf(valor)).atributo2;
+                            tabela_simbolos.get(index).categoria == 1){
+                        char atr1 = tabela_simbolos.get(index).atributo1;
+                        char atr2 = tabela_simbolos.get(index).atributo2;
 
                         if(atr2 == '-'){
                             if(var_indexada == false){
-                                pilhaAuxiliar.empilhar(atr1);
+                                //pilhaAuxiliar.empilhar(String.valueOf(atr1));
+                                pilha2.push(String.valueOf(atr1));
+                                System.out.println(atr1);
                             }else{
                                 numErrSemantico += 1;
                                 mensagensErros +="ERRO: identificador de variável não indexada";
                             }
                         }else{
                             if(var_indexada == true){
-                                pilhaAuxiliar.empilhar((int)atr1 + (int)pilhaAuxiliar.desempilhar() -1);
+                                //pilhaAuxiliar.empilhar(" " + ((int)atr1 + Integer.parseInt(pilha2.pop()) -1));
+                                pilha2.push(" " + ((int)atr1 + Integer.parseInt(pilha2.pop().toString()) -1));
                                 //armazenar o "atributo 1" + constante inteira – 1 em uma lista de atributos
                             }else{
                                 //erro: “identificador de variável indexada exige índice”
@@ -191,12 +201,13 @@ public class AnalisadorSemantico {
                     }
                 }
                 else
-                if(contexto == "entrada dados"){
+                if(contexto == "entrada de dados"){
+                    int index = indexTabela(valor);
                     if((containsTabela(valor) ) &&
-                            tabela_simbolos.get(tabela_simbolos.indexOf(valor)).categoria == 1){
-                        char atr1 = tabela_simbolos.get(tabela_simbolos.indexOf(valor)).atributo1;
-                        char atr2 = tabela_simbolos.get(tabela_simbolos.indexOf(valor)).atributo2;
-                        int categoria = tabela_simbolos.get(tabela_simbolos.indexOf(valor)).categoria;
+                            tabela_simbolos.get(index).categoria == 1){
+                        char atr1 = tabela_simbolos.get(index).atributo1;
+                        char atr2 = tabela_simbolos.get(index).atributo2;
+                        int categoria = tabela_simbolos.get(index).categoria;
 
                         if(atr2 == '-'){
                             if(var_indexada == false){
@@ -210,7 +221,7 @@ public class AnalisadorSemantico {
                             }
                         }else{
                             if(var_indexada == true){
-                                int constante_int = Integer.parseInt(pilhaAuxiliar.desempilhar().toString());
+                                int constante_int = Integer.parseInt(pilha2.pop().toString());
                                 area_instrucao.add(new AreaInstrucao(ponteiro, "REA", categoria));
                                 ponteiro += 1;
                                 area_instrucao.add(new AreaInstrucao(ponteiro, "STR", (int)atr1 + constante_int -1));
@@ -229,10 +240,11 @@ public class AnalisadorSemantico {
                     }
 
                 }
-
+                break;
             case "#14":
                 //tabela_simbolos.add  (new Tabela(valor, tipo, VT, constante_inteira));
-                pilhaAuxiliar.empilhar(valor);
+                //pilhaAuxiliar.empilhar(valor);
+                pilha2.push(valor);
                 var_indexada = true;
                 break;
             case "#15":
@@ -243,9 +255,13 @@ public class AnalisadorSemantico {
                 ponteiro  ponteiro + 1, para cada instrução STR gerada
                 (o valor do topo NÃO deverá ser decrementado para cada instrução STR gerada, exceto para a última)
                 */
-                while (!pilhaAuxiliar.pilhaVazia()){
-                    area_instrucao.add(new AreaInstrucao(ponteiro, "STR", Integer.parseInt(pilhaAuxiliar.desempilhar().toString())));
-                    ponteiro += 1;
+                try {
+                    while (!pilha2.empty()) {
+                        area_instrucao.add(new AreaInstrucao(ponteiro, "STR", Integer.parseInt(pilha2.pop().toString())));
+                        ponteiro += 1;
+                    }
+                }catch (NumberFormatException e){
+                    System.out.println(pilha2.pop().toString());
                 }
 
                 break;
@@ -266,17 +282,19 @@ public class AnalisadorSemantico {
                 erro: “identificador não declarado”
                 FIMSE*/
                 if((containsTabela(valor) ) &&
-                        tabela_simbolos.get(tabela_simbolos.indexOf(valor)).categoria == 1){
+                        tabela_simbolos.get(indexTabela(valor)).categoria == 1){
                     var_indexada = false;
-                    pilhaAuxiliar.empilhar(valor);
+                    //pilhaAuxiliar.empilhar(valor);
+                    pilha2.push(valor);
                 }else{
                     numErrSemantico += 1;
                     mensagensErros +="identificador não declarado";
                 }
                 break;
             case "#20":
-                char atr1 = tabela_simbolos.get(tabela_simbolos.indexOf(valor)).atributo1;
-                char atr2 = tabela_simbolos.get(tabela_simbolos.indexOf(valor)).atributo2;
+                int indext = indexTabela(valor);
+                char atr1 = tabela_simbolos.get(indext).atributo1;
+                char atr2 = tabela_simbolos.get(indext).atributo2;
                 if(var_indexada == false){
                     if(atr2 == '-'){
                         area_instrucao.add(new AreaInstrucao(ponteiro, "LDV", (int)atr1));
@@ -285,7 +303,7 @@ public class AnalisadorSemantico {
                 }
                 else{
                     if(atr2 != '-'){
-                        area_instrucao.add(new AreaInstrucao(ponteiro, "LDV", (int)atr1 + (int)pilhaAuxiliar.desempilhar() - 1));
+                        area_instrucao.add(new AreaInstrucao(ponteiro, "LDV", (int)atr1 + Integer.parseInt(pilha2.pop().toString()) - 1));
                         ponteiro += 1;
                     }
                     else{
@@ -307,7 +325,7 @@ public class AnalisadorSemantico {
                 ponteiro = ponteiro + 1;
                 break;
             case "#24":
-                int endereço = (int) pilha_de_desvios.desempilhar();
+                int endereço = Integer.parseInt(pilha_de_desvios.pop().toString());
                 int index = 0;
                 for (AreaInstrucao area:area_instrucao) {
                     if(area.ponteiro == endereço){
@@ -322,16 +340,16 @@ public class AnalisadorSemantico {
             case "#25":
             case "#31":
                 area_instrucao.add(new AreaInstrucao(ponteiro, "JMF", '?'));
-                pilha_de_desvios.empilhar(ponteiro);
+                pilha_de_desvios.push(ponteiro + "");
                 ponteiro = ponteiro + 1;
                  break;
             case "#26":
                 area_instrucao.add(new AreaInstrucao(ponteiro, "JMT", '?'));
-                pilha_de_desvios.empilhar(ponteiro);
+                pilha_de_desvios.push(ponteiro + "");
                 ponteiro = ponteiro + 1;
                 break;
             case "#27":
-                endereço = (int) pilha_de_desvios.desempilhar();
+                endereço = Integer.parseInt(pilha_de_desvios.pop().toString());
                 index = 0;
                 for (AreaInstrucao area:area_instrucao) {
                     if(area.ponteiro == endereço){
@@ -343,21 +361,21 @@ public class AnalisadorSemantico {
                     index += 1;
                 }
                 area_instrucao.add(new AreaInstrucao(ponteiro, "JMP", '?'));
-                pilha_de_desvios.empilhar(ponteiro);
+                pilha_de_desvios.push(ponteiro + "");
                 ponteiro = ponteiro + 1;
                 break;
             case "#28":
             case "#30":
-                pilha_de_desvios.empilhar(ponteiro);
+                pilha_de_desvios.push(ponteiro + "");
                  break;
             case "#29":
-                endereço = (int) pilha_de_desvios.desempilhar();
+                endereço = Integer.parseInt(pilha_de_desvios.pop().toString());
                 area_instrucao.add(new AreaInstrucao(ponteiro, "JMT", endereço));
                 ponteiro = ponteiro + 1;
                  break;
             case "#32":
-                int endereço1 = (int) pilha_de_desvios.desempilhar();
-                int endereço2 = (int) pilha_de_desvios.desempilhar();
+                int endereço1 = Integer.parseInt(pilha_de_desvios.pop().toString());
+                int endereço2 =  Integer.parseInt(pilha_de_desvios.pop().toString());
                 index = 0;
                 for (AreaInstrucao area:area_instrucao) {
                     if(area.ponteiro == endereço1){
@@ -463,6 +481,20 @@ public class AnalisadorSemantico {
         }
 
         return sucess;
+
+    }
+
+    private static int indexTabela(String valor){
+        int index = -1;
+        for (Tabela tab: tabela_simbolos ) {
+            if (tab.nome.contains(valor)){
+                index += 1;
+                break;
+            }
+            index += 1;
+        }
+
+        return index;
 
     }
     public int getNumErrSemantico(){
