@@ -201,7 +201,13 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   static final public void variavel() throws ParseException {
     RecoverySet g = First.variable;
     try {
+        try{
       jj_consume_token(VARIABLE);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "program");
+            }
+        }
          acaoSemantica("#6", "");
       variaveis();
     } catch (ParseException e) {
@@ -214,14 +220,26 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   static final public void constante() throws ParseException {
     RecoverySet g = First.constante;
     try {
+        try{
       jj_consume_token(NOT);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "program");
+            }
+        }
     } catch (ParseException e) {
         if(token_source.foundLexError() == 0) {
             consumeUntil(g, e, "constante");
         }
     }
     try{
+        try{
       jj_consume_token(VARIABLE);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "program");
+            }
+        }
     } catch (ParseException e) {
         if(token_source.foundLexError() == 0) {
             consumeUntil(g, e, "constante");
@@ -276,19 +294,49 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case CONSTANTE_NUM_INT:
+          try{
         jj_consume_token(CONSTANTE_NUM_INT);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         break;
       case CONSTANTE_NUM_REAL:
+          try{
         jj_consume_token(CONSTANTE_NUM_REAL);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         break;
       case CONSTANTE_LIT:
+          try{
         jj_consume_token(CONSTANTE_LIT);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         break;
       case TRUE:
+          try{
         jj_consume_token(TRUE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         break;
       case FALSE:
+          try{
         jj_consume_token(FALSE);
+      } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "program");
+            }
+        }
         break;
       default:
         jj_la1[4] = jj_gen;
@@ -320,10 +368,22 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     RecoverySet g = First.tipo;
     try {
       tipo();
+      try{
       jj_consume_token(IS);
+      } catch (ParseException e) {
+          if(token_source.foundLexError() == 0) {
+              consumeUntil(g, e, "program");
+          }
+      }
       lista_identificadores_variavel();
          acaoSemantica("#4", "");
+         try{
       jj_consume_token(PONTO);
+         } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 consumeUntil(g, e, "program");
+             }
+         }
       variavel_recursiva();
     } catch (ParseException e) {
         if(token_source.foundLexError() == 0) {
@@ -351,19 +411,43 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case NATURAL:
+          try{
         jj_consume_token(NATURAL);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
          acaoSemantica("#7", "");
         break;
       case REAL:
+          try{
         jj_consume_token(REAL);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
          acaoSemantica("#8", "");
         break;
       case CHAR:
+          try{
         jj_consume_token(CHAR);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
          acaoSemantica("#9", "");
         break;
       case BOOLEAN:
+          try{
         jj_consume_token(BOOLEAN);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
           acaoSemantica("#10", "");
         break;
       default:
@@ -381,12 +465,36 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   static final public void get() throws ParseException {
     RecoverySet g = First.get;
     try {
+        try{
       jj_consume_token(GET);
-         acaoSemantica("#17", "");
-      jj_consume_token(ACHAVE);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "program");
+            }
+        }
+      acaoSemantica("#17", "");
+        try{
+        jj_consume_token(ACHAVE);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "program");
+            }
+        }
       lista_identificadores_variavel();
+        try{
       jj_consume_token(FCHAVE);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "program");
+            }
+        }
+        try{
       jj_consume_token(PONTO);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "program");
+            }
+        }
     } catch (ParseException e) {
         if(token_source.foundLexError() == 0) {
            consumeUntil(g, e, "valor");
@@ -397,11 +505,35 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   static final public void put() throws ParseException {
     RecoverySet g = First.put;
     try {
+        try{
       jj_consume_token(PUT);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "program");
+            }
+        }
+        try{
       jj_consume_token(ACHAVE);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "program");
+            }
+        }
       lista_de_identificadore_constantes();
+        try{
       jj_consume_token(FCHAVE);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "program");
+            }
+        }
+        try{
       jj_consume_token(PONTO);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "program");
+            }
+        }
     } catch (ParseException e) {
         if(token_source.foundLexError() == 0) {
             consumeUntil(g, e, "valor");
@@ -419,21 +551,45 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case IDENTIFICADOR:
+          try{
         jj_consume_token(IDENTIFICADOR);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
          acaoSemantica("#19", token.image);
         indice();
          acaoSemantica("#20", "");
         break;
       case CONSTANTE_NUM_REAL:
+          try{
         jj_consume_token(CONSTANTE_NUM_REAL);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
          acaoSemantica("#22", token.image);
         break;
       case CONSTANTE_LIT:
+          try{
         jj_consume_token(CONSTANTE_LIT);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
          acaoSemantica("#23",token.image);
         break;
       case CONSTANTE_NUM_INT:
+          try{
         jj_consume_token(CONSTANTE_NUM_INT);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
          acaoSemantica("#21", token.image);
         break;
       default:
@@ -453,7 +609,13 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case VIRGULA:
+          try{
         jj_consume_token(VIRGULA);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         lista_de_identificadore_constantes();
         break;
       default:
@@ -470,9 +632,16 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   static final public void lista_identificadores_variavel() throws ParseException {
     RecoverySet g = First.list_ident_const_rec;
     try {
+        try{
       jj_consume_token(IDENTIFICADOR);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "program");
+            }
+        }
          acaoSemantica("#12", token.image);
       indice();
+         acaoSemantica("#14", token.image);
           acaoSemantica("#13", "");
       lista_identificadores_variavel_recursivo();
     } catch (ParseException e) {
@@ -487,7 +656,13 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case VIRGULA:
+          try{
         jj_consume_token(VIRGULA);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         lista_identificadores_variavel();
         break;
       default:
@@ -504,7 +679,13 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   static final public void lista_identificadores_de_constantes() throws ParseException {
     RecoverySet g = First.list_ident_const_rec;
     try {
+        try{
       jj_consume_token(IDENTIFICADOR);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "program");
+            }
+        }
          acaoSemantica("#11", token.image);
       lista_identificadores_recursivo();
     } catch (ParseException e) {
@@ -519,7 +700,13 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case VIRGULA:
+          try{
         jj_consume_token(VIRGULA);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         lista_identificadores_de_constantes();
         break;
       default:
@@ -538,10 +725,28 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case EXECUTE:
+          try{
         jj_consume_token(EXECUTE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
+          try{
         jj_consume_token(ACHAVE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         lista_de_comandos();
+          try{
         jj_consume_token(FCHAVE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         break;
       default:
         jj_la1[12] = jj_gen;
@@ -625,8 +830,20 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case COMENT:
       try {
+          try{
         jj_consume_token(COMENT);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
+          try{
         jj_consume_token(CONSTANTE_LIT);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
       } catch (ParseException e) {
               if(token_source.foundLexError() == 0) {
                    consumeUntil(g, e, "valor");
@@ -642,11 +859,23 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   static final public void selecao() throws ParseException {
     RecoverySet g = First.verify;
     try {
+        try{
       jj_consume_token(VERIFY);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "program");
+            }
+        }
       expressao();
       isTrueFalse();
          acaoSemantica("#24", "");
+         try{
       jj_consume_token(PONTO);
+         } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 consumeUntil(g, e, "program");
+             }
+         }
     } catch (ParseException e) {
          if(token_source.foundLexError() == 0) {
               consumeUntil(g, e, "valor");
@@ -657,7 +886,13 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   static final public void isTrueFalse() throws ParseException {
     RecoverySet g = First.is;
     try {
+        try{
       jj_consume_token(IS);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "program");
+            }
+        }
       trueFalse();
     } catch (ParseException e) {
         if(token_source.foundLexError() == 0) {
@@ -671,19 +906,55 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case TRUE:
+          try{
         jj_consume_token(TRUE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
          acaoSemantica("#25", "");
+          try{
         jj_consume_token(ACHAVE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         lista_de_comandos();
+          try{
         jj_consume_token(FCHAVE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         isFalse();
         break;
       case FALSE:
+          try{
         jj_consume_token(FALSE);
          acaoSemantica("#26", "");
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
+          try{
         jj_consume_token(ACHAVE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         lista_de_comandos();
+          try{
         jj_consume_token(FCHAVE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         isTrue();
         break;
       default:
@@ -703,12 +974,36 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case IS:
+          try{
         jj_consume_token(IS);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
+          try{
         jj_consume_token(TRUE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
          acaoSemantica("#27", "");
+          try{
         jj_consume_token(ACHAVE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         lista_de_comandos();
+          try{
         jj_consume_token(FCHAVE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         break;
       default:
         jj_la1[18] = jj_gen;
@@ -726,12 +1021,36 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case IS:
+          try{
         jj_consume_token(IS);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
+          try{
         jj_consume_token(FALSE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
          acaoSemantica("#27", "");
+          try{
         jj_consume_token(ACHAVE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         lista_de_comandos();
+          try{
         jj_consume_token(FCHAVE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         break;
       default:
         jj_la1[19] = jj_gen;
@@ -747,13 +1066,31 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   static final public void atribuicao() throws ParseException {
     RecoverySet g = First.set;
     try {
+        try{
       jj_consume_token(SET);
+        } catch (ParseException e) {
+            if(token_source.foundLexError() == 0) {
+                consumeUntil(g, e, "program");
+            }
+        }
          acaoSemantica("#15", "");
       expressao();
+      try{
       jj_consume_token(TO);
+      } catch (ParseException e) {
+          if(token_source.foundLexError() == 0) {
+              consumeUntil(g, e, "program");
+          }
+      }
       lista_identificadores_variavel();
          acaoSemantica("#16", "");
+         try{
       jj_consume_token(PONTO);
+         } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 consumeUntil(g, e, "program");
+             }
+         }
     } catch (ParseException e) {
         if(token_source.foundLexError() == 0) {
             consumeUntil(g, e, "valor");
@@ -766,31 +1103,116 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case LOOP:
+          try{
         jj_consume_token(LOOP);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
          acaoSemantica("#28", "");
+          try{
         jj_consume_token(ACHAVE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         lista_de_comandos();
+          try{
         jj_consume_token(FCHAVE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
+          try{
         jj_consume_token(WHILE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         expressao();
          acaoSemantica("#29", "");
+         try{
         jj_consume_token(IS);
+         } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 consumeUntil(g, e, "program");
+             }
+         }
+         try{
         jj_consume_token(TRUE);
+         } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 consumeUntil(g, e, "program");
+             }
+         }
+         try{
         jj_consume_token(PONTO);
+         } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 consumeUntil(g, e, "program");
+             }
+         }
         break;
       case WHILE:
+          try{
         jj_consume_token(WHILE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
          acaoSemantica("#30", "");
         expressao();
          acaoSemantica("#31", "");
+         try{
         jj_consume_token(IS);
+         } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 consumeUntil(g, e, "program");
+             }
+         }
+         try{
         jj_consume_token(TRUE);
+         } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 consumeUntil(g, e, "program");
+             }
+         }
+         try{
         jj_consume_token(DO);
+         } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 consumeUntil(g, e, "program");
+             }
+         }
+         try{
         jj_consume_token(ACHAVE);
+         } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 consumeUntil(g, e, "program");
+             }
+         }
+
         lista_de_comandos();
+         try{
         jj_consume_token(FCHAVE);
+         } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 consumeUntil(g, e, "program");
+             }
+         }
          acaoSemantica("#32", "");
+         try{
         jj_consume_token(PONTO);
+         } catch (ParseException e) {
+             if(token_source.foundLexError() == 0) {
+                 consumeUntil(g, e, "program");
+             }
+         }
         break;
       default:
         jj_la1[20] = jj_gen;
@@ -814,32 +1236,68 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case EQUIVALENTE:
+          try{
         jj_consume_token(EQUIVALENTE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         expressaoaritmeticaoulogica();
          acaoSemantica("#33", "");
         break;
       case DIFERENTE:
+          try{
         jj_consume_token(DIFERENTE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         expressaoaritmeticaoulogica();
               acaoSemantica("#34", "");
         break;
       case MENOR:
+          try{
         jj_consume_token(MENOR);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         expressaoaritmeticaoulogica();
               acaoSemantica("#35", "");
         break;
       case MAIOR:
+          try{
         jj_consume_token(MAIOR);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         expressaoaritmeticaoulogica();
               acaoSemantica("#36", "");
         break;
       case MENOROUIGUAL:
+          try{
         jj_consume_token(MENOROUIGUAL);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         expressaoaritmeticaoulogica();
               acaoSemantica("#37", "");
         break;
       case MAIOROUIGUAL:
+          try{
         jj_consume_token(MAIOROUIGUAL);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         expressaoaritmeticaoulogica();
               acaoSemantica("#38", "");
         break;
@@ -864,19 +1322,37 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case ADICAO:
+          try{
         jj_consume_token(ADICAO);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         termo2();
         menorprioridade();
               acaoSemantica("#39", "");
         break;
       case SUBTRACAO:
+          try{
         jj_consume_token(SUBTRACAO);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         termo2();
         menorprioridade();
               acaoSemantica("#40", "");
         break;
       case OU:
+          try{
         jj_consume_token(OU);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         termo2();
         menorprioridade();
              acaoSemantica("#41", "");
@@ -902,31 +1378,61 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case MULTIPLICACAO:
+          try{
         jj_consume_token(MULTIPLICACAO);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         termo1();
         mediaprioridade();
          acaoSemantica("#42", "");
         break;
       case DIVISAO:
+          try{
         jj_consume_token(DIVISAO);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         termo1();
         mediaprioridade();
              acaoSemantica("#43", "");
         break;
       case DIVISAOINTEIRA:
+          try{
         jj_consume_token(DIVISAOINTEIRA);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         termo1();
         mediaprioridade();
              acaoSemantica("#44", "");
         break;
       case RESTODIVISAO:
+          try{
         jj_consume_token(RESTODIVISAO);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         termo1();
         mediaprioridade();
              acaoSemantica("#45", "");
         break;
       case E:
+          try{
         jj_consume_token(E);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         termo1();
         mediaprioridade();
              acaoSemantica("#46", "");
@@ -952,7 +1458,13 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case POTENCIA:
+          try{
         jj_consume_token(POTENCIA);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         elemento();
         maiorprioridade();
          acaoSemantica("#47", "");
@@ -973,41 +1485,107 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case IDENTIFICADOR:
+          try{
         jj_consume_token(IDENTIFICADOR);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
          acaoSemantica("#19", token.image);
         indice();
              acaoSemantica("#20", "");
         break;
       case CONSTANTE_NUM_INT:
+          try{
         jj_consume_token(CONSTANTE_NUM_INT);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
          acaoSemantica("#21", token.image);
         break;
       case CONSTANTE_NUM_REAL:
+          try{
         jj_consume_token(CONSTANTE_NUM_REAL);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
              acaoSemantica("#22", token.image);
         break;
       case CONSTANTE_LIT:
+          try{
         jj_consume_token(CONSTANTE_LIT);
              acaoSemantica("#23",token.image);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         break;
       case TRUE:
+          try{
         jj_consume_token(TRUE);
              acaoSemantica("#48", token.image);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         break;
       case FALSE:
+          try{
         jj_consume_token(FALSE);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
              acaoSemantica("#49", token.image);
         break;
       case APARENT:
+          try{
         jj_consume_token(APARENT);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         expressao();
+          try{
         jj_consume_token(FPARENT);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         break;
       case NAO:
+          try{
         jj_consume_token(NAO);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
+          try{
         jj_consume_token(APARENT);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         expressao();
+          try{
         jj_consume_token(FPARENT);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
               acaoSemantica("#50", "");
         break;
       default:
@@ -1027,10 +1605,28 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case ACOLCH:
+          try{
         jj_consume_token(ACOLCH);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
+          try{
         jj_consume_token(CONSTANTE_NUM_INT);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         acaoSemantica("#14", token.image);
+          try{
         jj_consume_token(FCOLCH);
+          } catch (ParseException e) {
+              if(token_source.foundLexError() == 0) {
+                  consumeUntil(g, e, "program");
+              }
+          }
         break;
       default:
         jj_la1[26] = jj_gen;
