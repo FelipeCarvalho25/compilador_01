@@ -535,7 +535,7 @@ public class Tela_principal extends javax.swing.JFrame {
                         area_tabs.addTab("Codigo Intermediario", dentroTab2);
                         String cod = "";
                         for(AreaInstrucao aI: codigoIntermediario){
-                            cod += aI.getComando();
+                            cod += aI.getComando() + "\n";
                         }
                         area_Cod_Inter.setText(cod);
                         mensagens_saida += "Programa compilado com sucesso! \n";

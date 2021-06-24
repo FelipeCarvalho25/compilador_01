@@ -32,9 +32,6 @@ public class AnalisadorSemantico {
         return area_instrucao;
     }
     public static boolean analisarSemantica(String codigo, String valor) {
-        if(true){
-            return  true;
-        }
 
         boolean sucesso = true;
         switch (codigo) {
@@ -123,7 +120,7 @@ public class AnalisadorSemantico {
                 }
                 break;
             case "#11":
-                if(tabela_simbolos.indexOf(valor) != -1){
+                if(containsTabela(valor) ){
                     numErrSemantico += 1;
                     mensagensErros += "ERRO: identificador já declarado";
                 }else{
@@ -134,7 +131,7 @@ public class AnalisadorSemantico {
                 break;
             case "#12":
                 if(contexto == "variável") {
-                    if (tabela_simbolos.indexOf(valor) != -1) {
+                    if (containsTabela(valor) ) {
                         numErrSemantico += 1;
                         mensagensErros +="ERRO: identificador já declarado";
                     } else {
@@ -147,6 +144,7 @@ public class AnalisadorSemantico {
                 }
                 break;
             case "#13":
+                valor = pilhaAuxiliar.desempilhar().toString();
                 if(contexto == "variável"){
                     if(var_indexada == false){
                         VT = VT+1;
@@ -158,11 +156,12 @@ public class AnalisadorSemantico {
                         tabela_simbolos.add (new Tabela(valor, tipo, (char)VT, (char)contante_int));
                         VT = VT + contante_int;
                     }
-                }
+                }else
 
                 if(contexto == "atribuição"){
                     //preciso ajustar a tabela de simbolos
-                    if((tabela_simbolos.indexOf(valor) != -1) &&
+                    if((containsTabela(valor) ) &&
+
                             tabela_simbolos.get(tabela_simbolos.indexOf(valor)).categoria == 1){
                         char atr1 = tabela_simbolos.get(tabela_simbolos.indexOf(valor)).atributo1;
                         char atr2 = tabela_simbolos.get(tabela_simbolos.indexOf(valor)).atributo2;
@@ -191,8 +190,45 @@ public class AnalisadorSemantico {
                         mensagensErros +="ERRO: identificador não declarado ou de constante";
                     }
                 }
+                else
+                if(contexto == "entrada dados"){
+                    if((containsTabela(valor) ) &&
+                            tabela_simbolos.get(tabela_simbolos.indexOf(valor)).categoria == 1){
+                        char atr1 = tabela_simbolos.get(tabela_simbolos.indexOf(valor)).atributo1;
+                        char atr2 = tabela_simbolos.get(tabela_simbolos.indexOf(valor)).atributo2;
+                        int categoria = tabela_simbolos.get(tabela_simbolos.indexOf(valor)).categoria;
 
-                if(contexto == "entrada dados"){}
+                        if(atr2 == '-'){
+                            if(var_indexada == false){
+                                area_instrucao.add(new AreaInstrucao(ponteiro, "REA", categoria));
+                                ponteiro += 1;
+                                area_instrucao.add(new AreaInstrucao(ponteiro, "STR", (int)atr1));
+                                ponteiro += 1;
+                            }else{
+                                numErrSemantico += 1;
+                                mensagensErros +="ERRO: identificador de variável não indexada";
+                            }
+                        }else{
+                            if(var_indexada == true){
+                                int constante_int = Integer.parseInt(pilhaAuxiliar.desempilhar().toString());
+                                area_instrucao.add(new AreaInstrucao(ponteiro, "REA", categoria));
+                                ponteiro += 1;
+                                area_instrucao.add(new AreaInstrucao(ponteiro, "STR", (int)atr1 + constante_int -1));
+                                ponteiro += 1;
+                            }else{
+                                //erro: “identificador de variável indexada exige índice”
+                                numErrSemantico += 1;
+                                mensagensErros +="ERRO: identificador de variável indexada exige índice";
+                            }
+                        }
+
+                    }else{
+                        numErrSemantico += 1;
+                        //erro: “identificador não declarado ou de constante”
+                        mensagensErros +="ERRO: identificador não declarado ou de constante";
+                    }
+
+                }
 
             case "#14":
                 //tabela_simbolos.add  (new Tabela(valor, tipo, VT, constante_inteira));
@@ -208,7 +244,7 @@ public class AnalisadorSemantico {
                 (o valor do topo NÃO deverá ser decrementado para cada instrução STR gerada, exceto para a última)
                 */
                 while (!pilhaAuxiliar.pilhaVazia()){
-                    area_instrucao.add(new AreaInstrucao(ponteiro, "STR", (int)pilhaAuxiliar.desempilhar()));
+                    area_instrucao.add(new AreaInstrucao(ponteiro, "STR", Integer.parseInt(pilhaAuxiliar.desempilhar().toString())));
                     ponteiro += 1;
                 }
 
@@ -229,7 +265,7 @@ public class AnalisadorSemantico {
                 SENÃO
                 erro: “identificador não declarado”
                 FIMSE*/
-                if((tabela_simbolos.indexOf(valor) != -1) &&
+                if((containsTabela(valor) ) &&
                         tabela_simbolos.get(tabela_simbolos.indexOf(valor)).categoria == 1){
                     var_indexada = false;
                     pilhaAuxiliar.empilhar(valor);
@@ -418,6 +454,17 @@ public class AnalisadorSemantico {
         return sucesso;
     }
 
+    private static boolean containsTabela(String valor){
+        boolean sucess = false;
+        for (Tabela tab: tabela_simbolos ) {
+            if (tab.nome.contains(valor)){
+                sucess = true;
+            }
+        }
+
+        return sucess;
+
+    }
     public int getNumErrSemantico(){
         return numErrSemantico;
     }
