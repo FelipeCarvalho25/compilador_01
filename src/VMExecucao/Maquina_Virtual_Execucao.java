@@ -5,10 +5,11 @@ import EstruturasDados.Pilha;
 import interfacecompilador.Tela_execucao;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class Maquina_Virtual_Execucao {
     ArrayList<AreaInstrucao> codigoExecucao;
-    private static Pilha pilhaAuxiliar;
+    private static Stack pilhaAuxiliar;
     private Tela_execucao tela_de_execucao;
     private static int topo = 0;
     private static int ponteiro = 1;
@@ -18,7 +19,7 @@ public class Maquina_Virtual_Execucao {
     public Maquina_Virtual_Execucao(ArrayList<AreaInstrucao> codigo){
         codigoExecucao = codigo;
         tela_de_execucao = new Tela_execucao();
-        pilhaAuxiliar = new Pilha();
+        pilhaAuxiliar = new Stack();
 
     }
     public void executa(){
@@ -108,6 +109,10 @@ public class Maquina_Virtual_Execucao {
                 MUL(instrucao);
             }
 
+            if(instrucao.comando == "MOD"){
+                MOD(instrucao);
+            }
+
             if(instrucao.comando == "NOT"){
                 NOT(instrucao);
             }
@@ -155,11 +160,11 @@ public class Maquina_Virtual_Execucao {
     public void ADD(AreaInstrucao instrucao){
         // Ajustar - Somente para valores numéricos
         // Ajustar - Verificar os tipos
-        int int1 = (int)pilhaAuxiliar.desempilhar();
-        int int2 = (int)pilhaAuxiliar.desempilhar();
+        int int1 = (int)pilhaAuxiliar.pop();
+        int int2 = (int)pilhaAuxiliar.pop();
         int somaInt = 0;
         somaInt = int1 + int2;
-        pilhaAuxiliar.empilhar(somaInt + "");
+        pilhaAuxiliar.push(somaInt);
 
         topo += -1;
         ponteiro += 1;
@@ -167,7 +172,7 @@ public class Maquina_Virtual_Execucao {
 
     public void ALB(AreaInstrucao instrucao){
         for(int i = topo+1; i <= topo+deslocamento; i++ ){
-            pilhaAuxiliar.empilhar(false);
+            pilhaAuxiliar.(false);
         };
 
         topo += deslocamento;
@@ -178,7 +183,7 @@ public class Maquina_Virtual_Execucao {
         //only int
         deslocamento = instrucao.iParametro;
         for(int i = topo+1; i <= topo+deslocamento; i++ ){
-            pilhaAuxiliar.empilhar(0);
+            pilhaAuxiliar.push(0);
         };
 
         topo += deslocamento;
@@ -189,7 +194,7 @@ public class Maquina_Virtual_Execucao {
         //only float - review this one
         deslocamento = (int)instrucao.fParametro;
         for(int i = topo+1; i <= topo+deslocamento; i++ ){
-            pilhaAuxiliar.empilhar(0.0);
+            pilhaAuxiliar.push(0.0);
         };
 
         topo += deslocamento;
@@ -200,7 +205,7 @@ public class Maquina_Virtual_Execucao {
         // valores em cadeia - revisar
         deslocamento = Integer.parseInt(instrucao.sParametro);
         for(int i = topo+1; i <= topo+deslocamento; i++ ){
-            pilhaAuxiliar.empilhar(" ");
+            pilhaAuxiliar.push(" ");
         };
 
         topo += deslocamento;
@@ -210,18 +215,18 @@ public class Maquina_Virtual_Execucao {
     public void AND(AreaInstrucao instrucao){
         // SOMENTE PARA CONSTANTE INTEIRA
         topo += 1;
-        pilhaAuxiliar.empilhar(instrucao.iParametro);
+        pilhaAuxiliar.push(instrucao.iParametro);
         ponteiro += 1;
     }
 
     public void BGE(AreaInstrucao instrucao){
         //AJUSTAR TIPOS?
-        int num1 = (int)pilhaAuxiliar.desempilhar();
-        int num2 = (int)pilhaAuxiliar.desempilhar();
+        int num1 = (int)pilhaAuxiliar.pop();
+        int num2 = (int)pilhaAuxiliar.pop();
         if(num2 >= num1){
-            pilhaAuxiliar.empilhar(true);
+            pilhaAuxiliar.push(true);
         }else{
-            pilhaAuxiliar.empilhar(false);
+            pilhaAuxiliar.push(false);
         }
 
         topo += -1;
@@ -230,12 +235,12 @@ public class Maquina_Virtual_Execucao {
 
     public void BGR(AreaInstrucao instrucao){
         //AJUSTAR TIPOS?
-        int num1 = (int)pilhaAuxiliar.desempilhar();
-        int num2 = (int)pilhaAuxiliar.desempilhar();
+        int num1 = (int)pilhaAuxiliar.pop();
+        int num2 = (int)pilhaAuxiliar.pop();
         if(num2 > num1){
-            pilhaAuxiliar.empilhar(true);
+            pilhaAuxiliar.push(true);
         }else{
-            pilhaAuxiliar.empilhar(false);
+            pilhaAuxiliar.push(false);
         }
 
         topo += -1;
@@ -244,12 +249,12 @@ public class Maquina_Virtual_Execucao {
 
     public void DIF(AreaInstrucao instrucao){
         //AJUSTAR TIPOS?
-        int num1 = (int)pilhaAuxiliar.desempilhar();
-        int num2 = (int)pilhaAuxiliar.desempilhar();
+        int num1 = (int)pilhaAuxiliar.pop();
+        int num2 = (int)pilhaAuxiliar.pop();
         if(num2 != num1){
-            pilhaAuxiliar.empilhar(true);
+            pilhaAuxiliar.push(true);
         }else{
-            pilhaAuxiliar.empilhar(false);
+            pilhaAuxiliar.push(false);
         }
 
         topo += -1;
@@ -258,8 +263,8 @@ public class Maquina_Virtual_Execucao {
 
     public void DIV(AreaInstrucao instrucao){
         //AJUSTAR TIPOS?
-        int num1 = (int)pilhaAuxiliar.desempilhar();
-        int num2 = (int)pilhaAuxiliar.desempilhar();
+        int num1 = (int)pilhaAuxiliar.pop();
+        int num2 = (int)pilhaAuxiliar.pop();
         int div =0;
 
         if(topo == 0){
@@ -268,7 +273,7 @@ public class Maquina_Virtual_Execucao {
             //HALT - Informar o final da execução
         }else {
             div = num2 / num1;
-            pilhaAuxiliar.empilhar(div);
+            pilhaAuxiliar.push(div);
             topo += -1;
             ponteiro += 1;
         }
@@ -276,13 +281,13 @@ public class Maquina_Virtual_Execucao {
 
     public void EQL(AreaInstrucao instrucao){
         //AJUSTAR TIPOS?
-        int num1 = (int)pilhaAuxiliar.desempilhar();
-        int num2 = (int)pilhaAuxiliar.desempilhar();
+        int num1 = (int)pilhaAuxiliar.pop();
+        int num2 = (int)pilhaAuxiliar.pop();
 
         if(num2 == num1){
-            pilhaAuxiliar.empilhar(true);
+            pilhaAuxiliar.push(true);
         }else{
-            pilhaAuxiliar.empilhar(false);
+            pilhaAuxiliar.push(false);
         }
 
         topo += -1;
@@ -291,7 +296,7 @@ public class Maquina_Virtual_Execucao {
 
     public void JMF(AreaInstrucao instrucao){
         //boolean
-        boolean num = (boolean)pilhaAuxiliar.desempilhar();
+        boolean num = (boolean)pilhaAuxiliar.pop();
 
         if(num == false){
             //verificar se fizemos int na JMF semantica - sim
@@ -310,7 +315,7 @@ public class Maquina_Virtual_Execucao {
 
     public void JMT(AreaInstrucao instrucao){
         //boolean
-        boolean num = (boolean)pilhaAuxiliar.desempilhar();
+        boolean num = (boolean)pilhaAuxiliar.pop();
 
         if(num == true){
             //verificar se fizemos int na JMT semantica - sim (=
@@ -330,67 +335,72 @@ public class Maquina_Virtual_Execucao {
         // SOMENTE PARA CONSTANTE LÓGICA
         // PRECISA AJUSTAR NO SEMANTICO COMO TRATAMOS VALORES LOGICOS LA
         topo += 1;
-        pilhaAuxiliar.empilhar(instrucao.iParametro);
+        pilhaAuxiliar.push(instrucao.iParametro);
         ponteiro += 1;
     }
 
     public void LDI(AreaInstrucao instrucao){
         // SOMENTE PARA CONSTANTE INTEIRA
         topo += 1;
-        pilhaAuxiliar.empilhar(instrucao.iParametro);
+        pilhaAuxiliar.push(instrucao.iParametro);
         ponteiro += 1;
     }
 
     public void LDR(AreaInstrucao instrucao){
         // SOMENTE PARA CONSTANTE REAL
         topo += 1;
-        pilhaAuxiliar.empilhar(instrucao.fParametro);
+        pilhaAuxiliar.push(instrucao.fParametro);
         ponteiro += 1;
     }
 
     public void LDS(AreaInstrucao instrucao){
         // SOMENTE PARA CONSTANTE STRING
         topo += 1;
-        pilhaAuxiliar.empilhar(instrucao.sParametro);
+        pilhaAuxiliar.push(instrucao.sParametro);
         ponteiro += 1;
     }
 
     public void MUL(AreaInstrucao instrucao){
         //SOMENTE PARA VALORES NUMERICOS - ajustar tipos
-        //VER MOD e outras que faltarem especificar
-        float int1 = (float)pilhaAuxiliar.desempilhar();
-        float int2 = (float)pilhaAuxiliar.desempilhar();
+        float int1 = (float)pilhaAuxiliar.pop();
+        float int2 = (float)pilhaAuxiliar.pop();
         float mult;
         mult = int1+int2;
-        pilhaAuxiliar.empilhar(mult);
+        pilhaAuxiliar.push(mult);
 
         topo += -1;
         ponteiro += 1;
     }
 
+    public void MOD (AreaInstrucao instrucao){
+        //ver no ultimo trabalho ou prova
+        //VER MOD e outras que faltarem especificar
+    }
+
     public void NOT(AreaInstrucao instrucao){}
 
     public void OR(AreaInstrucao instrucao){
-        boolean num1 = (boolean)pilhaAuxiliar.desempilhar();
-        boolean num2 = (boolean)pilhaAuxiliar.desempilhar();
+        boolean num1 = (boolean)pilhaAuxiliar.pop();
+        boolean num2 = (boolean)pilhaAuxiliar.pop();
         boolean res;
 
         res = num1 | num2;
 
-        pilhaAuxiliar.empilhar(res);
+        pilhaAuxiliar.push(res);
     }
 
-    public void REA(AreaInstrucao instrucao){}
+    public void REA(AreaInstrucao instrucao){
+    }
 
     public void SME(AreaInstrucao instrucao){
         //AJUSTAR TIPOS?
-        int num1 = (int)pilhaAuxiliar.desempilhar();
-        int num2 = (int)pilhaAuxiliar.desempilhar();
+        int num1 = (int)pilhaAuxiliar.pop();
+        int num2 = (int)pilhaAuxiliar.pop();
 
         if(num2 <= num1){
-            pilhaAuxiliar.empilhar(true);
+            pilhaAuxiliar.push(true);
         }else{
-            pilhaAuxiliar.empilhar(false);
+            pilhaAuxiliar.push(false);
         }
 
         topo += -1;
@@ -399,13 +409,13 @@ public class Maquina_Virtual_Execucao {
 
     public void SMR(AreaInstrucao instrucao){
         //AJUSTAR TIPOS?
-        int num1 = (int)pilhaAuxiliar.desempilhar();
-        int num2 = (int)pilhaAuxiliar.desempilhar();
+        int num1 = (int)pilhaAuxiliar.pop();
+        int num2 = (int)pilhaAuxiliar.pop();
 
         if(num2 < num1){
-            pilhaAuxiliar.empilhar(true);
+            pilhaAuxiliar.push(true);
         }else{
-            pilhaAuxiliar.empilhar(false);
+            pilhaAuxiliar.push(false);
         }
 
         topo += -1;
@@ -424,11 +434,11 @@ public class Maquina_Virtual_Execucao {
     public void SUB(AreaInstrucao instrucao){
         // Ajustar - Somente para valores numéricos
         // Ajustar - Verificar os tipos
-        int int1 = (int)pilhaAuxiliar.desempilhar();
-        int int2 = (int)pilhaAuxiliar.desempilhar();
+        int int1 = (int)pilhaAuxiliar.pop();
+        int int2 = (int)pilhaAuxiliar.pop();
         int subInt = 0;
         subInt = int1 - int2;
-        pilhaAuxiliar.empilhar(subInt);
+        pilhaAuxiliar.push(subInt);
 
         topo += -1;
         ponteiro += 1;
@@ -436,7 +446,7 @@ public class Maquina_Virtual_Execucao {
 
     public void WRT(AreaInstrucao instrucao){
         //Escrever o valor do topo da memória na tela
-        int printTela = (int)pilhaAuxiliar.desempilhar();
+        int printTela = (int)pilhaAuxiliar.pop();
 
         topo += -1;
         ponteiro += 1;
