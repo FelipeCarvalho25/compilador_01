@@ -24,7 +24,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
     public static void acaoSemantica(String codigo, String argumento ){
        // try {
-        analisadorSemantico.analisarSemantica(codigo, argumento);
+        analisadorSemantico.analisarSemantica(codigo, argumento, token.beginLine, token.beginColumn);
        // }catch (StringIndexOutOfBounds e){
             //System.out.println("Erro na análise semântica");
        // }

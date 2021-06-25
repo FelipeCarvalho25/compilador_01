@@ -34,7 +34,7 @@ public class AnalisadorSemantico {
     public ArrayList<AreaInstrucao> getCodIntermed(){
         return area_instrucao;
     }
-    public static boolean analisarSemantica(String codigo, String valor) {
+    public static boolean analisarSemantica(String codigo, String valor, int linha, int coluna) {
 
         boolean sucesso = true;
         switch (codigo) {
@@ -119,13 +119,13 @@ public class AnalisadorSemantico {
                     tipo = 4;
                 }else{
                     numErrSemantico += 1;
-                    mensagensErros += "ERRO: tipo inválido para constante";
+                    mensagensErros += "\nERRO(14):Tipo inválido para constante em decklaração de constantes.\nLinha " + linha + " coluna "+ coluna + "";
                 }
                 break;
             case "#11":
                 if(containsTabela(valor) ){
                     numErrSemantico += 1;
-                    mensagensErros += "ERRO: identificador já declarado";
+                    mensagensErros += "\nERRO(15):Identificador já declarado. \nLinha " + linha + " coluna "+ coluna + "";
                 }else{
                     VT = VT + 1;
                     VP = VP + 1;
@@ -136,7 +136,7 @@ public class AnalisadorSemantico {
                 if(contexto == "variável") {
                     if (containsTabela(valor) ) {
                         numErrSemantico += 1;
-                        mensagensErros +="ERRO: identificador já declarado";
+                        mensagensErros +="\nERRO(15):Identificador já declarado.\n Linha " + linha + " coluna " + coluna + "";
                     } else {
                         var_indexada = false;
                         //pilhaAuxiliar.empilhar(valor);
@@ -150,7 +150,9 @@ public class AnalisadorSemantico {
                 break;
 
             case "#13":
-                valor = pilha2.pop().toString();
+                if(!pilha2.empty()){
+                    valor = pilha2.pop().toString();
+                }
                 if(contexto == "variável"){
                     if(var_indexada == false){
                         VT = VT+1;
@@ -180,24 +182,24 @@ public class AnalisadorSemantico {
                                 System.out.println(atr1);
                             }else{
                                 numErrSemantico += 1;
-                                mensagensErros +="ERRO: identificador de variável não indexada";
+                                mensagensErros +="ERRO(16):Identificador de variável não indexada em comando de atribuição.\nLinha " + linha + " coluna " + coluna + "";
                             }
                         }else{
                             if(var_indexada == true){
                                 //pilhaAuxiliar.empilhar(" " + ((int)atr1 + Integer.parseInt(pilha2.pop()) -1));
-                                pilha2.push(" " + ((int)atr1 + Integer.parseInt(pilha2.pop().toString()) -1));
+                                pilha2.push(" " + (Integer.parseInt(String.valueOf(atr1)) + Integer.parseInt(pilha2.pop().toString()) -1));
                                 //armazenar o "atributo 1" + constante inteira – 1 em uma lista de atributos
                             }else{
                                 //erro: “identificador de variável indexada exige índice”
                                 numErrSemantico += 1;
-                                mensagensErros +="ERRO: identificador de variável indexada exige índice";
+                                mensagensErros +="ERRO(17):Identificador de variável indexada exige índice em comando de atribuição.\nLinha " + linha + " coluna "+ coluna + "";
                             }
                         }
 
                     }else{
                         numErrSemantico += 1;
                         //erro: “identificador não declarado ou de constante”
-                        mensagensErros +="ERRO: identificador não declarado ou de constante";
+                        mensagensErros +="ERRO(18):Identificador não declarado ou de constante em entrada de dados.\nLinha " + linha + " coluna "+ coluna + "";
                     }
                 }
                 else
@@ -213,30 +215,30 @@ public class AnalisadorSemantico {
                             if(var_indexada == false){
                                 area_instrucao.add(new AreaInstrucao(ponteiro, "REA", categoria));
                                 ponteiro += 1;
-                                area_instrucao.add(new AreaInstrucao(ponteiro, "STR", (int)atr1));
+                                area_instrucao.add(new AreaInstrucao(ponteiro, "STR", Integer.parseInt(String.valueOf(atr1))));
                                 ponteiro += 1;
                             }else{
                                 numErrSemantico += 1;
-                                mensagensErros +="ERRO: identificador de variável não indexada";
+                                mensagensErros +="ERRO(16):Identificador de variável não indexada em entrada de dados.\nLinha " + linha + " coluna "+ coluna ;
                             }
                         }else{
                             if(var_indexada == true){
                                 int constante_int = Integer.parseInt(pilha2.pop().toString());
                                 area_instrucao.add(new AreaInstrucao(ponteiro, "REA", categoria));
                                 ponteiro += 1;
-                                area_instrucao.add(new AreaInstrucao(ponteiro, "STR", (int)atr1 + constante_int -1));
+                                area_instrucao.add(new AreaInstrucao(ponteiro, "STR", Integer.parseInt(String.valueOf(atr1)) + constante_int -1));
                                 ponteiro += 1;
                             }else{
                                 //erro: “identificador de variável indexada exige índice”
                                 numErrSemantico += 1;
-                                mensagensErros +="ERRO: identificador de variável indexada exige índice";
+                                mensagensErros +="ERRO(17):Identificador de variável indexada exige índice em entrada de dados.\nLinha " + linha + " coluna "+ coluna ;
                             }
                         }
 
                     }else{
                         numErrSemantico += 1;
                         //erro: “identificador não declarado ou de constante”
-                        mensagensErros +="ERRO: identificador não declarado ou de constante";
+                        mensagensErros +="ERRO(18): identificador não declarado ou de constante em entrada de dados.\nLinha " + linha + " coluna "+ coluna ;
                     }
 
                 }
@@ -255,13 +257,12 @@ public class AnalisadorSemantico {
                 ponteiro  ponteiro + 1, para cada instrução STR gerada
                 (o valor do topo NÃO deverá ser decrementado para cada instrução STR gerada, exceto para a última)
                 */
-                try {
-                    while (!pilha2.empty()) {
-                        area_instrucao.add(new AreaInstrucao(ponteiro, "STR", Integer.parseInt(pilha2.pop().toString())));
-                        ponteiro += 1;
-                    }
-                }catch (NumberFormatException e){
-                    System.out.println(pilha2.pop().toString());
+                if(numErrSemantico > 0){
+                    break;
+                }
+                while (!pilha2.empty()) {
+                    area_instrucao.add(new AreaInstrucao(ponteiro, "STR", Integer.parseInt(pilha2.pop().toString())));
+                    ponteiro += 1;
                 }
 
                 break;
@@ -284,31 +285,33 @@ public class AnalisadorSemantico {
                 if((containsTabela(valor) ) &&
                         tabela_simbolos.get(indexTabela(valor)).categoria == 1){
                     var_indexada = false;
-                    //pilhaAuxiliar.empilhar(valor);
                     pilha2.push(valor);
                 }else{
                     numErrSemantico += 1;
-                    mensagensErros +="identificador não declarado";
+                    mensagensErros +="\n ERRO(19):Identificador não declarado em comando de saída ou expressão.\nLinha " + linha + " coluna "+ coluna ;
                 }
                 break;
             case "#20":
-                int indext = indexTabela(valor);
+                if(numErrSemantico > 0){
+                    break;
+                }
+                int indext = indexTabela(pilha2.pop().toString());
                 char atr1 = tabela_simbolos.get(indext).atributo1;
                 char atr2 = tabela_simbolos.get(indext).atributo2;
                 if(var_indexada == false){
                     if(atr2 == '-'){
-                        area_instrucao.add(new AreaInstrucao(ponteiro, "LDV", (int)atr1));
+                        area_instrucao.add(new AreaInstrucao(ponteiro, "LDV", Integer.parseInt(String.valueOf(atr1))));
                         ponteiro += 1;
                     }
                 }
                 else{
                     if(atr2 != '-'){
-                        area_instrucao.add(new AreaInstrucao(ponteiro, "LDV", (int)atr1 + Integer.parseInt(pilha2.pop().toString()) - 1));
+                        area_instrucao.add(new AreaInstrucao(ponteiro, "LDV", Integer.parseInt(String.valueOf(atr1)) + Integer.parseInt(pilha2.pop().toString()) - 1));
                         ponteiro += 1;
                     }
                     else{
                         numErrSemantico += 1;
-                       mensagensErros +="identificador de constante ou de variável não indexada”";
+                       mensagensErros +="ERRO(20):Identificador de constante ou de variável não indexada em comando de saída.\nLinha" + linha + " coluna "+ coluna ;
                     }
                 }
                 break;
@@ -330,9 +333,9 @@ public class AnalisadorSemantico {
                 for (AreaInstrucao area:area_instrucao) {
                     if(area.ponteiro == endereço){
                         area.iParametro = ponteiro;
-                        AreaInstrucao temp = area_instrucao.get(index);
+                        /*AreaInstrucao temp = area_instrucao.get(index);
                         area_instrucao.remove(index);
-                        area_instrucao.add(index, temp);
+                        area_instrucao.add(index, temp);*/
                     }
                     index += 1;
                 }
@@ -380,9 +383,9 @@ public class AnalisadorSemantico {
                 for (AreaInstrucao area:area_instrucao) {
                     if(area.ponteiro == endereço1){
                         area.iParametro = ponteiro + 1;
-                        AreaInstrucao temp = area_instrucao.get(index);
+                        /*AreaInstrucao temp = area_instrucao.get(index);
                         area_instrucao.remove(index);
-                        area_instrucao.add(index, temp);
+                        area_instrucao.add(index, temp);*/
                     }
                     index += 1;
                 }
