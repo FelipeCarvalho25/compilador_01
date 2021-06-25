@@ -3,9 +3,9 @@ package EstruturasDados;
 public class AreaInstrucao {
     public int ponteiro;
     public String comando;
-    public float fParametro;
-    public int iParametro;
-    public String sParametro;
+    public float fParametro = -1;
+    public int iParametro = -1;
+    public String sParametro = null;
 
     public AreaInstrucao(int numeroPar, String codigoPar, int parInt){
         ponteiro = numeroPar;

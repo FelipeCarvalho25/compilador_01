@@ -10,6 +10,7 @@ import java.util.Stack;
 public class Maquina_Virtual_Execucao {
     ArrayList<AreaInstrucao> codigoExecucao;
     private static Stack pilhaAuxiliar;
+    private static Stack pilhaAuxiliarTipos;
     private Tela_execucao tela_de_execucao;
     private static int topo = 0;
     private static int ponteiro = 1;
@@ -20,6 +21,7 @@ public class Maquina_Virtual_Execucao {
         codigoExecucao = codigo;
         tela_de_execucao = new Tela_execucao();
         pilhaAuxiliar = new Stack();
+        pilhaAuxiliarTipos = new Stack();
 
     }
     public void executa(){
@@ -160,6 +162,7 @@ public class Maquina_Virtual_Execucao {
     public void ADD(AreaInstrucao instrucao){
         // Ajustar - Somente para valores numéricos
         // Ajustar - Verificar os tipos
+
         int int1 = (int)pilhaAuxiliar.pop();
         int int2 = (int)pilhaAuxiliar.pop();
         int somaInt = 0;
@@ -172,7 +175,7 @@ public class Maquina_Virtual_Execucao {
 
     public void ALB(AreaInstrucao instrucao){
         for(int i = topo+1; i <= topo+deslocamento; i++ ){
-            pilhaAuxiliar.(false);
+            pilhaAuxiliar.push(false);
         };
 
         topo += deslocamento;
@@ -332,29 +335,24 @@ public class Maquina_Virtual_Execucao {
     }
 
     public void LDB(AreaInstrucao instrucao){
-        // SOMENTE PARA CONSTANTE LÓGICA
-        // PRECISA AJUSTAR NO SEMANTICO COMO TRATAMOS VALORES LOGICOS LA
-        topo += 1;
         pilhaAuxiliar.push(instrucao.iParametro);
+        topo += 1;
         ponteiro += 1;
     }
 
     public void LDI(AreaInstrucao instrucao){
-        // SOMENTE PARA CONSTANTE INTEIRA
         topo += 1;
         pilhaAuxiliar.push(instrucao.iParametro);
         ponteiro += 1;
     }
 
     public void LDR(AreaInstrucao instrucao){
-        // SOMENTE PARA CONSTANTE REAL
         topo += 1;
         pilhaAuxiliar.push(instrucao.fParametro);
         ponteiro += 1;
     }
 
     public void LDS(AreaInstrucao instrucao){
-        // SOMENTE PARA CONSTANTE STRING
         topo += 1;
         pilhaAuxiliar.push(instrucao.sParametro);
         ponteiro += 1;
@@ -432,8 +430,6 @@ public class Maquina_Virtual_Execucao {
     }
 
     public void SUB(AreaInstrucao instrucao){
-        // Ajustar - Somente para valores numéricos
-        // Ajustar - Verificar os tipos
         int int1 = (int)pilhaAuxiliar.pop();
         int int2 = (int)pilhaAuxiliar.pop();
         int subInt = 0;
