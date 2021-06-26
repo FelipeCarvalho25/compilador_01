@@ -2,6 +2,8 @@ package interfacecompilador;
 
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class Tela_execucao extends javax.swing.JFrame {
     // Variables declaration - do not modify
@@ -10,6 +12,9 @@ public class Tela_execucao extends javax.swing.JFrame {
     private javax.swing.JTextField inputExecution;
     private javax.swing.JScrollPane jScrollPane1;
     private String textoExecucao = "";
+    public boolean enviou = false;
+    public boolean entrada_invalida = false;
+    private String textoImput = "";
     // End of variables declaration
     public Tela_execucao(){
         initComponents();
@@ -29,6 +34,32 @@ public class Tela_execucao extends javax.swing.JFrame {
         envia = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        KeyListener keyAction = new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if(inputExecution.getText().trim().length() > 0){
+                        textoImput = inputExecution.getText();
+                        textoExecucao += " " + inputExecution.getText() + "\n";
+                        inputExecution.setText("");
+                        areaTextExecution.setText(textoExecucao);
+                        enviou = true;
+                    }else{
+
+                    }
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        };
 
         areaTextExecution.setColumns(20);
         areaTextExecution.setRows(5);
@@ -36,11 +67,7 @@ public class Tela_execucao extends javax.swing.JFrame {
         areaTextExecution.setDisabledTextColor(Color.BLACK);
         areaTextExecution.setText(textoExecucao);
         jScrollPane1.setViewportView(areaTextExecution);
-        inputExecution.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputExecutionActionPerformed(evt);
-            }
-        });
+        inputExecution.addKeyListener(keyAction);
 
         envia.setText("Envia");
         envia.addActionListener(new java.awt.event.ActionListener() {
@@ -85,11 +112,18 @@ public class Tela_execucao extends javax.swing.JFrame {
     }
 
     private void enviaActionPerformed(java.awt.event.ActionEvent evt) {
-        textoExecucao += " " + inputExecution.getText() + "\n";
-        inputExecution.setText("");
-        areaTextExecution.setText(textoExecucao);
+        if(inputExecution.getText().trim().length() > 0) {
+            textoImput = inputExecution.getText();
+            textoExecucao += " " + inputExecution.getText() + "\n";
+            inputExecution.setText("");
+            areaTextExecution.setText(textoExecucao);
+        } else{
+                entrada_invalida = true;
+        }
     }
-
+    public String getTextoImput(){
+        return this.textoImput;
+    }
     public void setTexto(String texto){
         textoExecucao = texto;
         areaTextExecution.setText(textoExecucao);
