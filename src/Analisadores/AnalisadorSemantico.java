@@ -438,7 +438,7 @@ public class AnalisadorSemantico {
                 break;
             case "#44":
                 if(tipo == 1) {
-                    area_instrucao.add(new AreaInstrucao(ponteiro, "DIVIR", 0));
+                    area_instrucao.add(new AreaInstrucao(ponteiro, "DIVINT", 0));
                     ponteiro = ponteiro + 1;
                 }
                 break;

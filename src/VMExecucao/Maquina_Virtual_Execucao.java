@@ -3,6 +3,7 @@ package VMExecucao;
 import EstruturasDados.AreaInstrucao;
 import interfacecompilador.Tela_execucao;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -88,6 +89,13 @@ public class Maquina_Virtual_Execucao {
 
             if(instrucao.comando == "DIV"){
                 DIV(instrucao);
+            }
+            if(numErrVM != 0){
+                return;
+            }
+
+            if(instrucao.comando == "DIVINT"){
+                DIVINT(instrucao);
             }
             if(numErrVM != 0){
                 return;
@@ -186,6 +194,13 @@ public class Maquina_Virtual_Execucao {
 
             if(instrucao.comando == "OR"){
                 OR(instrucao);
+            }
+            if(numErrVM != 0){
+                return;
+            }
+
+            if(instrucao.comando == "POT"){
+                POT(instrucao);
             }
             if(numErrVM != 0){
                 return;
@@ -526,7 +541,6 @@ public class Maquina_Virtual_Execucao {
     }
 
     public void DIV(AreaInstrucao instrucao){
-        //AJUSTAR TIPOS?
         String tipo1 = pilhaVerificacaoTipos.pop().toString();
         String tipo2 = pilhaVerificacaoTipos.pop().toString();
         String val1 = pilhaAuxiliar.pop().toString();
@@ -586,6 +600,59 @@ public class Maquina_Virtual_Execucao {
             numErrVM += 1;
         }
 
+
+        topo += -1;
+        ponteiro += 1;
+    }
+
+    public void DIVINT(AreaInstrucao instrucao){
+        String tipo1 = pilhaVerificacaoTipos.pop().toString();
+        String tipo2 = pilhaVerificacaoTipos.pop().toString();
+        String val1 = pilhaAuxiliar.pop().toString();
+        float fresult = -1;
+        String val2 = pilhaAuxiliar.pop().toString();
+        if(val1 != null && val2 != null){
+            if (tipo1 != null && tipo2 != null){
+                if(tipo1 == "real" && tipo2 =="real"){
+                    if(Float.parseFloat(val1) != 0){
+                        fresult = Float.parseFloat(val2)  /  Float.parseFloat(val1);
+                        //arredonda o resultado
+                        Math.floor(fresult);
+                        //converte o resultado pra inteiro
+                        pilhaAuxiliar.push(Integer.parseInt(String.valueOf(fresult)));
+                        pilhaVerificacaoTipos.push("inteiro");
+                    }
+                    else{
+                        mensagensErrosVM += "\nERRO(X):Divisão com dividendo igual a zero, favor conferir. Esperado valor maior que zero.";
+                        numErrVM += 1;
+                    }
+                }else if(tipo1 == "inteiro" && tipo2 =="inteiro"){
+                    if(Integer.parseInt(val1) != 0){
+                        fresult = Integer.parseInt(val2)  /  Integer.parseInt(val1);
+                        //arredonda o resultado
+                        Math.floor(fresult);
+                        //converte o resultado pra inteiro
+                        pilhaAuxiliar.push(Integer.parseInt(String.valueOf(fresult)));
+                        pilhaVerificacaoTipos.push("inteiro");
+                    }
+                    else{
+                        mensagensErrosVM += "\nERRO(X):Divisão com dividendo igual a zero, favor conferir. Esperado valor maior que zero.";
+                        numErrVM += 1;
+                    }
+                }
+                else{
+                    mensagensErrosVM += "\nERRO(X):Divisão com tipos inválidos, favor conferir. Esperado int ou real.";
+                    numErrVM += 1;
+                }
+            }else{
+                mensagensErrosVM += "\nERRO(X):Divisão com tipos inválidos, favor conferir.Esperado int ou real.";
+                numErrVM += 1;
+            }
+        }
+        else{
+            mensagensErrosVM += "\nERRO(X):Divisão com tipos inválidos, favor conferir.Esperado int ou real.";
+            numErrVM += 1;
+        }
 
         topo += -1;
         ponteiro += 1;
@@ -772,8 +839,6 @@ public class Maquina_Virtual_Execucao {
     }
 
     public void MOD (AreaInstrucao instrucao){
-        //ver no ultimo trabalho ou prova
-        //VER MOD e outras que faltarem especificar
         String tipo1 = pilhaVerificacaoTipos.pop().toString();
         String tipo2 = pilhaVerificacaoTipos.pop().toString();
         String val1 = pilhaAuxiliar.pop().toString();
@@ -833,7 +898,6 @@ public class Maquina_Virtual_Execucao {
             numErrVM += 1;
         }
 
-
         topo += -1;
         ponteiro += 1;
     }
@@ -863,6 +927,40 @@ public class Maquina_Virtual_Execucao {
             mensagensErrosVM += "ERRO(X): Elementos não são do tipo lógico. Esperado logico.";
             numErrVM += 1;
         }
+    }
+
+    public void POT(AreaInstrucao instrucao){
+
+        String tipo1 = pilhaVerificacaoTipos.pop().toString();
+        String tipo2 = pilhaVerificacaoTipos.pop().toString();
+        String val1 = pilhaAuxiliar.pop().toString();
+        float fresult = -1;
+        int iresult = 1;
+        String val2 = pilhaAuxiliar.pop().toString();
+        if(val1 != null && val2 != null){
+            if (tipo1 != null && tipo2 != null){
+                double pow = Math.pow(Double.parseDouble(val1), Double.parseDouble(val2));
+                if(tipo1 == "inteiro" && tipo2 == "inteiro"){
+                    iresult = (int) pow;
+                    pilhaAuxiliar.push(iresult);
+                    pilhaVerificacaoTipos.push("inteiro");
+                }else if(tipo1 == "real" | tipo2 =="real"){
+                    fresult = (float) pow;
+                    pilhaAuxiliar.push(fresult);
+                    pilhaVerificacaoTipos.push("real");
+                }
+                else{
+                    mensagensErrosVM += "\nERRO(X):Potenciação com tipos inválidos, favor conferir. Esperado int ou real.";
+                    numErrVM += 1;
+                }
+            }
+        }
+        else{
+            mensagensErrosVM += "\nERRO(X):Potenciação com tipos inválidos, favor conferir.Esperado int ou real.";
+            numErrVM += 1;
+        }
+        topo += -1;
+        ponteiro += 1;
     }
 
     public void REA(AreaInstrucao instrucao){
@@ -1013,7 +1111,6 @@ public class Maquina_Virtual_Execucao {
         int deslocamento = instrucao.iParametro;
         for(int i = topo-deslocamento; i <= topo-1; i++){
             Object num = pilhaAuxiliar.pop();
-            pilhaAuxiliar.set(i, num);
         }
     }
 
