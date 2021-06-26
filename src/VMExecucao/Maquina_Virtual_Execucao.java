@@ -10,7 +10,7 @@ import java.util.Stack;
 public class Maquina_Virtual_Execucao {
     ArrayList<AreaInstrucao> codigoExecucao;
     private static Stack pilhaAuxiliar;
-    private static Stack pilhaAuxiliarTipos;
+    private static Stack pilaVerificacaoTipos;
     private Tela_execucao tela_de_execucao;
     private static int topo = 0;
     private static int ponteiro = 1;
@@ -21,8 +21,7 @@ public class Maquina_Virtual_Execucao {
         codigoExecucao = codigo;
         tela_de_execucao = new Tela_execucao();
         pilhaAuxiliar = new Stack();
-        pilhaAuxiliarTipos = new Stack();
-
+        pilaVerificacaoTipos = new Stack();
     }
     public void executa(){
 
@@ -160,14 +159,47 @@ public class Maquina_Virtual_Execucao {
     }
 
     public void ADD(AreaInstrucao instrucao){
-        // Ajustar - Somente para valores numéricos
-        // Ajustar - Verificar os tipos
 
-        int int1 = (int)pilhaAuxiliar.pop();
-        int int2 = (int)pilhaAuxiliar.pop();
-        int somaInt = 0;
-        somaInt = int1 + int2;
-        pilhaAuxiliar.push(somaInt);
+        float f1 = 0.0F;
+        float f2 = 0.0F;
+        int i1 = 0;
+        int i2 = 0;
+        float fsum;
+        int isum;
+
+        String tipo1 = (String) pilhaAuxiliar.pop();
+        if(tipo1 == "inteiro" && tipo1 != null){
+            i1 = (int) pilhaAuxiliar.pop();
+            String tipo2 = (String) pilhaAuxiliar.pop();
+            if(tipo2 == "inteiro" && tipo2 != null) {
+                i2 = (int) pilhaAuxiliar.pop();
+                isum = (i1 + i2);
+                pilhaAuxiliar.push(isum);
+            };
+            if(tipo2 == "real" && tipo2 != null) {
+                f2 = (float) pilhaAuxiliar.pop();
+                fsum = (float) (i1 + f2);
+                pilhaAuxiliar.push(fsum);
+            };
+        }else{
+            if(tipo1 == "real" && tipo1 != null){
+                f1 = (float) pilhaAuxiliar.pop();
+                String tipo2 = (String) pilhaAuxiliar.pop();
+                if(tipo2 == "real" && tipo2 != null){
+                    f2 = (float) pilhaAuxiliar.pop();
+                    fsum = (f1 + f2);
+                    pilhaAuxiliar.push(fsum);
+                };
+                if(tipo2 == "inteiro" && tipo2 != null){
+                    i2 = (int) pilhaAuxiliar.pop();
+                    fsum = (f1 + i2);
+                    pilhaAuxiliar.push(fsum);
+                }
+            }
+            else{
+                //ERRO DE EXECUÇÃO: valor tipo null ou o tipo não é uma constante numérica
+            }
+        }
 
         topo += -1;
         ponteiro += 1;
