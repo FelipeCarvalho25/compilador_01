@@ -2,6 +2,7 @@ package VMExecucao;
 
 import EstruturasDados.AreaInstrucao;
 import interfacecompilador.Tela_execucao;
+import jdk.nashorn.internal.runtime.ParserException;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -14,8 +15,8 @@ public class Maquina_Virtual_Execucao {
     private static int topo = 0;
     private static int ponteiro = 1;
     private static int deslocamento;
-    private static int numErrVM = 0;
-    private static String mensagensErrosVM = "";
+    public static int numErrVM = 0;
+    public static String mensagensErrosVM = "";
     public Maquina_Virtual_Execucao(ArrayList<AreaInstrucao> codigo){
         codigoExecucao = codigo;
         tela_de_execucao = new Tela_execucao();
@@ -241,11 +242,6 @@ public class Maquina_Virtual_Execucao {
             }
         }
 
-        if(codigoExecucao.size() == 1){
-
-            tela_de_execucao.setDisableInput();
-            tela_de_execucao.setVisible(true);
-        }
     }
 
     public void ADD(AreaInstrucao instrucao){
@@ -868,29 +864,46 @@ public class Maquina_Virtual_Execucao {
         //categoria 6 = constantes reais
         //categoria 7 = constantes literais
 
+        String entrada = tela_de_execucao.getTextoImput();
         if(instrucao.iParametro == 1 | instrucao.iParametro == 5){
-            if(pilhaVerificacaoTipos.get(topo).toString() != "inteiro"){
+            try{
+                int entradaNat = Integer.parseInt(entrada);
+                pilhaAuxiliar.push(entradaNat);
+                pilhaVerificacaoTipos.push("inteiro");
+            }catch(ParserException e){
                 mensagensErrosVM += "\nRUNTIME error: tipo incompatível";
                 numErrVM += 1;
             }
+
         }
 
         if(instrucao.iParametro == 2 | instrucao.iParametro == 6){
-            if(pilhaVerificacaoTipos.get(topo).toString() != "real"){
+            try{
+                float entradaRel = Float.parseFloat(entrada);
+                pilhaAuxiliar.push(entradaRel);
+                pilhaVerificacaoTipos.push("real");
+            }catch(ParserException e){
                 mensagensErrosVM += "\nRUNTIME error: tipo incompatível";
                 numErrVM += 1;
             }
         }
 
         if(instrucao.iParametro == 3 | instrucao.iParametro == 7){
-            if(pilhaVerificacaoTipos.get(topo).toString() != "literal"){
+            if(entrada == null){
                 mensagensErrosVM += "\nRUNTIME error: tipo incompatível";
                 numErrVM += 1;
+            }else{
+                pilhaAuxiliar.push(entrada);
+                pilhaVerificacaoTipos.push("literal");
             }
         }
 
         if(instrucao.iParametro == 4){
-            if(pilhaVerificacaoTipos.get(topo).toString() != "logico"){
+            try{
+                boolean entradaLog = Boolean.parseBoolean(entrada);
+                pilhaAuxiliar.push(entradaLog);
+                pilhaVerificacaoTipos.push("logico");
+            }catch(ParserException e){
                 mensagensErrosVM += "\nRUNTIME error: tipo incompatível";
                 numErrVM += 1;
             }

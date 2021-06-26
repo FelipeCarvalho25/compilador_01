@@ -44,13 +44,13 @@ public class Tela_execucao extends javax.swing.JFrame {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if(inputExecution.getText().trim().length() > 0){
-                        textoImput = inputExecution.getText();
-                        textoExecucao += " " + inputExecution.getText() + "\n";
+                        textoImput = inputExecution.getText().trim();
+                        textoExecucao += " " + inputExecution.getText().trim() + "\n";
                         inputExecution.setText("");
                         areaTextExecution.setText(textoExecucao);
                         enviou = true;
                     }else{
-
+                        entrada_invalida = true;
                     }
                 }
             }
@@ -113,15 +113,25 @@ public class Tela_execucao extends javax.swing.JFrame {
 
     private void enviaActionPerformed(java.awt.event.ActionEvent evt) {
         if(inputExecution.getText().trim().length() > 0) {
-            textoImput = inputExecution.getText();
-            textoExecucao += " " + inputExecution.getText() + "\n";
+            textoImput = inputExecution.getText().trim();
+            textoExecucao += " " + inputExecution.getText().trim() + "\n";
             inputExecution.setText("");
             areaTextExecution.setText(textoExecucao);
+            enviou = true;
         } else{
                 entrada_invalida = true;
         }
     }
     public String getTextoImput(){
+        setEnableInput();
+        while(enviou == false){
+
+        }
+        if(entrada_invalida ==  true){
+            entrada_invalida = false;
+            return "invalido";
+        }
+        setDisableInput();
         return this.textoImput;
     }
     public void setTexto(String texto){
@@ -132,4 +142,9 @@ public class Tela_execucao extends javax.swing.JFrame {
         inputExecution.setEnabled(false);
         envia.setEnabled(false);
     }
+    public  void setEnableInput(){
+        inputExecution.setEnabled(true);
+        envia.setEnabled(true);
+    }
+
 }

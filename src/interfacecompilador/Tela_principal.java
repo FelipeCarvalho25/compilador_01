@@ -560,6 +560,9 @@ public class Tela_principal extends javax.swing.JFrame {
                 }else{
                     tela_de_execucao = new Maquina_Virtual_Execucao(codigoIntermediario);
                     tela_de_execucao.executa();
+                    if(tela_de_execucao.numErrVM > 0){
+                        area_text_mensagem.setText(tela_de_execucao.mensagensErrosVM);
+                    }
 
                 }
             }
