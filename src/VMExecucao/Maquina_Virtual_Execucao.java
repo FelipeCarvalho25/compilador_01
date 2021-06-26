@@ -860,6 +860,45 @@ public class Maquina_Virtual_Execucao {
     }
 
     public void REA(AreaInstrucao instrucao){
+        topo =+ 1;
+        //categoria 1 = inteiro
+        //categoria 2 = reais
+        //categoria 3 = literais
+        //categoria 4 = lógicos
+        //categoria 5 = constantes inteiras
+        //categoria 6 = constantes reais
+        //categoria 7 = constantes literais
+
+        if(instrucao.iParametro == 1 | instrucao.iParametro == 5){
+            if(pilhaVerificacaoTipos.get(topo).toString() != "inteiro"){
+                mensagensErrosVM += "\nRUNTIME error: tipo incompatível";
+                numErrVM += 1;
+            }
+        }
+
+        if(instrucao.iParametro == 2 | instrucao.iParametro == 6){
+            if(pilhaVerificacaoTipos.get(topo).toString() != "real"){
+                mensagensErrosVM += "\nRUNTIME error: tipo incompatível";
+                numErrVM += 1;
+            }
+        }
+
+        if(instrucao.iParametro == 3 | instrucao.iParametro == 7){
+            if(pilhaVerificacaoTipos.get(topo).toString() != "string"){
+                mensagensErrosVM += "\nRUNTIME error: tipo incompatível";
+                numErrVM += 1;
+            }
+        }
+
+        if(instrucao.iParametro == 4){
+            if(pilhaVerificacaoTipos.get(topo).toString() != "boolean"){
+                mensagensErrosVM += "\nRUNTIME error: tipo incompatível";
+                numErrVM += 1;
+            }
+        }
+
+        ponteiro =+ 1;
+
     }
 
     public void SME(AreaInstrucao instrucao){
