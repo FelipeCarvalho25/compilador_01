@@ -1,7 +1,6 @@
 package VMExecucao;
 
 import EstruturasDados.AreaInstrucao;
-import EstruturasDados.Pilha;
 import interfacecompilador.Tela_execucao;
 
 import java.util.ArrayList;
@@ -295,7 +294,7 @@ public class Maquina_Virtual_Execucao {
     public void ALB(AreaInstrucao instrucao){
         for(int i = topo+1; i <= topo+deslocamento; i++ ){
             pilhaAuxiliar.push(false);
-            pilhaVerificacaoTipos.push("boolean");
+            pilhaVerificacaoTipos.push("logico");
         };
 
         topo += deslocamento;
@@ -341,12 +340,12 @@ public class Maquina_Virtual_Execucao {
         String tipo1 = pilhaVerificacaoTipos.pop().toString();
         String tipo2 = pilhaVerificacaoTipos.pop().toString();
 
-        if(tipo1 != null && tipo2 != null && (tipo1 == "boolean" && tipo2 == "boolean")){
+        if(tipo1 != null && tipo2 != null && (tipo1 == "logico" && tipo2 == "logico")){
             boolean op1 = (boolean)pilhaAuxiliar.pop();
             boolean op2 = (boolean)pilhaAuxiliar.pop();
 
             pilhaAuxiliar.push(op1 && op2);
-            pilhaVerificacaoTipos.push("boolean");
+            pilhaVerificacaoTipos.push("logico");
             topo =+ -1;
             ponteiro =+ 1;
         }else{
@@ -370,7 +369,7 @@ public class Maquina_Virtual_Execucao {
                 f2 = (float)pilhaAuxiliar.pop();
 
                     pilhaAuxiliar.push(f2 >= f1);
-                    pilhaVerificacaoTipos.push("boolean");
+                    pilhaVerificacaoTipos.push("logico");
 
             }else {
                 if(tipo1 == "real" && tipo2 == "inteiro"){
@@ -378,7 +377,7 @@ public class Maquina_Virtual_Execucao {
                     i2 = (int)pilhaAuxiliar.pop();
 
                         pilhaAuxiliar.push(i2 >= f1);
-                        pilhaVerificacaoTipos.push("boolean");
+                        pilhaVerificacaoTipos.push("logico");
 
                 } else{
                     if(tipo1 == "inteiro" && tipo2 == "real"){
@@ -386,7 +385,7 @@ public class Maquina_Virtual_Execucao {
                         f2 = (float)pilhaAuxiliar.pop();
 
                             pilhaAuxiliar.push(f2 >= i1);
-                            pilhaVerificacaoTipos.push("boolean");
+                            pilhaVerificacaoTipos.push("logico");
 
                     }else{
                         if(tipo1 == "inteiro" && tipo2 == "inteiro"){
@@ -394,7 +393,7 @@ public class Maquina_Virtual_Execucao {
                             i2 = (int)pilhaAuxiliar.pop();
 
                                 pilhaAuxiliar.push(i2 >= i1);
-                                pilhaVerificacaoTipos.push("boolean");
+                                pilhaVerificacaoTipos.push("logico");
 
                         } else {
                             mensagensErrosVM += "\nERRO(X):Elementos com tipos inválidos. Esperados inteiro ou real.";
@@ -428,7 +427,7 @@ public class Maquina_Virtual_Execucao {
                 f2 = (float)pilhaAuxiliar.pop();
 
                     pilhaAuxiliar.push(f2 > f1);
-                    pilhaVerificacaoTipos.push("boolean");
+                    pilhaVerificacaoTipos.push("logico");
 
             }else {
                 if(tipo1 == "real" && tipo2 == "inteiro"){
@@ -436,7 +435,7 @@ public class Maquina_Virtual_Execucao {
                     i2 = (int)pilhaAuxiliar.pop();
 
                         pilhaAuxiliar.push(i2 > f1);
-                        pilhaVerificacaoTipos.push("boolean");
+                        pilhaVerificacaoTipos.push("logico");
 
                 } else{
                     if(tipo1 == "inteiro" && tipo2 == "real"){
@@ -444,7 +443,7 @@ public class Maquina_Virtual_Execucao {
                         f2 = (float)pilhaAuxiliar.pop();
 
                             pilhaAuxiliar.push(f2 > i1);
-                            pilhaVerificacaoTipos.push("boolean");
+                            pilhaVerificacaoTipos.push("logico");
 
                     }else{
                         if(tipo1 == "inteiro" && tipo2 == "inteiro"){
@@ -452,7 +451,7 @@ public class Maquina_Virtual_Execucao {
                             i2 = (int)pilhaAuxiliar.pop();
 
                                 pilhaAuxiliar.push(i2 > i1);
-                                pilhaVerificacaoTipos.push("boolean");
+                                pilhaVerificacaoTipos.push("logico");
 
                         } else {
                             mensagensErrosVM += "\nERRO(X):Elementos com tipos inválidos. Esperados inteiro ou real.";
@@ -484,25 +483,25 @@ public class Maquina_Virtual_Execucao {
                 f1 = (float)pilhaAuxiliar.pop();
                 f2 = (float)pilhaAuxiliar.pop();
                 pilhaAuxiliar.push(f2 != f1);
-                pilhaVerificacaoTipos.push("boolean");
+                pilhaVerificacaoTipos.push("logico");
             }else {
                 if(tipo1 == "real" && tipo2 == "inteiro"){
                     f1 = (float)pilhaAuxiliar.pop();
                     i2 = (int)pilhaAuxiliar.pop();
                     pilhaAuxiliar.push(i2 != f1);
-                    pilhaVerificacaoTipos.push("boolean");
+                    pilhaVerificacaoTipos.push("logico");
                 } else{
                     if(tipo1 == "inteiro" && tipo2 == "real"){
                         i1 = (int)pilhaAuxiliar.pop();
                         f2 = (float)pilhaAuxiliar.pop();
                         pilhaAuxiliar.push(f2 != i1);
-                        pilhaVerificacaoTipos.push("boolean");
+                        pilhaVerificacaoTipos.push("logico");
                     }else{
                         if(tipo1 == "inteiro" && tipo2 == "inteiro"){
                             i1 = (int)pilhaAuxiliar.pop();
                             i2 = (int)pilhaAuxiliar.pop();
                             pilhaAuxiliar.push(i2 != i1);
-                            pilhaVerificacaoTipos.push("boolean");
+                            pilhaVerificacaoTipos.push("logico");
                         } else {
                             mensagensErrosVM += "\nERRO(X):Elementos com tipos inválidos. Esperados inteiro ou real.";
                             numErrVM += 1;
@@ -600,25 +599,25 @@ public class Maquina_Virtual_Execucao {
                 f1 = (float)pilhaAuxiliar.pop();
                 f2 = (float)pilhaAuxiliar.pop();
                 pilhaAuxiliar.push(f2 == f1);
-                pilhaVerificacaoTipos.push("boolean");
+                pilhaVerificacaoTipos.push("logico");
             }else {
                 if(tipo1 == "real" && tipo2 == "inteiro"){
                     f1 = (float)pilhaAuxiliar.pop();
                     i2 = (int)pilhaAuxiliar.pop();
                     pilhaAuxiliar.push(i2 == f1);
-                    pilhaVerificacaoTipos.push("boolean");
+                    pilhaVerificacaoTipos.push("logico");
                 } else{
                     if(tipo1 == "inteiro" && tipo2 == "real"){
                         i1 = (int)pilhaAuxiliar.pop();
                         f2 = (float)pilhaAuxiliar.pop();
                         pilhaAuxiliar.push(i2 == f2);
-                        pilhaVerificacaoTipos.push("boolean");
+                        pilhaVerificacaoTipos.push("logico");
                     }else{
                         if(tipo1 == "inteiro" && tipo2 == "inteiro"){
                             i1 = (int)pilhaAuxiliar.pop();
                             i2 = (int)pilhaAuxiliar.pop();
                             pilhaAuxiliar.push(i2 == i1);
-                            pilhaVerificacaoTipos.push("boolean");
+                            pilhaVerificacaoTipos.push("logico");
                         } else {
                             //ERRO DE EXECUÇÃO: TIPO NÃO É INTEIRO NEM REAL
                         }
@@ -636,7 +635,7 @@ public class Maquina_Virtual_Execucao {
 
     public void JMF(AreaInstrucao instrucao){
         //boolean
-        if(pilhaVerificacaoTipos.pop().toString() == "boolean"){
+        if(pilhaVerificacaoTipos.pop().toString() == "logico"){
             boolean num = Boolean.getBoolean(pilhaAuxiliar.pop().toString());
 
             if(num == false){
@@ -648,7 +647,7 @@ public class Maquina_Virtual_Execucao {
 
             topo += -1;
         }else{
-            mensagensErrosVM += "ERRO(x):Topo da pilha não é um valor booleano. Esperado boolean.";
+            mensagensErrosVM += "ERRO(x):Topo da pilha não é um valor lógico. Esperado logico.";
             numErrVM += 1;
         }
     }
@@ -660,7 +659,7 @@ public class Maquina_Virtual_Execucao {
 
     public void JMT(AreaInstrucao instrucao){
         //boolean
-        if(pilhaVerificacaoTipos.pop().toString() == "boolean"){
+        if(pilhaVerificacaoTipos.pop().toString() == "logico"){
             boolean num = Boolean.getBoolean(pilhaAuxiliar.pop().toString());
 
             if(num == true){
@@ -671,7 +670,7 @@ public class Maquina_Virtual_Execucao {
 
             topo += -1;
         }else{
-            mensagensErrosVM += "ERRO(x):Topo da pilha não é um valor booleano. Esperado boolean.";
+            mensagensErrosVM += "ERRO(x):Topo da pilha não é um valor logico. Esperado logico.";
             numErrVM += 1;
         }
 
@@ -689,7 +688,7 @@ public class Maquina_Virtual_Execucao {
 
     public void LDB(AreaInstrucao instrucao){
         pilhaAuxiliar.push(instrucao.iParametro);
-        pilhaVerificacaoTipos.push("boolean");
+        pilhaVerificacaoTipos.push("logico");
         topo += 1;
         ponteiro += 1;
     }
@@ -711,11 +710,11 @@ public class Maquina_Virtual_Execucao {
     public void LDS(AreaInstrucao instrucao){
        if(instrucao.sParametro != null ){
            pilhaAuxiliar.push(instrucao.sParametro);
-           pilhaVerificacaoTipos.push("string");
+           pilhaVerificacaoTipos.push("literal");
            ponteiro += 1;
            topo += 1;
        }else{
-           mensagensErrosVM += "ERRO(X):Valor nulo em reconhecimento de constante literal. Esperado String.";
+           mensagensErrosVM += "ERRO(X):Valor nulo em reconhecimento de constante literal. Esperado literal.";
        }
 
 
@@ -835,10 +834,10 @@ public class Maquina_Virtual_Execucao {
     public void NOT(AreaInstrucao instrucao){
         //como barrar com a notação NOT?
         String tTopo = pilhaVerificacaoTipos.pop().toString();
-        if(tTopo == "boolean"){
+        if(tTopo == "logico"){
             boolean topob = Boolean.getBoolean(pilhaAuxiliar.pop().toString());
             pilhaAuxiliar.push(!topob);
-            pilhaVerificacaoTipos.push("boolean");
+            pilhaVerificacaoTipos.push("logico");
         }
     }
 
@@ -846,15 +845,15 @@ public class Maquina_Virtual_Execucao {
         String tipo1 = (String) pilhaVerificacaoTipos.pop();
         String tipo2 = (String) pilhaVerificacaoTipos.pop();
 
-        if(tipo1 != null && tipo2 != null && (tipo1 == "boolean" && tipo2 == "boolean")){
+        if(tipo1 != null && tipo2 != null && (tipo1 == "logico" && tipo2 == "logico")){
             boolean op1 = (boolean)pilhaAuxiliar.pop();
             boolean op2 = (boolean)pilhaAuxiliar.pop();
             pilhaAuxiliar.push((op1 | op2));
-            pilhaVerificacaoTipos.push("boolean");
+            pilhaVerificacaoTipos.push("logico");
             topo =+ -1;
             ponteiro =+ 1;
         }else{
-            mensagensErrosVM += "ERRO(X): Elementos não são do tipo lógico. Esperado boolean.";
+            mensagensErrosVM += "ERRO(X): Elementos não são do tipo lógico. Esperado logico.";
             numErrVM += 1;
         }
     }
@@ -884,14 +883,14 @@ public class Maquina_Virtual_Execucao {
         }
 
         if(instrucao.iParametro == 3 | instrucao.iParametro == 7){
-            if(pilhaVerificacaoTipos.get(topo).toString() != "string"){
+            if(pilhaVerificacaoTipos.get(topo).toString() != "literal"){
                 mensagensErrosVM += "\nRUNTIME error: tipo incompatível";
                 numErrVM += 1;
             }
         }
 
         if(instrucao.iParametro == 4){
-            if(pilhaVerificacaoTipos.get(topo).toString() != "boolean"){
+            if(pilhaVerificacaoTipos.get(topo).toString() != "logico"){
                 mensagensErrosVM += "\nRUNTIME error: tipo incompatível";
                 numErrVM += 1;
             }
@@ -916,26 +915,26 @@ public class Maquina_Virtual_Execucao {
                 f1 = (float)pilhaAuxiliar.pop();
                 f2 = (float)pilhaAuxiliar.pop();
                 pilhaAuxiliar.push(f2 <= f1);
-                pilhaVerificacaoTipos.push("boolean");
+                pilhaVerificacaoTipos.push("logico");
             }else {
                 if(tipo1 == "real" && tipo2 == "inteiro"){
                     f1 = (float)pilhaAuxiliar.pop();
                     i2 = (int)pilhaAuxiliar.pop();
                     pilhaAuxiliar.push(f2 <= i1);
-                    pilhaVerificacaoTipos.push("boolean");
+                    pilhaVerificacaoTipos.push("logico");
                 } else{
                     if(tipo1 == "inteiro" && tipo2 == "real"){
                         i1 = (int)pilhaAuxiliar.pop();
                         f2 = (float)pilhaAuxiliar.pop();
                         pilhaAuxiliar.push(f2 <= i1);
-                        pilhaVerificacaoTipos.push("boolean");
+                        pilhaVerificacaoTipos.push("logico");
 
                     }else{
                         if(tipo1 == "inteiro" && tipo2 == "inteiro"){
                             i1 = (int)pilhaAuxiliar.pop();
                             i2 = (int)pilhaAuxiliar.pop();
                             pilhaAuxiliar.push(i2 <= i1);
-                            pilhaVerificacaoTipos.push("boolean");
+                            pilhaVerificacaoTipos.push("logico");
 
                         } else {
                             mensagensErrosVM += "ERRO(X): Elementos não são númericos. Esperado inteiro ou real.";
@@ -968,25 +967,25 @@ public class Maquina_Virtual_Execucao {
                 f1 = (float)pilhaAuxiliar.pop();
                 f2 = (float)pilhaAuxiliar.pop();
                 pilhaAuxiliar.push(f2 < f1);
-                pilhaVerificacaoTipos.push("boolean");
+                pilhaVerificacaoTipos.push("logico");
             }else {
                 if(tipo1 == "real" && tipo2 == "inteiro"){
                     f1 = (float)pilhaAuxiliar.pop();
                     i2 = (int)pilhaAuxiliar.pop();
                     pilhaAuxiliar.push(i2 < f1);
-                    pilhaVerificacaoTipos.push("boolean");
+                    pilhaVerificacaoTipos.push("logico");
                 } else{
                     if(tipo1 == "inteiro" && tipo2 == "real"){
                         i1 = (int)pilhaAuxiliar.pop();
                         f2 = (float)pilhaAuxiliar.pop();
                         pilhaAuxiliar.push(f2 < i1);
-                        pilhaVerificacaoTipos.push("boolean");
+                        pilhaVerificacaoTipos.push("logico");
                     }else{
                         if(tipo1 == "inteiro" && tipo2 == "inteiro"){
                             i1 = (int)pilhaAuxiliar.pop();
                             i2 = (int)pilhaAuxiliar.pop();
                             pilhaAuxiliar.push(i2 < i1);
-                            pilhaVerificacaoTipos.push("boolean");
+                            pilhaVerificacaoTipos.push("logico");
                         } else {
                             mensagensErrosVM += "ERRO(X): Elementos não são númericos. Esperado inteiro ou real.";
                             numErrVM += 1;
