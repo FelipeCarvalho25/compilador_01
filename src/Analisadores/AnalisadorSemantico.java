@@ -81,7 +81,7 @@ public class AnalisadorSemantico {
                     ponteiro = ponteiro + 1;
                 }
                 if(tipo==7){
-                    area_instrucao.add(new AreaInstrucao(ponteiro, "LDS", valor));
+                    area_instrucao.add(new AreaInstrucao(ponteiro, "LDS", (String)valor));
                     ponteiro = ponteiro + 1;
                 }
                 area_instrucao.add(new AreaInstrucao(ponteiro, "STC", VP));
@@ -316,7 +316,7 @@ public class AnalisadorSemantico {
                 }
                 break;
             case "#21":
-                 area_instrucao.add(new AreaInstrucao(ponteiro, "LDI", Integer.parseInt(valor)));
+                area_instrucao.add(new AreaInstrucao(ponteiro, "LDI", Integer.parseInt(valor)));
                 ponteiro = ponteiro + 1;
                 break;
             case "#22":
@@ -324,7 +324,7 @@ public class AnalisadorSemantico {
                 ponteiro = ponteiro + 1;
                 break;
             case "#23":
-                area_instrucao.add(new AreaInstrucao(ponteiro, "LDS", valor));
+                area_instrucao.add(new AreaInstrucao(ponteiro, "LDS", (String) valor));
                 ponteiro = ponteiro + 1;
                 break;
             case "#24":
