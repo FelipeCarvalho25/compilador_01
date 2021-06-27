@@ -751,13 +751,18 @@ public class Maquina_Virtual_Execucao {
     }
 
     public void LDV(AreaInstrucao instrucao){
-        int endereco = instrucao.iParametro;
-        String valend = pilhaAuxiliar.remove(endereco).toString();
-        String tipoend = pilhaVerificacaoTipos.remove(endereco).toString();
-        pilhaAuxiliar.push(valend);
-        pilhaVerificacaoTipos.push(tipoend);
-        topo += -1;
-        ponteiro += 1;
+        if(instrucao.iParametro != -1){
+            int endereco = instrucao.iParametro;
+            String valend = pilhaAuxiliar.remove(endereco).toString();
+            String tipoend = pilhaVerificacaoTipos.remove(endereco).toString();
+            pilhaAuxiliar.push(valend);
+            pilhaVerificacaoTipos.push(tipoend);
+            topo += -1;
+            ponteiro += 1;
+        }else{
+            mensagensErrosVM += "ERRO(X):Valor nulo em reconhecimento de endereço.";
+        }
+
     }
 
     public void LDB(AreaInstrucao instrucao){
