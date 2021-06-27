@@ -761,24 +761,38 @@ public class Maquina_Virtual_Execucao {
     }
 
     public void LDB(AreaInstrucao instrucao){
-        pilhaAuxiliar.push(instrucao.iParametro);
-        pilhaVerificacaoTipos.push("logico");
-        topo += 1;
-        ponteiro += 1;
+        if(instrucao.iParametro != -1 && (instrucao.iParametro == 1 | instrucao.iParametro == 0)){
+            pilhaAuxiliar.push(instrucao.iParametro);
+            pilhaVerificacaoTipos.push("logico");
+            topo += 1;
+            ponteiro += 1;
+        }else{
+            mensagensErrosVM += "ERRO(X):Valor nulo em reconhecimento de constante logica. Esperado logico 0(false) ou 1(true).";
+        }
+
     }
 
     public void LDI(AreaInstrucao instrucao){
-        topo += 1;
-        pilhaAuxiliar.push(instrucao.iParametro);
-        pilhaVerificacaoTipos.push("inteiro");
-        ponteiro += 1;
+        if(instrucao.iParametro != -1){
+            topo += 1;
+            pilhaAuxiliar.push(instrucao.iParametro);
+            pilhaVerificacaoTipos.push("inteiro");
+            ponteiro += 1;
+        }else{
+            mensagensErrosVM += "ERRO(X):Valor nulo em reconhecimento de constante inteira. Esperado inteiro.";
+        }
     }
 
     public void LDR(AreaInstrucao instrucao){
-        topo += 1;
-        pilhaAuxiliar.push(instrucao.fParametro);
-        pilhaVerificacaoTipos.push("real");
-        ponteiro += 1;
+        if(instrucao.fParametro != -1){
+            topo += 1;
+            pilhaAuxiliar.push(instrucao.fParametro);
+            pilhaVerificacaoTipos.push("real");
+            ponteiro += 1;
+        }else{
+            mensagensErrosVM += "ERRO(X):Valor nulo em reconhecimento de constante real. Esperado real.";
+        }
+
     }
 
     public void LDS(AreaInstrucao instrucao){
