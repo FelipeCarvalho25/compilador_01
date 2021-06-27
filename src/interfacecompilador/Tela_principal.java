@@ -498,6 +498,10 @@ public class Tela_principal extends javax.swing.JFrame {
                     tela_ao_sair.showMessageDialog( area_text_mensagem, "Salve o arquivo antes de compilar!");
                     return;
                 }*/
+                if(area_texto.getText().trim().length() == 0){
+                    area_text_mensagem.setText("Código vázio, favor digitar um código.");
+                    return;
+                }
                 String mensagens_saida = "";
                 int qtdErrosLex = 0;
                 int qtdErrosSint = 0;
@@ -558,10 +562,21 @@ public class Tela_principal extends javax.swing.JFrame {
                     //chama compilador
                     area_text_mensagem.setText("Programa não compilado com sucesso, favor compilar!");
                 }else{
-                    tela_de_execucao = new Maquina_Virtual_Execucao(codigoIntermediario);
-                    tela_de_execucao.executa();
+                    Tela_execucao tela_progrma = new Tela_execucao();
+                    tela_progrma.setVisible(true);
+                    tela_progrma.setDisableInput();
+                    tela_de_execucao = new Maquina_Virtual_Execucao(codigoIntermediario,tela_progrma);
+                    new Thread(()->{
+                        tela_de_execucao.run();
+                        while(!tela_de_execucao.isStopped());
+                        if(tela_de_execucao.isStopped()){
+                            tela_progrma.setVisible(false);
+                        }
+                    }).start();
                     if(tela_de_execucao.numErrVM > 0){
                         area_text_mensagem.setText(tela_de_execucao.mensagensErrosVM);
+                    }else{
+                        area_text_mensagem.setText("Progama executado com sucesso.");
                     }
 
                 }
@@ -771,8 +786,16 @@ public class Tela_principal extends javax.swing.JFrame {
                     //chama compilador
                     area_text_mensagem.setText("Programa não compilado com sucesso, favor compilar!");
                 }else{
-                    tela_de_execucao = new Maquina_Virtual_Execucao(codigoIntermediario);
-                    tela_de_execucao.executa();
+
+                    Tela_execucao tela_progrma = new Tela_execucao();
+                    tela_progrma.setVisible(true);
+                    tela_progrma.setDisableInput();
+                    tela_de_execucao = new Maquina_Virtual_Execucao(codigoIntermediario,tela_progrma);
+                    new Thread(()->{
+                        tela_de_execucao.run();
+                        while(!tela_de_execucao.isStopped());
+                    }).start();
+
                 }
 
             }

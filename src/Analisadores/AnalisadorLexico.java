@@ -543,6 +543,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
 
   static final public void lista_de_identificadore_constantes() throws ParseException {
     tipo_constante();
+      acaoSemantica("#18", "");
     lista_de_identificadore_constantes_recursivo();
   }
 
@@ -1696,6 +1697,7 @@ public class AnalisadorLexico implements AnalisadorLexicoConstants {
   static public void ReInit(java.io.InputStream stream) {
       mensagens_erros_sintatic = new StringBuffer();
       nCountSintaticError = 0;
+      analisadorSemantico = new AnalisadorSemantico();
      ReInit(stream, null);
   }
   /** Reinitialise. */

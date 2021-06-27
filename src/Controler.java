@@ -29,6 +29,7 @@ public class Controler {
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);
                 if (tela.getAbriuArquivo() == false && tela.getSalvouArquivo() == true){
+                    System.out.println("Sai errado");
                     System.exit(0);
                 }
                 else{
@@ -37,11 +38,13 @@ public class Controler {
                         switch (tela_ao_sair.showConfirmDialog(null, "Suas alterações não foram salvas. Deseja salvar?")) {
                             case 0:
                                 if (tela.salvar_arquivo()){
+                                    System.out.println("Sai errado");
                                     System.exit(0);
                                 }
 
                                 break;
                             case 1:
+                                System.out.println("Sai errado");
                                 //chama saída do programa.
                                 System.exit(0);
                                 break;
@@ -50,6 +53,7 @@ public class Controler {
                                 break;
                         }
                     }else{
+                        System.out.println("Sai errado");
                         System.exit(0);
                     }
 

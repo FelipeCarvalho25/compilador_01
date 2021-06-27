@@ -1,9 +1,15 @@
 package interfacecompilador;
 
 
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.concurrent.CountDownLatch;
 
 public class Tela_execucao extends javax.swing.JFrame {
     // Variables declaration - do not modify
@@ -12,7 +18,8 @@ public class Tela_execucao extends javax.swing.JFrame {
     private javax.swing.JTextField inputExecution;
     private javax.swing.JScrollPane jScrollPane1;
     private String textoExecucao = "";
-    public boolean enviou = false;
+    public volatile boolean finalizou = false;
+    public volatile boolean enviou = false;
     public boolean entrada_invalida = false;
     private String textoImput = "";
     // End of variables declaration
@@ -33,7 +40,14 @@ public class Tela_execucao extends javax.swing.JFrame {
         inputExecution = new javax.swing.JTextField();
         envia = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                setVisible(false);
+                finalizou = true;
+            }
+        });
         KeyListener keyAction = new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -46,9 +60,10 @@ public class Tela_execucao extends javax.swing.JFrame {
                     if(inputExecution.getText().trim().length() > 0){
                         textoImput = inputExecution.getText().trim();
                         textoExecucao += " " + inputExecution.getText().trim() + "\n";
-                        inputExecution.setText("");
                         areaTextExecution.setText(textoExecucao);
+                        inputExecution.setText("");
                         enviou = true;
+                        setDisableInput();
                     }else{
                         entrada_invalida = true;
                     }
@@ -60,7 +75,7 @@ public class Tela_execucao extends javax.swing.JFrame {
 
             }
         };
-
+        Tela_execucao.getFrames()[0].addKeyListener(keyAction);
         areaTextExecution.setColumns(20);
         areaTextExecution.setRows(5);
         areaTextExecution.setEnabled(false);
@@ -122,11 +137,34 @@ public class Tela_execucao extends javax.swing.JFrame {
                 entrada_invalida = true;
         }
     }
-    public String getTextoImput(){
-        setEnableInput();
-        while(enviou == false){
+    public boolean isInput(){
+        return enviou;
+    }
 
+    public void getInput() throws InterruptedException {
+        inputExecution.requestFocus();
+        final CountDownLatch latch = new CountDownLatch(1);
+        // Anonymous class invoked from EDT
+        KeyEventDispatcher dispatcher = e -> {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER || enviou) latch.countDown(); return false;
+        };
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(dispatcher);
+        latch.await();
+        // current thread waits here until countDown() is called
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(dispatcher);
+        String input = inputExecution.getText();
+        inputExecution.setText("");
+        setDisableInput();
+        if(input.trim().length() > 1){
+            enviou = true;
+            textoImput = input;
         }
+
+        inputExecution.setCaretPosition(0);
+    }
+    public String getTextoImput(){
+
+        inputExecution.setVisible(true);
         if(entrada_invalida ==  true){
             entrada_invalida = false;
             return "invalido";
@@ -135,7 +173,8 @@ public class Tela_execucao extends javax.swing.JFrame {
         return this.textoImput;
     }
     public void setTexto(String texto){
-        textoExecucao = texto;
+        String atual = areaTextExecution.getText();
+        textoExecucao =atual + "\n" + texto;
         areaTextExecution.setText(textoExecucao);
     }
     public  void setDisableInput(){
@@ -145,6 +184,9 @@ public class Tela_execucao extends javax.swing.JFrame {
     public  void setEnableInput(){
         inputExecution.setEnabled(true);
         envia.setEnabled(true);
+    }
+    public void run(){
+
     }
 
 }
