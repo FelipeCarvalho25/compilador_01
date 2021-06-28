@@ -29,6 +29,14 @@ public class AnalisadorSemantico {
         tabela_simbolos =  new ArrayList<>();
         pilhaAuxiliar = new Pilha();
         pilha2 = new Stack();
+        numErrSemantico = 0;
+        VT = 0;
+        VP = 0;
+        VIT = 0;
+        tipo = 0;
+        ponteiro = 1;
+        var_indexada = false;
+        mensagensErros = "";
     }
 
     public ArrayList<AreaInstrucao> getCodIntermed(){
