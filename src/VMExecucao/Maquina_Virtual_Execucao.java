@@ -19,14 +19,16 @@ public class Maquina_Virtual_Execucao implements Runnable {
     private static int deslocamento;
     public static int numErrVM = 0;
     public static String mensagensErrosVM = "";
-    private static  String titulo = "";
-    private static boolean sucess = false;
 
     public Maquina_Virtual_Execucao(ArrayList<AreaInstrucao> codigo, Tela_execucao tela){
         codigoExecucao = codigo;
         tela_de_execucao = tela;
         dads = new Stack();
         pilhaVerificacaoTipos = new Stack();
+        ponteiro = 1;
+        topo = 0;
+        mensagensErrosVM = "";
+        numErrVM = 0;
 
     }
     public void setTitle(String name){
@@ -267,7 +269,6 @@ public class Maquina_Virtual_Execucao implements Runnable {
             }
 
         }
-        sucess = true;
         tela_de_execucao.setTexto("Programa executado com sucesso.");
     }
     public boolean isStopped(){

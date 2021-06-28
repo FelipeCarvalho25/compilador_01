@@ -65,7 +65,13 @@ public class Tela_execucao extends javax.swing.JFrame {
                         enviou = true;
                         setDisableInput();
                     }else{
+                        inputExecution.setCaretPosition(inputExecution.getText().trim().length());
                         entrada_invalida = true;
+                    }
+                }
+                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                    if(inputExecution.getText().trim().length() < inputExecution.getCaretPosition()) {
+                        inputExecution.setCaretPosition(inputExecution.getText().trim().length());
                     }
                 }
             }
@@ -146,7 +152,7 @@ public class Tela_execucao extends javax.swing.JFrame {
         final CountDownLatch latch = new CountDownLatch(1);
         // Anonymous class invoked from EDT
         KeyEventDispatcher dispatcher = e -> {
-            if (e.getKeyCode() == KeyEvent.VK_ENTER || enviou) latch.countDown(); return false;
+            if ( enviou) latch.countDown(); return false;
         };
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(dispatcher);
         latch.await();
