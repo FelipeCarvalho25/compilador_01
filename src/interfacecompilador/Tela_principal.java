@@ -566,6 +566,7 @@ public class Tela_principal extends javax.swing.JFrame {
                     tela_progrma.setVisible(true);
                     tela_progrma.setDisableInput();
                     tela_de_execucao = new Maquina_Virtual_Execucao(codigoIntermediario,tela_progrma);
+                    tela_de_execucao.setTitle(area_tabs.getTitleAt(0));
                     new Thread(()->{
                         tela_de_execucao.run();
                         while(!tela_de_execucao.isStopped());
